@@ -5,6 +5,10 @@
         <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
+
+        <AssemblyName>ITranslateTrainer.Application.UnitTests</AssemblyName>
+
+        <RootNamespace>ITranslateTrainer.Application.UnitTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
