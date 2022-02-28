@@ -8,7 +8,7 @@ namespace ITranslateTrainer.Domain.Entities
     {
         [MaxLength(50)] public string String { get; set; } = string.Empty;
         public Language Language { get; set; }
-        public bool CanBeVariant { get; set; }
+        public bool CanBeOption { get; set; }
         public bool CanBeTested { get; set; }
     }
 }
