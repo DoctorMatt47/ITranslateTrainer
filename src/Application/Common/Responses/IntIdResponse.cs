@@ -1,4 +1,3 @@
-﻿namespace ITranslateTrainer.Application.Common.Responses
-{
-    public record IntIdResponse(int Id);
-}
+﻿namespace ITranslateTrainer.Application.Common.Responses;
+
+public record IntIdResponse(int Id);

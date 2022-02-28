@@ -1,15 +1,12 @@
-﻿using System;
+﻿namespace ITranslateTrainer.Application.Common.Exceptions;
 
-namespace ITranslateTrainer.Application.Common.Exceptions
+public class BadRequestException : Exception
 {
-    public class BadRequestException : Exception
+    public BadRequestException(string? msg) : base(msg)
     {
-        public BadRequestException(string? msg) : base(msg)
-        {
-        }
+    }
 
-        public BadRequestException(string? msg, Exception? inner) : base(msg, inner)
-        {
-        }
+    public BadRequestException(string? msg, Exception? inner) : base(msg, inner)
+    {
     }
 }

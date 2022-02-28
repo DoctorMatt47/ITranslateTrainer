@@ -1,7 +1,6 @@
-﻿namespace ITranslateTrainer.Domain.Common
+﻿namespace ITranslateTrainer.Domain.Common;
+
+public abstract class IntIdEntity
 {
-    public abstract class IntIdEntity
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }

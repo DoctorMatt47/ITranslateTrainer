@@ -1,9 +1,8 @@
-﻿namespace ITranslateTrainer.Domain.Enums
+﻿namespace ITranslateTrainer.Domain.Enums;
+
+public enum Language
 {
-    public enum Language
-    {
-        None = 0,
-        English,
-        Russian
-    }
+    None = 0,
+    English,
+    Russian
 }
