@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Translations.Commands;
 using ITranslateTrainer.Domain.Enums;
+using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Xunit;

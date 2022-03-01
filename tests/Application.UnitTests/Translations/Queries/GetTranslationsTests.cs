@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Translations.Queries;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
+using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Xunit;
 

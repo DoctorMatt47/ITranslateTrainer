@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ITranslateTrainer.Application.Common.Interfaces;
+using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,5 +1,5 @@
 ﻿using ITranslateTrainer.Application.Common.Extensions;
-using ITranslateTrainer.Application.Common.Interfaces;
+using ITranslateTrainer.Domain.Interfaces;
 using ITranslateTrainer.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,7 +1,7 @@
 ﻿using ITranslateTrainer.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.Common.Interfaces;
+namespace ITranslateTrainer.Domain.Interfaces;
 
 public interface ITranslateDbContext
 {
