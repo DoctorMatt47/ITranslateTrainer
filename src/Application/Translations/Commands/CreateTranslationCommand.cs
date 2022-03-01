@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Common.Responses;
+﻿using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Domain.Entities;
+using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,19 +9,19 @@ namespace ITranslateTrainer.Application.Translations.Commands;
 public record CreateTranslationCommand(CreateTextRequest FirstText, CreateTextRequest SecondText) :
     IRequest<IntIdResponse>;
 
-public record CreateTranslationCommandHandler(ITranslateDbContext Context, IMapper Mapper) :
+public record CreateTranslationCommandHandler(ITranslateDbContext Context) :
     IRequestHandler<CreateTranslationCommand, IntIdResponse>
 {
     public async Task<IntIdResponse> Handle(CreateTranslationCommand request, CancellationToken cancellationToken)
     {
-        var (firstTextRequest, secondTextRequest) = request;
+        var ((firstString, firstLanguage), (secondString, secondLanguage)) = request;
 
         var firstText = await Context.Texts.FirstOrDefaultAsync(
-            t => t.String == firstTextRequest.String && t.Language == firstTextRequest.Language,
+            t => t.String == firstString && t.Language == firstLanguage,
             cancellationToken);
 
         var secondText = await Context.Texts.FirstOrDefaultAsync(
-            t => t.String == secondTextRequest.String && t.Language == secondTextRequest.Language,
+            t => t.String == secondString && t.Language == secondLanguage,
             cancellationToken);
 
         if (firstText is not null && secondText is not null)
@@ -35,13 +34,13 @@ public record CreateTranslationCommandHandler(ITranslateDbContext Context, IMapp
 
         if (firstText is null)
         {
-            firstText = Mapper.Map<Text>(firstTextRequest);
+            firstText = new Text {String = firstString, Language = firstLanguage};
             await Context.Texts.AddAsync(firstText, cancellationToken);
         }
 
         if (secondText is null)
         {
-            secondText = Mapper.Map<Text>(secondTextRequest);
+            secondText = new Text {String = secondString, Language = secondLanguage};
             await Context.Texts.AddAsync(secondText, cancellationToken);
         }
 
