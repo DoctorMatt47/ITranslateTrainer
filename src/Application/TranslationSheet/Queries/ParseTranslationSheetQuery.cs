@@ -12,7 +12,9 @@ public record ParseTranslationSheetQueryHandler :
         CancellationToken cancellationToken)
     {
         var sheet = await request.SheetStream.QueryAsync();
-        return sheet.Select(row => new ParseTranslationResponse(row["A"].ToString(), row["B"].ToString(),
+        var translations = sheet.Select(row => new ParseTranslationResponse(row["A"].ToString(), row["B"].ToString(),
             row["C"].ToString(), row["D"].ToString())).ToList();
+        request.SheetStream.Close();
+        return translations;
     }
 }
