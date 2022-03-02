@@ -5,10 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Infrastructure.Persistence;
 
-public class TranslateDbContext : DbContext, ITranslateDbContext
+public sealed class TranslateDbContext : DbContext, ITranslateDbContext
 {
     public TranslateDbContext(DbContextOptions options) : base(options)
     {
+        Database.EnsureCreated();
     }
 
     public DbSet<Text> Texts { get; set; } = null!;
