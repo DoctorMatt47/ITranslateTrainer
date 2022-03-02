@@ -4,5 +4,6 @@ public enum Language
 {
     None = 0,
     English,
-    Russian
+    Russian,
+    Ukrainian
 }
