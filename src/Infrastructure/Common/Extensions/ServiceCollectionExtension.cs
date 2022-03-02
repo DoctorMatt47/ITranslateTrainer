@@ -13,7 +13,8 @@ public static class ServiceCollectionExtension
         var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         if (connectionString is not null)
-            services.AddDbContext<ITranslateDbContext, TranslateDbContext>(options => options.UseSqlite());
+            services.AddDbContext<ITranslateDbContext, TranslateDbContext>(options =>
+                options.UseSqlite(connectionString));
         else
             services.AddDbContext<ITranslateDbContext, TranslateDbContext>(options =>
                 options.UseInMemoryDatabase("ITranslateTrainerInMemoryDb"));
