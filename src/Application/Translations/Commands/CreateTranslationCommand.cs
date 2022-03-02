@@ -1,4 +1,6 @@
-﻿using ITranslateTrainer.Application.Common.Responses;
+﻿using ITranslateTrainer.Application.Common.Exceptions;
+using ITranslateTrainer.Application.Common.Responses;
+using ITranslateTrainer.Application.Texts.Commands;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
@@ -6,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Translations.Commands;
 
-public record CreateTranslationCommand(CreateTextRequest FirstText, CreateTextRequest SecondText) :
+public record CreateTranslationCommand(CreateTextCommand FirstText, CreateTextCommand SecondText) :
     IRequest<IntIdResponse>;
 
 public record CreateTranslationCommandHandler(ITranslateDbContext Context) :
@@ -15,6 +17,8 @@ public record CreateTranslationCommandHandler(ITranslateDbContext Context) :
     public async Task<IntIdResponse> Handle(CreateTranslationCommand request, CancellationToken cancellationToken)
     {
         var ((firstString, firstLanguage), (secondString, secondLanguage)) = request;
+
+        if (firstLanguage == secondLanguage) throw new BadRequestException("Languages are the same");
 
         var firstText = await Context.Texts.FirstOrDefaultAsync(
             t => t.String == firstString && t.Language == firstLanguage,
@@ -27,7 +31,8 @@ public record CreateTranslationCommandHandler(ITranslateDbContext Context) :
         if (firstText is not null && secondText is not null)
         {
             var translation = await Context.Translations.FirstOrDefaultAsync(
-                t => t.First == firstText && t.Second == secondText,
+                t => t.First == firstText && t.Second == secondText
+                    || t.Second == secondText && t.First == firstText,
                 cancellationToken);
             if (translation is not null) return new IntIdResponse(translation.Id);
         }
