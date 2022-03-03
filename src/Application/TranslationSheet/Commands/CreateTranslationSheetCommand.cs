@@ -1,9 +1,11 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
+using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Languages.Queries;
 using ITranslateTrainer.Application.Texts.Commands;
 using ITranslateTrainer.Application.Texts.Queries;
 using ITranslateTrainer.Application.Translations.Commands;
 using ITranslateTrainer.Application.TranslationSheet.Queries;
+using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 
@@ -34,11 +36,11 @@ public record CreateTranslationSheetCommandHandler(IMediator Mediator, ITranslat
                 var secondLanguageFiltered =
                     await Mediator.Send(new ParseLanguageQuery(secondLanguage), cancellationToken);
 
-                var translationId = await Mediator.Send(new PrepareCreationTranslationCommand(
+                var translation = await Mediator.Send(new PrepareCreationTranslationCommand(
                     new CreateTextCommand(firstTextFiltered, firstLanguageFiltered),
                     new CreateTextCommand(secondTextFiltered, secondLanguageFiltered)), cancellationToken);
 
-                response.Add(translationId);
+                response.Add(translation);
             }
             catch (BadRequestException e)
             {
@@ -50,6 +52,6 @@ public record CreateTranslationSheetCommandHandler(IMediator Mediator, ITranslat
         }
 
         await Context.SaveChangesAsync();
-        return response;
+        return response.Select(o => o is Translation t ? new IntIdResponse(t.Id) : o);
     }
 }

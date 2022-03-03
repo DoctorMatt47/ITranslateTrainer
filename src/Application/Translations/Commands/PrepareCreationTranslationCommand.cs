@@ -1,5 +1,4 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Texts.Commands;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Interfaces;
@@ -9,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 namespace ITranslateTrainer.Application.Translations.Commands;
 
 public record PrepareCreationTranslationCommand(CreateTextCommand FirstText, CreateTextCommand SecondText) :
-    IRequest<IntIdResponse>;
+    IRequest<Translation>;
 
 public record PrepareCreationTranslationCommandHandler(ITranslateDbContext Context) :
-    IRequestHandler<PrepareCreationTranslationCommand, IntIdResponse>
+    IRequestHandler<PrepareCreationTranslationCommand, Translation>
 {
-    public async Task<IntIdResponse> Handle(PrepareCreationTranslationCommand request,
+    public async Task<Translation> Handle(PrepareCreationTranslationCommand request,
         CancellationToken cancellationToken)
     {
         var ((firstString, firstLanguage), (secondString, secondLanguage)) = request;
@@ -35,7 +34,7 @@ public record PrepareCreationTranslationCommandHandler(ITranslateDbContext Conte
                 t => t.First == firstText && t.Second == secondText
                     || t.Second == secondText && t.First == firstText,
                 cancellationToken);
-            if (translation is not null) return new IntIdResponse(translation.Id);
+            if (translation is not null) return translation;
         }
 
         if (firstText is null)
@@ -53,6 +52,6 @@ public record PrepareCreationTranslationCommandHandler(ITranslateDbContext Conte
         var translationToAdd = new Translation {First = firstText, Second = secondText};
         await Context.Translations.AddAsync(translationToAdd, cancellationToken);
 
-        return new IntIdResponse(translationToAdd.Id);
+        return translationToAdd;
     }
 }

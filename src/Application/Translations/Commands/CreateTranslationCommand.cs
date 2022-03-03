@@ -14,8 +14,9 @@ public record CreateTranslationCommandHandler(IMediator Mediator, ITranslateDbCo
     public async Task<IntIdResponse> Handle(CreateTranslationCommand request, CancellationToken cancellationToken)
     {
         var (firstText, secondText) = request;
-        var ids = await Mediator.Send(new PrepareCreationTranslationCommand(firstText, secondText), cancellationToken);
+        var translation = await Mediator.Send(new PrepareCreationTranslationCommand(firstText, secondText),
+            cancellationToken);
         await Context.SaveChangesAsync();
-        return ids;
+        return new IntIdResponse(translation.Id);
     }
 }
