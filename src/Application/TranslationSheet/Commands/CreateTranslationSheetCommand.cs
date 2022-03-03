@@ -4,13 +4,14 @@ using ITranslateTrainer.Application.Texts.Commands;
 using ITranslateTrainer.Application.Texts.Queries;
 using ITranslateTrainer.Application.Translations.Commands;
 using ITranslateTrainer.Application.TranslationSheet.Queries;
+using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 
 namespace ITranslateTrainer.Application.TranslationSheet.Commands;
 
 public record CreateTranslationSheetCommand(Stream SheetStream) : IRequest<IEnumerable<object>>;
 
-public record CreateTranslationSheetCommandHandler(IMediator Mediator) :
+public record CreateTranslationSheetCommandHandler(IMediator Mediator, ITranslateDbContext Context) :
     IRequestHandler<CreateTranslationSheetCommand, IEnumerable<object>>
 {
     public async Task<IEnumerable<object>> Handle(CreateTranslationSheetCommand request,
@@ -33,7 +34,7 @@ public record CreateTranslationSheetCommandHandler(IMediator Mediator) :
                 var secondLanguageFiltered =
                     await Mediator.Send(new ParseLanguageQuery(secondLanguage), cancellationToken);
 
-                var translationId = await Mediator.Send(new CreateTranslationCommand(
+                var translationId = await Mediator.Send(new PrepareCreationTranslationCommand(
                     new CreateTextCommand(firstTextFiltered, firstLanguageFiltered),
                     new CreateTextCommand(secondTextFiltered, secondLanguageFiltered)), cancellationToken);
 
@@ -48,6 +49,7 @@ public record CreateTranslationSheetCommandHandler(IMediator Mediator) :
             }
         }
 
+        await Context.SaveChangesAsync();
         return response;
     }
 }
