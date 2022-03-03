@@ -1,3 +1,3 @@
 ﻿namespace ITranslateTrainer.Application.Common.Responses;
 
-public record OptionResponse(string Text, bool IsCorrect);
+public record OptionResponse(string String, bool IsCorrect);
