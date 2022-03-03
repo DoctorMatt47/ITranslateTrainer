@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ITranslateTrainer.Application.TranslationSheet.Commands;
-using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Xunit;
 
@@ -12,7 +11,7 @@ public class CreateTranslationSheetTests
 {
     private readonly IMediator _mediator;
 
-    public CreateTranslationSheetTests(IMediator mediator, ITranslateDbContext context) => _mediator = mediator;
+    public CreateTranslationSheetTests(IMediator mediator) => _mediator = mediator;
 
     [Fact]
     public async Task ShouldReturnResultOfTranslationCreation()
