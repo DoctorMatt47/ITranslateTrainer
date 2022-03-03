@@ -8,5 +8,6 @@
     &lt;TestId&gt;xUnit::1D83245B-374C-4793-A986-1C161C32C5A4::net6.0::ITranslateTrainer.Application.UnitTests.Languages.Queries.ParseLanguageTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::1D83245B-374C-4793-A986-1C161C32C5A4::net6.0::ITranslateTrainer.Application.UnitTests.Texts.Queries.FilterTextTests.ShouldFilterString&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::1D83245B-374C-4793-A986-1C161C32C5A4::net6.0::ITranslateTrainer.Application.UnitTests.TranslationSheet.Commands.CreateTranslationSheetTests.ShouldReturnResultOfTranslationCreation&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::1D83245B-374C-4793-A986-1C161C32C5A4::net6.0::ITranslateTrainer.Application.UnitTests.Quiz.Queries.GetQuizTests.ShouldGetQuiz&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
