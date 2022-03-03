@@ -13,4 +13,6 @@ public static class LinqExtension
 
         return responses;
     }
+
+    public static IQueryable<T> Shuffle<T>(this IQueryable<T> collection) => collection.OrderBy(x => Guid.NewGuid());
 }
