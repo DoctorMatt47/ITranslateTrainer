@@ -1,4 +1,6 @@
-﻿namespace ITranslateTrainer.Application.Common.Extensions;
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace ITranslateTrainer.Application.Common.Extensions;
 
 public static class LinqExtension
 {
@@ -28,5 +30,8 @@ public static class LinqExtension
         return responses;
     }
 
-    public static IQueryable<T> Shuffle<T>(this IQueryable<T> collection) => collection.OrderBy(x => Guid.NewGuid());
+    public static IQueryable<T> Shuffle<T>(this IQueryable<T> collection) =>
+        collection.OrderBy(_ => EF.Functions.Random());
+
+    public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> collection) => collection.OrderBy(_ => Guid.NewGuid());
 }
