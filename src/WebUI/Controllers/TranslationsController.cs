@@ -24,6 +24,6 @@ public class TranslationsController : Controller
         Ok(await _mediator.Send(command));
 
     [HttpPost("sheet")]
-    public async Task<ActionResult<IEnumerable<object>>> CreateTranslationSheet([FromBody] IFormFile sheet) =>
+    public async Task<ActionResult<IEnumerable<object>>> CreateTranslationSheet(IFormFile sheet) =>
         Ok(await _mediator.Send(new CreateTranslationSheetCommand(sheet.OpenReadStream())));
 }
