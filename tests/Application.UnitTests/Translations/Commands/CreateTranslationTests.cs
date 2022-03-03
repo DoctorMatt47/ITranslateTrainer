@@ -31,10 +31,10 @@ public class CreateTranslationTests
         var addedTranslation = await _context.Translations.FirstOrDefaultAsync(t => t.Id == idDto.Id);
 
         Assert.NotNull(addedTranslation);
-        Assert.Equal(addedTranslation?.First.String, "Get");
-        Assert.Equal(addedTranslation?.First.Language, Language.English);
-        Assert.Equal(addedTranslation?.Second.String, "Получить");
-        Assert.Equal(addedTranslation?.Second.Language, Language.Russian);
+        Assert.Equal("Get", addedTranslation?.First.String);
+        Assert.Equal(Language.English, addedTranslation?.First.Language);
+        Assert.Equal("Получить", addedTranslation?.Second.String);
+        Assert.Equal(Language.Russian, addedTranslation?.Second.Language);
     }
 
     [Fact]
