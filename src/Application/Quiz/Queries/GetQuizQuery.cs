@@ -42,9 +42,9 @@ public record GetQuizQueryHandler(IMediator Mediator, ITranslateDbContext Contex
             // Takes only general count minus correct count of incorrect options.
             // Concatenates with correct options.
             // Shuffles resulting collection.
-            return randomTexts.Where(r => !list.Select(o => o.Id).Contains(r.Id))
+            return randomTexts.Where(r => !list.Select(o => o.Id).Contains(r.Id)).Shuffle()
                 .Take(request.OptionCount - count).Select(o => new OptionResponse(o.String, false))
-                .Concat(list.Select(o => new OptionResponse(o.String, true)));
+                .Concat(list.Select(o => new OptionResponse(o.String, true))).Shuffle();
         });
 
         return textsToTranslate.Zip(allOptions, (t, o) => new GetQuizResponse(t.String, o));
