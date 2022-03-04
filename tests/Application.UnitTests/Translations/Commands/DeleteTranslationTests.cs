@@ -36,7 +36,7 @@ public class DeleteTranslationTests
                 String = "удаление перевода"
             }
         };
-        _context.Translations.Add(translationToAdd);
+        await _context.Translations.AddAsync(translationToAdd);
         await _context.SaveChangesAsync();
 
         await _mediator.Send(new DeleteTranslationCommand(translationToAdd.Id));
