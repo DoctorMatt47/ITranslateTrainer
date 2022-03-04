@@ -4,6 +4,27 @@ namespace ITranslateTrainer.Application.Common.Extensions;
 
 public static class LinqExtension
 {
+    public static bool Empty<T>(this IQueryable<T> queryable) => !queryable.Any();
+
+    public static bool Empty<T>(this IEnumerable<T> enumerable) => !enumerable.Any();
+
+    public static IQueryable<T> Shuffle<T>(this IQueryable<T> collection) =>
+        collection.OrderBy(_ => EF.Functions.Random());
+
+    public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable)
+    {
+        var random = new Random();
+        var array = enumerable.ToArray();
+        var n = array.Length;
+        while (n > 1)
+        {
+            var k = random.Next(n--);
+            (array[n], array[k]) = (array[k], array[n]);
+        }
+
+        return array;
+    }
+
     public static async Task<IEnumerable<TResponse>> WhenAllAsync<TResponse>(this IEnumerable<Task<TResponse>> tasks)
     {
         var responses = new List<TResponse>();
@@ -29,9 +50,4 @@ public static class LinqExtension
 
         return responses;
     }
-
-    public static IQueryable<T> Shuffle<T>(this IQueryable<T> collection) =>
-        collection.OrderBy(_ => EF.Functions.Random());
-
-    public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> collection) => collection.OrderBy(_ => Guid.NewGuid());
 }
