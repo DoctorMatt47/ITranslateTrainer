@@ -1,0 +1,57 @@
+body {
+  background-color: #0F111A !important;
+  color: #A3C7C7 !important;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.table {
+  color: #A3C7C7 !important;
+}
+
+.translation-table {
+  > tbody > tr {
+    border-width: .1rem 0 0 0;
+    border-color: #223C41;
+
+    td {
+      padding: 1.5rem;
+    }
+
+    th {
+      padding: 1.5rem;
+    }
+  }
+}
+
+.custom-button {
+  border: .1rem solid #223C41;
+  border-radius: .2rem;
+  display: inline-block;
+  padding: 1rem;
+  cursor: pointer;
+
+  input[type="file"] {
+    display: none;
+  }
+
+  button {
+    display: none;
+  }
+}
+
+label.custom-button:hover {
+  background-color: #223C41;
+}
+
+.main {
+  border-radius: 10px;
+  padding: 3rem;
+  background-color: #0A0B11;
+}
