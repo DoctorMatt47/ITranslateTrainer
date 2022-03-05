@@ -22,6 +22,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseDefaultFiles();
+var fsOptions = new FileServerOptions
+{
+    StaticFileOptions =
+    {
+        OnPrepareResponse = context =>
+        {
+            context.Context.Response.Headers["Cache-Control"] = "no-cache, no-store";
+            context.Context.Response.Headers["Pragma"] = "no-cache";
+            context.Context.Response.Headers["Expires"] = "-1";
+        }
+    }
+};
+app.UseFileServer(fsOptions);
+
+
 app.UseExceptionHandler("/error");
 
 app.UseHttpsRedirection();
