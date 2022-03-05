@@ -3,7 +3,6 @@ using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Texts.Queries;
 using ITranslateTrainer.Application.Translations.Queries;
 using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 
 namespace ITranslateTrainer.Application.Quiz.Queries;
@@ -11,7 +10,7 @@ namespace ITranslateTrainer.Application.Quiz.Queries;
 public record GetQuizQuery(Language From, Language To, int TestCount, int OptionCount) :
     IRequest<IEnumerable<GetQuizResponse>>;
 
-public record GetQuizQueryHandler(IMediator Mediator, ITranslateDbContext Context) :
+public record GetQuizQueryHandler(IMediator Mediator) :
     IRequestHandler<GetQuizQuery, IEnumerable<GetQuizResponse>>
 {
     public async Task<IEnumerable<GetQuizResponse>> Handle(GetQuizQuery request, CancellationToken cancellationToken)
