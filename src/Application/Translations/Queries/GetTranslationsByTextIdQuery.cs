@@ -17,7 +17,7 @@ public record GetTranslationsByTextIdQueryHandler(ITranslateDbContext Context, I
         var firstTexts = Context.Translations.Where(t => t.FirstId == request.TextId).Include(t => t.Second)
             .Select(t => t.Second);
         var secondTexts = Context.Translations.Where(t => t.SecondId == request.TextId).Include(t => t.Second)
-            .Select(t => t.Second);
+            .Select(t => t.First);
         var texts = await firstTexts.Concat(secondTexts).ToListAsync(cancellationToken);
 
         return texts.Select(t => Mapper.Map<GetTextResponse>(t));
