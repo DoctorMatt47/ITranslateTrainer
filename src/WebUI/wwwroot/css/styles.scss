@@ -3,6 +3,11 @@ body {
   color: #A3C7C7 !important;
 }
 
+a {
+  color: #A3C7C7 !important;
+  text-decoration: none !important;
+}
+
 .w-20 {
   width: 20%;
 }
@@ -54,4 +59,69 @@ label.custom-button:hover {
   border-radius: 10px;
   padding: 3rem;
   background-color: #0A0B11;
+}
+
+.settings {
+  font-size: 1.2rem;
+
+  .setting-input {
+    border: .1rem solid #A3C7C7;
+    border-radius: .2rem;
+    background-color: #0F111A;
+    color: #A3C7C7;
+    padding: .1rem;
+  }
+}
+
+.test {
+  border: .1rem solid #223C41;
+  border-radius: .2rem;
+  padding: 1.5rem;
+  font-size: 1.2rem;
+
+  .options {
+    label {
+      padding: .5rem;
+      border: .1rem solid #84FFFF;
+      border-radius: .2rem;
+      cursor: pointer;
+    }
+
+    label:hover {
+      background-color: #223C41;
+    }
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  .next-button {
+    border: .1rem solid #223C41;
+    width: 100%;
+    padding: .1rem;
+    text-align: center;
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 991px) {
+  .container-lg {
+    padding: 0 !important;
+  }
+  body {
+    background-color: #0A0B11 !important;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .main {
+    padding: 2.5rem 2rem 2.5rem 2rem;
+  }
+}
+
+@media only screen and (max-width: 575px) {
+  .main {
+    padding: 2rem 1rem 2rem 1rem;
+  }
 }

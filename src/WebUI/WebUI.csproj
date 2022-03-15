@@ -21,7 +21,6 @@
         <None Include="wwwroot\css\styles.css.map"/>
         <None Include="wwwroot\css\styles.scss"/>
         <None Include="wwwroot\index.html"/>
-        <None Include="wwwroot\js\scripts.js"/>
     </ItemGroup>
 
 </Project>
