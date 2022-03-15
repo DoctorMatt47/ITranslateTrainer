@@ -1,4 +1,4 @@
-﻿import {endpoints, languages, sendAsync} from "./common.js"
+﻿import {endpoints, languages, sendAsync} from "./common.js";
 
 const getTranslationRowHtml = (id, firstLanguage, secondLanguage, firstText, secondText) =>
     `<tr class="text-center"><th scope="row">${id}</th>
@@ -20,7 +20,7 @@ const showTranslationTable = translations => {
     }
     const translationTableElement = document.getElementById("translations");
     translationTableElement.innerHTML = translationsHtml;
-}
+};
 
 sendAsync(endpoints.translations).then(showTranslationTable).catch(e => console.log(e));
 

@@ -17,14 +17,15 @@ const optionHtml = option =>
     `<label class="mb-4">
         <input name="option" type="radio">
         ${option.string}
-    </label>`
+    </label>`;
 
 const nextTest = () => {
     if (currentIndex > tests.length) return;
     const test = tests[++currentIndex];
     localStorage.setItem("tests.currentIndex", currentIndex);
     return test;
-}
+};
+
 const showTest = test => {
     toTranslateElement.innerText = test.text;
     optionsElement.innerHTML = optionsHtml(test.options);
@@ -48,7 +49,7 @@ optionsElement.addEventListener("change", optionsChangeHandler);
 
 const showCorrectOption = option => {
     option.parentElement.style.borderColor = "#499C54";
-}
+};
 
 const optionClickHandler = (option, isCorrect) => {
     let optionStyle = option.parentElement.style;
@@ -58,7 +59,7 @@ const optionClickHandler = (option, isCorrect) => {
     }
     optionStyle.borderColor = "#9E2927";
     optionStyle.backgroundColor = "#22090F";
-}
+};
 
 nextButton.addEventListener("click", () => {
     showTest(nextTest());
