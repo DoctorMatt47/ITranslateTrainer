@@ -17,10 +17,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="wwwroot\css\styles.css"/>
-        <None Include="wwwroot\css\styles.css.map"/>
-        <None Include="wwwroot\css\styles.scss"/>
-        <None Include="wwwroot\index.html"/>
+        <_ContentIncludedByDefault Remove="wwwroot\quiz\quiz.html"/>
+        <_ContentIncludedByDefault Remove="wwwroot\quiz\quiz.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\quiz-settings\quiz-settings.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\quiz-settings\quiz-settings.html"/>
+        <_ContentIncludedByDefault Remove="wwwroot\quiz-settings\quiz-settings.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.css"/>
+        <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.html"/>
+        <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.js"/>
     </ItemGroup>
+
 
 </Project>

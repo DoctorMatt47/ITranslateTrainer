@@ -45,8 +45,8 @@ public class GetTranslationsTests
             new() {First = texts[0], Second = texts[2]},
             new() {First = texts[1], Second = texts[3]}
         };
-        await _context.Texts.AddRangeAsync(texts);
-        await _context.Translations.AddRangeAsync(translations);
+        await _context.Set<Text>().AddRangeAsync(texts);
+        await _context.Set<Translation>().AddRangeAsync(translations);
         await _context.SaveChangesAsync();
     }
 }

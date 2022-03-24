@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using ITranslateTrainer.Application.TranslationSheet.Queries;
+using ITranslateTrainer.Application.TranslationSheet.Requests;
 using MediatR;
 using Xunit;
 
@@ -17,7 +17,7 @@ public class ParseTranslationSheetTests
     public async Task ShouldParseExcelFile()
     {
         var fileStream = File.OpenRead("Assets/TestSheet.xlsx");
-        var translations = (await _mediator.Send(new ParseTranslationSheetQuery(fileStream))).ToList();
+        var translations = (await _mediator.Send(new ParseTranslationSheet(fileStream))).ToList();
         Assert.NotNull(translations);
         Assert.Equal(233, translations.Count);
         foreach (var translation in translations)

@@ -16,7 +16,7 @@ public class CreateTranslationSheetTests
     [Fact]
     public async Task ShouldReturnResultOfTranslationCreation()
     {
-        var response = await _mediator.Send(new CreateTranslationSheetCommand(File.OpenRead("Assets/TestSheet.xlsx")));
+        var response = await _mediator.Send(new ImportTranslationSheetCommand(File.OpenRead("Assets/TestSheet.xlsx")));
         Assert.Equal(233, response.Count());
     }
 }

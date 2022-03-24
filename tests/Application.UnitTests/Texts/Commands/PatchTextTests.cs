@@ -28,12 +28,12 @@ public class PatchTextTests
             Language = Language.English,
             String = "patch test"
         };
-        await _context.Texts.AddAsync(textToAdd);
+        await _context.Set<Text>().AddAsync(textToAdd);
         await _context.SaveChangesAsync();
 
         await _mediator.Send(new PatchTextCommand(textToAdd.Id, false, false));
-        var text = await _context.Texts.FirstAsync(t => t.Id == textToAdd.Id);
-        Assert.Equal(false, text.CanBeOption);
-        Assert.Equal(false, text.CanBeTested);
+        var text = await _context.Set<Text>().FirstAsync(t => t.Id == textToAdd.Id);
+        Assert.False(text.CanBeOption);
+        Assert.False(text.CanBeTested);
     }
 }

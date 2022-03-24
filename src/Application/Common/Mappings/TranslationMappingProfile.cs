@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ITranslateTrainer.Application.Translations.Queries;
+using ITranslateTrainer.Application.Translations.Responses;
 using ITranslateTrainer.Domain.Entities;
 
 namespace ITranslateTrainer.Application.Common.Mappings;

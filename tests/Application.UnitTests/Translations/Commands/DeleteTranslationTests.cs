@@ -36,17 +36,17 @@ public class DeleteTranslationTests
                 String = "удаление перевода"
             }
         };
-        await _context.Translations.AddAsync(translationToAdd);
+        await _context.Set<Translation>().AddAsync(translationToAdd);
         await _context.SaveChangesAsync();
 
         await _mediator.Send(new DeleteTranslationCommand(translationToAdd.Id));
-        var translation = await _context.Translations.FirstOrDefaultAsync(t => t.Id == translationToAdd.Id);
+        var translation = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == translationToAdd.Id);
         Assert.Null(translation);
 
-        var first = await _context.Texts.FirstOrDefaultAsync(t => t.Id == translationToAdd.FirstId);
+        var first = await _context.Set<Text>().FirstOrDefaultAsync(t => t.Id == translationToAdd.FirstId);
         Assert.Null(first);
 
-        var second = await _context.Texts.FirstOrDefaultAsync(t => t.Id == translationToAdd.SecondId);
+        var second = await _context.Set<Text>().FirstOrDefaultAsync(t => t.Id == translationToAdd.SecondId);
         Assert.Null(second);
     }
 }

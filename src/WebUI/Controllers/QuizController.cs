@@ -1,4 +1,5 @@
 ﻿using ITranslateTrainer.Application.Quiz.Queries;
+using ITranslateTrainer.Application.Quiz.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

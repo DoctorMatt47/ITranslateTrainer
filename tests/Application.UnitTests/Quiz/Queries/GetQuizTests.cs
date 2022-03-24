@@ -21,7 +21,7 @@ public class GetQuizTests
     [InlineData(200, 10)]
     public async Task ShouldGetQuiz(int testCount, int optionCount)
     {
-        await _mediator.Send(new CreateTranslationSheetCommand(File.OpenRead("Assets/TestSheet.xlsx")));
+        await _mediator.Send(new ImportTranslationSheetCommand(File.OpenRead("Assets/TestSheet.xlsx")));
         var quiz = await _mediator.Send(new GetQuizQuery(Language.English, Language.Russian, testCount, optionCount));
         var quizList = quiz.ToList();
         Assert.Equal(testCount, quizList.Count);

@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>ITranslateTrainer</title>
+  <link href="../../libs/bootstrap.css" rel="stylesheet">
+  <link href="../common/styles.css" rel="stylesheet">
+
+  <link href="quiz-settings.css" rel="stylesheet">
+</head>
+<body>
+
+<div>
+
+  <div class="container-lg mt-lg-5">
+    <div class="main">
+      <div class="display-4 mb-4 text-center">
+        Quiz settings
+      </div>
+      <div class="settings">
+        <div class="container-lg">
+          <div class="row align-items-center">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4 col-sm-12 text-center">
+              <label>
+                Test count:
+              </label>
+            </div>
+            <div class="col-lg-4 col-sm-12 text-center">
+              <input class="setting-input m-3 w-75" id="test-count" type="number">
+            </div>
+          </div>
+          <div class="row align-items-center">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4 col-sm-12 text-center">
+              <label>
+                Option count:
+              </label>
+            </div>
+            <div class="col-lg-4 text-center">
+              <input class="setting-input m-3 w-75" id="option-count" type="number">
+            </div>
+          </div>
+          <div class="row mb-4 align-items-center">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4 text-center">
+              <label>
+                Language:
+              </label>
+            </div>
+            <div class="col-lg-4 text-center">
+              <select class="setting-input m-3 w-75" id="language-select">
+                <option value="1-2">English-Russian</option>
+                <option value="2-1">Russian-English</option>
+              </select>
+            </div>
+          </div>
+          <div class="row justify-content-center">
+            <label class="custom-button text-center w-75">
+              Start
+              <button id="start-button"></button>
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="quiz-settings.js" type="module"></script>
+
+</body>
+</html>

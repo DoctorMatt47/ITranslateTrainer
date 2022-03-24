@@ -1,6 +1,7 @@
 ﻿using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Translations.Commands;
 using ITranslateTrainer.Application.Translations.Queries;
+using ITranslateTrainer.Application.Translations.Responses;
 using ITranslateTrainer.Application.TranslationSheet.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -25,5 +26,5 @@ public class TranslationsController : Controller
 
     [HttpPost("sheet")]
     public async Task<ActionResult<IEnumerable<object>>> CreateTranslationSheet(IFormFile sheet) =>
-        Ok(await _mediator.Send(new CreateTranslationSheetCommand(sheet.OpenReadStream())));
+        Ok(await _mediator.Send(new ImportTranslationSheetCommand(sheet.OpenReadStream())));
 }
