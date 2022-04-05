@@ -1,12 +1,24 @@
-﻿using ITranslateTrainer.Domain.Common;
+﻿using ITranslateTrainer.Domain.ValueObjects;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Translation : IntIdEntity
+public class Translation : UintIdBase
 {
-    public int FirstId { get; set; }
-    public int SecondId { get; set; }
+    public Translation(Text first, Text second)
+    {
+        First = first;
+        Second = second;
+    }
 
-    public Text First { get; set; } = new();
-    public Text Second { get; set; } = new();
+    public Translation(uint firstId, uint secondId)
+    {
+        FirstId = firstId;
+        SecondId = secondId;
+    }
+
+    public uint FirstId { get; protected set; }
+    public uint SecondId { get; protected set; }
+
+    public Text First { get; protected set; } = null!;
+    public Text Second { get; protected set; } = null!;
 }

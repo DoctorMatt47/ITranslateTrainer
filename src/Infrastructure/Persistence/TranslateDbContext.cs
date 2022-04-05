@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
-using ITranslateTrainer.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Infrastructure.Persistence;

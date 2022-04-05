@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Languages.Requests;
+using ITranslateTrainer.Application.Languages.Handlers;
 using ITranslateTrainer.Domain.Enums;
 using MediatR;
 using Xunit;
@@ -18,7 +18,7 @@ public class ParseLanguageTests
     [InlineData("Russian", Language.Russian)]
     public async Task ShouldReturnLanguageOnValidString(string validLanguageString, Language expected)
     {
-        var language = await _mediator.Send(new ParseLanguageQuery(validLanguageString));
+        var language = await _mediator.Send(new ParseLanguage(validLanguageString));
         Assert.Equal(language, expected);
     }
 
@@ -29,12 +29,12 @@ public class ParseLanguageTests
     public async Task ShouldThrowBadRequestExceptionOnInvalidString(string invalidLanguageString)
     {
         await Assert.ThrowsAsync<BadRequestException>(() =>
-            _mediator.Send(new ParseLanguageQuery(invalidLanguageString)));
+            _mediator.Send(new ParseLanguage(invalidLanguageString)));
     }
 
     [Fact]
     public async Task ShouldThrowBadRequestExceptionOnNull()
     {
-        await Assert.ThrowsAsync<BadRequestException>(() => _mediator.Send(new ParseLanguageQuery(null)));
+        await Assert.ThrowsAsync<BadRequestException>(() => _mediator.Send(new ParseLanguage(null)));
     }
 }

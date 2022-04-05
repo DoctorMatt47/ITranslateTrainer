@@ -10,7 +10,7 @@ namespace ITranslateTrainer.WebUI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TranslationsController : Controller
+public class TranslationsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
@@ -21,7 +21,7 @@ public class TranslationsController : Controller
         Ok(await _mediator.Send(new GetTranslationsQuery()));
 
     [HttpPost]
-    public async Task<ActionResult<IntIdResponse>> CreateTranslation(CreateTranslationCommand command) =>
+    public async Task<ActionResult<UintIdResponse>> CreateTranslation(CreateTranslationCommand command) =>
         Ok(await _mediator.Send(command));
 
     [HttpPost("sheet")]

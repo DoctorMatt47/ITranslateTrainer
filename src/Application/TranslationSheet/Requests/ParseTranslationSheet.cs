@@ -14,8 +14,8 @@ public record ParseTranslationSheetHandler :
     {
         var sheet = await request.SheetStream.QueryAsync();
         var translations = sheet.Select(row =>
-            new ParseTranslationResponse(row["A"].ToString(), row["B"].ToString(), row["C"].ToString(),
-                row["D"].ToString())).ToList();
+            new ParseTranslationResponse(row["A"]?.ToString(), row["B"]?.ToString(), row["C"]?.ToString(),
+                row["D"]?.ToString())).ToList();
         request.SheetStream.Close();
         return translations;
     }

@@ -8,7 +8,7 @@ public class TranslationConfiguration : IEntityTypeConfiguration<Translation>
 {
     public void Configure(EntityTypeBuilder<Translation> builder)
     {
-        builder.HasOne(t => t.First);
-        builder.HasOne(t => t.Second);
+        builder.HasOne(t => t.First).WithMany(t => t.Translations);
+        builder.HasOne(t => t.Second).WithMany(t => t.Translations);
     }
 }

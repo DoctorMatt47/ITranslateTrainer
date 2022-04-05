@@ -1,17 +1,15 @@
-﻿using ITranslateTrainer.Domain.Interfaces;
+﻿using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ITranslateTrainer.Infrastructure.Common.Extensions;
+namespace ITranslateTrainer.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+        string? connectionString = null)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-
         if (connectionString is not null)
             services.AddDbContext<ITranslateDbContext, TranslateDbContext>(options =>
                 options.UseSqlite(connectionString));

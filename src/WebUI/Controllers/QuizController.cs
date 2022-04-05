@@ -7,7 +7,7 @@ namespace ITranslateTrainer.WebUI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class QuizController : Controller
+public class QuizController : ControllerBase
 {
     private readonly IMediator _mediator;
 

@@ -1,9 +1,9 @@
-﻿using ITranslateTrainer.Domain.Entities;
+﻿using ITranslateTrainer.Application.Common.Interfaces;
+using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 
-namespace ITranslateTrainer.Application.Texts.Requests;
+namespace ITranslateTrainer.Application.Texts.Handlers;
 
 public record CreateText(string String, Language Language) : IRequest<Text>;
 
@@ -15,7 +15,7 @@ public record CreateTextHandler(ITranslateDbContext _context) : IRequestHandler<
     {
         var (str, language) = request;
 
-        var newText = new Text {String = str, Language = language};
+        var newText = new Text(str, language);
         await _context.Set<Text>().AddAsync(newText, cancellationToken);
         return newText;
     }

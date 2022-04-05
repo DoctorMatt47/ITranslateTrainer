@@ -1,7 +1,7 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
 using MediatR;
 
-namespace ITranslateTrainer.Application.Texts.Requests;
+namespace ITranslateTrainer.Application.Texts.Extensions;
 
 public record FilterText(string? TextString) : IRequest<string>;
 

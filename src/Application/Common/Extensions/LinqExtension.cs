@@ -40,18 +40,4 @@ public static class LinqExtension
 
         return responses;
     }
-
-    public static async Task<IEnumerable<TResponse>> SelectAsync<TResponse, TRequest, TTaskResult>(
-        this IEnumerable<TRequest> enumerable, Func<TRequest, TTaskResult, TResponse> map,
-        Func<TRequest, Task<TTaskResult>> task)
-    {
-        var responses = new List<TResponse>();
-        foreach (var element in enumerable)
-        {
-            var taskResult = await task(element);
-            responses.Add(map(element, taskResult));
-        }
-
-        return responses;
-    }
 }

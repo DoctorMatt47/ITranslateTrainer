@@ -1,14 +1,13 @@
-﻿using ITranslateTrainer.Application.Common.Behaviours;
-using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Texts.Requests;
+﻿using ITranslateTrainer.Application.Common.Exceptions;
+using ITranslateTrainer.Application.Common.Interfaces;
+using ITranslateTrainer.Application.Texts.Extensions;
 using ITranslateTrainer.Domain.Entities;
-using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Translations.Commands;
 
-public record DeleteTranslationCommand(int Id) : IRequest, ITransaction;
+public record DeleteTranslationCommand(uint Id) : ICommand;
 
 public record DeleteTranslationCommandHandler(ITranslateDbContext _context, IMediator _mediator) :
     IRequestHandler<DeleteTranslationCommand>

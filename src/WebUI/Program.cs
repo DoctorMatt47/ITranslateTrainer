@@ -1,42 +1,26 @@
 using ITranslateTrainer.Application.Common.Extensions;
-using ITranslateTrainer.Infrastructure.Common.Extensions;
+using ITranslateTrainer.Infrastructure.Extensions;
+using ITranslateTrainer.WebUI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 // Adds services
-builder.Services.AddApplication();
-builder.Services.AddInfrastructure(builder.Configuration);
-
-// Adds controllers
-builder.Services.AddControllers();
-
-// Adds swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(connectionString)
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen()
+    .AddControllers();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseFileServer(new FileServerOptions
-    {
-        StaticFileOptions =
-        {
-            OnPrepareResponse = context =>
-            {
-                context.Context.Response.Headers["Cache-Control"] = "no-cache, no-store";
-                context.Context.Response.Headers["Pragma"] = "no-cache";
-                context.Context.Response.Headers["Expires"] = "-1";
-            }
-        }
-    });
-}
+    app.UseSwagger().UseSwaggerUI().UseFileServerWithoutCaching();
+
 else
-{
     app.UseFileServer();
-}
 
 app.UseExceptionHandler("/error");
 

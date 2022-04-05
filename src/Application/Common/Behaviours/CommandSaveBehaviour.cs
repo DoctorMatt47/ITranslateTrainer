@@ -1,10 +1,10 @@
-﻿using ITranslateTrainer.Domain.Interfaces;
+﻿using ITranslateTrainer.Application.Common.Interfaces;
 using MediatR;
 
 namespace ITranslateTrainer.Application.Common.Behaviours;
 
-public sealed record TransactionSaveBehaviour<TRequest, TResponse>(ITranslateDbContext _context) :
-    IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>, ITransaction
+public sealed record CommandSaveBehaviour<TRequest, TResponse>(ITranslateDbContext _context) :
+    IPipelineBehavior<TRequest, TResponse> where TRequest : ICommand<TResponse>
 {
     private readonly ITranslateDbContext _context = _context;
 

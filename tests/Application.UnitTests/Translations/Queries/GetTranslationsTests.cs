@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Translations.Queries;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Xunit;
 
@@ -35,16 +35,18 @@ public class GetTranslationsTests
     {
         var texts = new List<Text>
         {
-            new() {Language = Language.English, String = "One"},
-            new() {Language = Language.English, String = "Two"},
-            new() {Language = Language.Russian, String = "Один"},
-            new() {Language = Language.Russian, String = "Два"}
+            new("One", Language.English),
+            new("Two", Language.English),
+            new("Один", Language.Russian),
+            new("Два", Language.Russian)
         };
+
         var translations = new List<Translation>
         {
-            new() {First = texts[0], Second = texts[2]},
-            new() {First = texts[1], Second = texts[3]}
+            new(texts[0], texts[2]),
+            new(texts[1], texts[3])
         };
+
         await _context.Set<Text>().AddRangeAsync(texts);
         await _context.Set<Translation>().AddRangeAsync(translations);
         await _context.SaveChangesAsync();

@@ -1,16 +1,16 @@
-﻿using ITranslateTrainer.Application.Common.Behaviours;
-using ITranslateTrainer.Application.Common.Exceptions;
+﻿using ITranslateTrainer.Application.Common.Exceptions;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
-using ITranslateTrainer.Application.Languages.Requests;
-using ITranslateTrainer.Application.Texts.Requests;
-using ITranslateTrainer.Application.Translations.Requests;
+using ITranslateTrainer.Application.Languages.Handlers;
+using ITranslateTrainer.Application.Texts.Extensions;
+using ITranslateTrainer.Application.Translations.Handlers;
 using ITranslateTrainer.Application.TranslationSheet.Requests;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 
 namespace ITranslateTrainer.Application.TranslationSheet.Commands;
 
-public record ImportTranslationSheetCommand(Stream SheetStream) : IRequest<IEnumerable<object>>, ITransaction;
+public record ImportTranslationSheetCommand(Stream SheetStream) : ICommand<IEnumerable<object>>;
 
 public record ImportTranslationSheetCommandHandler(IMediator _mediator) :
     IRequestHandler<ImportTranslationSheetCommand, IEnumerable<object>>
@@ -33,14 +33,12 @@ public record ImportTranslationSheetCommandHandler(IMediator _mediator) :
                 var secondTextFiltered = await _mediator.Send(new FilterText(secondText), cancellationToken);
 
                 var firstLanguageFiltered =
-                    await _mediator.Send(new ParseLanguageQuery(firstLanguage), cancellationToken);
+                    await _mediator.Send(new ParseLanguage(firstLanguage), cancellationToken);
                 var secondLanguageFiltered =
-                    await _mediator.Send(new ParseLanguageQuery(secondLanguage), cancellationToken);
+                    await _mediator.Send(new ParseLanguage(secondLanguage), cancellationToken);
 
-                var translation = await _mediator.Send(new CreateTranslation(
-                        new CreateText(firstTextFiltered, firstLanguageFiltered),
-                        new CreateText(secondTextFiltered, secondLanguageFiltered)),
-                    cancellationToken);
+                var translation = await _mediator.Send(new CreateTranslation(firstTextFiltered, firstLanguageFiltered,
+                    secondTextFiltered, secondLanguageFiltered), cancellationToken);
 
                 response.Add(translation);
             }
@@ -53,6 +51,6 @@ public record ImportTranslationSheetCommandHandler(IMediator _mediator) :
             }
         }
 
-        return response.Select(o => o is Translation t ? new IntIdResponse(t.Id) : o);
+        return response.Select(o => o is Translation t ? new UintIdResponse(t.Id) : o);
     }
 }

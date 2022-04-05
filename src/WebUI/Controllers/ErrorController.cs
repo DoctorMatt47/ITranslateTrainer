@@ -15,6 +15,7 @@ public class ErrorController : Controller
         var responseCode = exception switch
         {
             BadRequestException => 400,
+            NotFoundException => 404,
             _ => 500
         };
         return StatusCode(responseCode, new ErrorResponse(exception?.Message, exception?.StackTrace));

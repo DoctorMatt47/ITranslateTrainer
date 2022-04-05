@@ -1,34 +1,37 @@
 ﻿using ITranslateTrainer.Application.Common.Extensions;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Quiz.Responses;
-using ITranslateTrainer.Application.Texts.Requests;
+using ITranslateTrainer.Application.Texts.Extensions;
+using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Quiz.Queries;
 
 public record GetQuizQuery(Language From, Language To, int TestCount, int OptionCount) :
-    IRequest<IEnumerable<GetQuizResponse>>;
+    IQuery<IEnumerable<GetQuizResponse>>;
 
-public record GetQuizQueryHandler(IMediator _mediator) :
+public record GetQuizQueryHandler(ITranslateDbContext _context) :
     IRequestHandler<GetQuizQuery, IEnumerable<GetQuizResponse>>
 {
-    private readonly IMediator _mediator = _mediator;
+    private readonly ITranslateDbContext _context = _context;
 
     public async Task<IEnumerable<GetQuizResponse>> Handle(GetQuizQuery request,
         CancellationToken cancellationToken)
     {
         var (from, to, testCount, optionCount) = request;
 
-        var textsToTranslate = (await _mediator.Send(new GetRandomCanBeTestedTexts(testCount, from),
-            cancellationToken)).ToList();
+        var textsToTranslate = await _context.Set<Text>()
+            .GetRandomCanBeTested(from, testCount)
+            .ToListAsync(cancellationToken);
 
-        var randomOptions = (await _mediator.Send(new GetRandomCanBeOptionTexts(optionCount * testCount, to),
-            cancellationToken)).ToList();
+        var randomOptions = await _context.Set<Text>()
+            .GetRandomCanBeOption(to, optionCount)
+            .ToListAsync(cancellationToken);
 
-        var allCorrectOptions = await textsToTranslate
-            .Select(t => _mediator.Send(new GetTranslationTextsByTextId(t.Id), cancellationToken))
-            .WhenAllAsync();
+        var allCorrectOptions = textsToTranslate.Select(t => t.GetTranslationTexts());
 
         var allOptions = allCorrectOptions.Select(opts =>
         {

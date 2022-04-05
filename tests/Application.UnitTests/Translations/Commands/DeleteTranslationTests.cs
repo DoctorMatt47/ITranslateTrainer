@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Translations.Commands;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
@@ -23,19 +23,10 @@ public class DeleteTranslationTests
     [Fact]
     public async Task ShouldDeleteTranslation()
     {
-        var translationToAdd = new Translation
-        {
-            First = new Text
-            {
-                Language = Language.English,
-                String = "delete translation"
-            },
-            Second = new Text
-            {
-                Language = Language.Russian,
-                String = "удаление перевода"
-            }
-        };
+        var translationToAdd = new Translation(
+            new Text("delete translation", Language.English),
+            new Text("удаление перевода", Language.Russian));
+
         await _context.Set<Translation>().AddAsync(translationToAdd);
         await _context.SaveChangesAsync();
 

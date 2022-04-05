@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Translations.Responses;
 using ITranslateTrainer.Domain.Entities;
-using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +19,7 @@ public record GetTranslationsQueryHandler(ITranslateDbContext _context, IMapper 
         CancellationToken cancellationToken)
     {
         var translations = await _context.Set<Translation>().ToListAsync(cancellationToken);
-        var textIds = translations.Select(t => new List<int> {t.FirstId, t.SecondId}).SelectMany(t => t).Distinct();
+        var textIds = translations.Select(t => new List<uint> {t.FirstId, t.SecondId}).SelectMany(t => t).Distinct();
         await _context.Set<Text>().Where(t => textIds.Contains(t.Id)).ToListAsync(cancellationToken);
         return translations.Select(t => _mapper.Map<GetTranslationResponse>(t));
     }

@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Texts.Requests;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Translations.Commands;
+using ITranslateTrainer.Application.Translations.Requests;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
@@ -26,28 +26,28 @@ public class CreateTranslationTests
     public async Task ShouldCreateTranslation()
     {
         var command = new CreateTranslationCommand(
-            new CreateText("Get", Language.English),
-            new CreateText("Получить", Language.Russian));
+            new CreateTextRequest("Get", Language.English),
+            new CreateTextRequest("Получить", Language.Russian));
         var idDto = await _mediator.Send(command);
         var addedTranslation = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == idDto.Id);
 
         Assert.NotNull(addedTranslation);
-        Assert.Equal("Get", addedTranslation?.First.String);
-        Assert.Equal(Language.English, addedTranslation?.First.Language);
-        Assert.Equal("Получить", addedTranslation?.Second.String);
-        Assert.Equal(Language.Russian, addedTranslation?.Second.Language);
+        Assert.Equal("Get", addedTranslation!.First.String);
+        Assert.Equal(Language.English, addedTranslation.First.Language);
+        Assert.Equal("Получить", addedTranslation.Second.String);
+        Assert.Equal(Language.Russian, addedTranslation.Second.Language);
     }
 
     [Fact]
-    public async Task ShouldNotCreateTextIfAlreadyExists()
+    public async Task ShouldNotCreateTextRequestIfAlreadyExists()
     {
         var command1 = new CreateTranslationCommand(
-            new CreateText("One", Language.English),
-            new CreateText("1", Language.Russian));
+            new CreateTextRequest("One", Language.English),
+            new CreateTextRequest("1", Language.Russian));
 
         var command2 = new CreateTranslationCommand(
-            new CreateText("One", Language.English),
-            new CreateText("Один", Language.Russian));
+            new CreateTextRequest("One", Language.English),
+            new CreateTextRequest("Один", Language.Russian));
 
         var idDto1 = await _mediator.Send(command1);
         var idDto2 = await _mediator.Send(command2);
@@ -62,16 +62,16 @@ public class CreateTranslationTests
     public async Task ShouldNotCreateTranslationIfAlreadyExists()
     {
         var command1 = new CreateTranslationCommand(
-            new CreateText("English", Language.English),
-            new CreateText("Russian", Language.Russian));
+            new CreateTextRequest("English", Language.English),
+            new CreateTextRequest("Russian", Language.Russian));
 
         var command2 = new CreateTranslationCommand(
-            new CreateText("English", Language.English),
-            new CreateText("Russian", Language.Russian));
+            new CreateTextRequest("English", Language.English),
+            new CreateTextRequest("Russian", Language.Russian));
 
         var command3 = new CreateTranslationCommand(
-            new CreateText("English", Language.English),
-            new CreateText("Russian", Language.Russian));
+            new CreateTextRequest("English", Language.English),
+            new CreateTextRequest("Russian", Language.Russian));
 
         var idDto1 = await _mediator.Send(command1);
         var idDto2 = await _mediator.Send(command2);
@@ -85,8 +85,8 @@ public class CreateTranslationTests
     public async Task ShouldNotCreateTranslationWithSameLanguages()
     {
         var command = new CreateTranslationCommand(
-            new CreateText("Same", Language.English),
-            new CreateText("Same", Language.English));
+            new CreateTextRequest("Same", Language.English),
+            new CreateTextRequest("Same", Language.English));
 
         await Assert.ThrowsAsync<BadRequestException>(() => _mediator.Send(command));
     }

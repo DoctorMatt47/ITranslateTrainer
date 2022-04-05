@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Texts.Commands;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
@@ -23,11 +23,7 @@ public class PatchTextTests
     [Fact]
     public async Task ShouldPatchText()
     {
-        var textToAdd = new Text
-        {
-            Language = Language.English,
-            String = "patch test"
-        };
+        var textToAdd = new Text("patch test", Language.English);
         await _context.Set<Text>().AddAsync(textToAdd);
         await _context.SaveChangesAsync();
 

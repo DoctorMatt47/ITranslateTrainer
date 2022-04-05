@@ -1,12 +1,11 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
-using ITranslateTrainer.Domain.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Texts.Commands;
 
-public record PatchTextCommand(int Id, bool? CanBeOption, bool? CanBeTested) : IRequest;
+public record PatchTextCommand(uint Id, bool? CanBeOption, bool? CanBeTested) : ICommand;
 
 public record PatchTextCommandHandler(ITranslateDbContext _context) : IRequestHandler<PatchTextCommand>
 {
@@ -16,17 +15,17 @@ public record PatchTextCommandHandler(ITranslateDbContext _context) : IRequestHa
     {
         var (id, canBeOption, canBeTested) = request;
 
-        var text = await _context.Set<Text>().FirstAsync(t => t.Id == id, cancellationToken);
+        var text = await _context.Set<Text>().FindAsync(id);
 
-        if (canBeOption is not null) text.CanBeOption = (bool) canBeOption;
-        if (canBeTested is not null) text.CanBeTested = (bool) canBeTested;
+        if (canBeOption is not null) text!.CanBeOption = (bool) canBeOption;
+        if (canBeTested is not null) text!.CanBeTested = (bool) canBeTested;
 
         return Unit.Value;
     }
 }
 
-public record PatchTextCommandValidateBehaviour
-    (ITranslateDbContext _context) : IPipelineBehavior<PatchTextCommand, Unit>
+public record PatchTextCommandValidateBehaviour(ITranslateDbContext _context) :
+    IPipelineBehavior<PatchTextCommand, Unit>
 {
     private readonly ITranslateDbContext _context = _context;
 
@@ -37,8 +36,8 @@ public record PatchTextCommandValidateBehaviour
 
         if (canBeOption is null && canBeTested is null) throw new BadRequestException("All values are null");
 
-        var textExist = await _context.Set<Text>().AnyAsync(t => t.Id == id, cancellationToken);
-        if (!textExist) throw new BadRequestException($"There is no text with id = {id}");
+        var textExist = await _context.Set<Text>().FindAsync(id);
+        if (textExist is null) throw new BadRequestException($"There is no text with id = {id}");
 
         return await next.Invoke();
     }

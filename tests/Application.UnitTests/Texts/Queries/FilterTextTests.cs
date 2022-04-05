@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Texts.Requests;
+using ITranslateTrainer.Application.Texts.Extensions;
 using MediatR;
 using Xunit;
 
