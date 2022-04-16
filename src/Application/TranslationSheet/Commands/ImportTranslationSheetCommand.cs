@@ -1,48 +1,42 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
-using ITranslateTrainer.Application.Languages.Handlers;
-using ITranslateTrainer.Application.Texts.Extensions;
-using ITranslateTrainer.Application.Translations.Handlers;
-using ITranslateTrainer.Application.TranslationSheet.Requests;
+using ITranslateTrainer.Application.Translations.Requests;
 using ITranslateTrainer.Domain.Entities;
+using ITranslateTrainer.Domain.Enums;
 using MediatR;
 
 namespace ITranslateTrainer.Application.TranslationSheet.Commands;
 
-public record ImportTranslationSheetCommand(Stream SheetStream) : ICommand<IEnumerable<object>>;
+public record ImportTranslationSheetCommand(Stream SheetStream) : IRequest<IEnumerable<object>>, ITransactional;
 
-public record ImportTranslationSheetCommandHandler(IMediator _mediator) :
+public record ImportTranslationSheetCommandHandler(IMediator _mediator, ITranslationSheetService _sheetService) :
     IRequestHandler<ImportTranslationSheetCommand, IEnumerable<object>>
 {
     private readonly IMediator _mediator = _mediator;
+    private readonly ITranslationSheetService _sheetService = _sheetService;
 
     public async Task<IEnumerable<object>> Handle(ImportTranslationSheetCommand request,
         CancellationToken cancellationToken)
     {
-        var parsedTranslations =
-            await _mediator.Send(new ParseTranslationSheet(request.SheetStream), cancellationToken);
+        var parsedTranslations = await _sheetService.ParseTranslations(request.SheetStream);
 
         var response = new List<object>();
         foreach (var parsedTranslation in parsedTranslations)
         {
-            var (firstLanguage, secondLanguage, firstText, secondText) = parsedTranslation;
+            var (firstLanguageString, secondLanguageString, firstText, secondText) = parsedTranslation;
             try
             {
-                var firstTextFiltered = await _mediator.Send(new FilterText(firstText), cancellationToken);
-                var secondTextFiltered = await _mediator.Send(new FilterText(secondText), cancellationToken);
+                var firstLanguage = Enum.Parse<Language>(firstLanguageString);
+                var secondLanguage = Enum.Parse<Language>(secondLanguageString);
 
-                var firstLanguageFiltered =
-                    await _mediator.Send(new ParseLanguage(firstLanguage), cancellationToken);
-                var secondLanguageFiltered =
-                    await _mediator.Send(new ParseLanguage(secondLanguage), cancellationToken);
-
-                var translation = await _mediator.Send(new CreateTranslation(firstTextFiltered, firstLanguageFiltered,
-                    secondTextFiltered, secondLanguageFiltered), cancellationToken);
+                var translation = await _mediator.Send(
+                    new CreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage),
+                    cancellationToken);
 
                 response.Add(translation);
             }
-            catch (BadRequestException e)
+            catch (Exception e) when (e is BadRequestException or ArgumentException)
             {
                 response.Add(new
                 {

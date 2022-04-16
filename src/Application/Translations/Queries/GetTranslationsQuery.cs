@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Translations.Responses;
 using ITranslateTrainer.Domain.Entities;
@@ -16,11 +17,10 @@ public record GetTranslationsQueryHandler(ITranslateDbContext _context, IMapper 
     private readonly IMapper _mapper = _mapper;
 
     public async Task<IEnumerable<GetTranslationResponse>> Handle(GetTranslationsQuery request,
-        CancellationToken cancellationToken)
-    {
-        var translations = await _context.Set<Translation>().ToListAsync(cancellationToken);
-        var textIds = translations.Select(t => new List<uint> {t.FirstId, t.SecondId}).SelectMany(t => t).Distinct();
-        await _context.Set<Text>().Where(t => textIds.Contains(t.Id)).ToListAsync(cancellationToken);
-        return translations.Select(t => _mapper.Map<GetTranslationResponse>(t));
-    }
+        CancellationToken cancellationToken) =>
+        await _context.Set<Translation>()
+            .Include(t => t.First)
+            .Include(t => t.Second)
+            .ProjectTo<GetTranslationResponse>(_mapper.ConfigurationProvider)
+            .ToListAsync(cancellationToken);
 }

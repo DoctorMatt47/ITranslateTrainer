@@ -1,25 +1,24 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Texts.Handlers;
+using ITranslateTrainer.Application.Texts.Requests;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
 using ITranslateTrainer.Domain.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.Translations.Handlers;
+namespace ITranslateTrainer.Application.Translations.Requests;
 
-public record CreateTranslation(TextString FirstString, Language FirstLanguage,
+public record CreateTranslationRequest(TextString FirstString, Language FirstLanguage,
     TextString SecondString, Language SecondLanguage) : IRequest<Translation>;
 
-public record CreateTranslationHandler(ITranslateDbContext _context, IMediator _mediator) :
-    IRequestHandler<CreateTranslation, Translation>
+public record CreateTranslationRequestHandler(ITranslateDbContext _context, IMediator _mediator) :
+    IRequestHandler<CreateTranslationRequest, Translation>
 {
     private readonly ITranslateDbContext _context = _context;
     private readonly IMediator _mediator = _mediator;
 
-    public async Task<Translation> Handle(CreateTranslation request,
-        CancellationToken cancellationToken)
+    public async Task<Translation> Handle(CreateTranslationRequest request, CancellationToken cancellationToken)
     {
         var (firstString, firstLanguage, secondString, secondLanguage) = request;
 
@@ -40,8 +39,8 @@ public record CreateTranslationHandler(ITranslateDbContext _context, IMediator _
             if (translation is not null) return translation;
         }
 
-        firstText ??= await _mediator.Send(new CreateText(firstString, firstLanguage), cancellationToken);
-        secondText ??= await _mediator.Send(new CreateText(secondString, secondLanguage), cancellationToken);
+        firstText ??= await _mediator.Send(new CreateTextRequest(firstString, firstLanguage), cancellationToken);
+        secondText ??= await _mediator.Send(new CreateTextRequest(secondString, secondLanguage), cancellationToken);
 
         var translationToAdd = new Translation(firstText, secondText);
         await _context.Set<Translation>().AddAsync(translationToAdd, cancellationToken);
@@ -50,9 +49,9 @@ public record CreateTranslationHandler(ITranslateDbContext _context, IMediator _
     }
 }
 
-public record CreateTranslationValidateBehaviour : IPipelineBehavior<CreateTranslation, Translation>
+public record CreateTranslationRequestValidateBehaviour : IPipelineBehavior<CreateTranslationRequest, Translation>
 {
-    public async Task<Translation> Handle(CreateTranslation request, CancellationToken cancellationToken,
+    public async Task<Translation> Handle(CreateTranslationRequest request, CancellationToken cancellationToken,
         RequestHandlerDelegate<Translation> next)
     {
         var (_, firstLanguage, _, secondLanguage) = request;

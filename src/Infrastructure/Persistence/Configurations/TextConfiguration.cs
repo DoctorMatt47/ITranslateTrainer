@@ -8,6 +8,6 @@ public class TextConfiguration : IEntityTypeConfiguration<Text>
 {
     public void Configure(EntityTypeBuilder<Text> builder)
     {
-        builder.Property(t => t.String).HasMaxLength(50).IsRequired();
+        builder.Property(t => t.String).HasConversion(v => v.Value, v => v).HasMaxLength(50).IsRequired();
     }
 }

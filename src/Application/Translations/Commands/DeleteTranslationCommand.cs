@@ -1,13 +1,13 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Texts.Extensions;
+using ITranslateTrainer.Application.Texts.Requests;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Translations.Commands;
 
-public record DeleteTranslationCommand(uint Id) : ICommand;
+public record DeleteTranslationCommand(uint Id) : IRequest, ITransactional;
 
 public record DeleteTranslationCommandHandler(ITranslateDbContext _context, IMediator _mediator) :
     IRequestHandler<DeleteTranslationCommand>
@@ -23,11 +23,13 @@ public record DeleteTranslationCommandHandler(ITranslateDbContext _context, IMed
         _context.Set<Translation>().Remove(translationToDelete);
 
         var firstTextTranslations =
-            await _mediator.Send(new GetTranslationTextsByTextId(translationToDelete.FirstId), cancellationToken);
+            await _mediator.Send(new GetTranslationTextsByTextIdRequest(translationToDelete.FirstId),
+                cancellationToken);
         if (firstTextTranslations.Count() <= 1) _context.Set<Text>().Remove(translationToDelete.First);
 
         var secondTextTranslations =
-            await _mediator.Send(new GetTranslationTextsByTextId(translationToDelete.SecondId), cancellationToken);
+            await _mediator.Send(new GetTranslationTextsByTextIdRequest(translationToDelete.SecondId),
+                cancellationToken);
         if (secondTextTranslations.Count() <= 1) _context.Set<Text>().Remove(translationToDelete.Second);
 
         return Unit.Value;

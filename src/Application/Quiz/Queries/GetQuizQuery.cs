@@ -3,6 +3,7 @@ using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Quiz.Responses;
 using ITranslateTrainer.Application.Texts.Extensions;
+using ITranslateTrainer.Application.Texts.Requests;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
 using MediatR;
@@ -11,12 +12,13 @@ using Microsoft.EntityFrameworkCore;
 namespace ITranslateTrainer.Application.Quiz.Queries;
 
 public record GetQuizQuery(Language From, Language To, int TestCount, int OptionCount) :
-    IQuery<IEnumerable<GetQuizResponse>>;
+    IRequest<IEnumerable<GetQuizResponse>>;
 
-public record GetQuizQueryHandler(ITranslateDbContext _context) :
+public record GetQuizQueryHandler(ITranslateDbContext _context, IMediator _mediator) :
     IRequestHandler<GetQuizQuery, IEnumerable<GetQuizResponse>>
 {
     private readonly ITranslateDbContext _context = _context;
+    private readonly IMediator _mediator = _mediator;
 
     public async Task<IEnumerable<GetQuizResponse>> Handle(GetQuizQuery request,
         CancellationToken cancellationToken)
@@ -31,7 +33,9 @@ public record GetQuizQueryHandler(ITranslateDbContext _context) :
             .GetRandomCanBeOption(to, optionCount)
             .ToListAsync(cancellationToken);
 
-        var allCorrectOptions = textsToTranslate.Select(t => t.GetTranslationTexts());
+        var allCorrectOptions = await textsToTranslate
+            .Select(t => _mediator.Send(new GetTranslationTextsByTextIdRequest(t.Id), cancellationToken))
+            .WhenAllAsync();
 
         var allOptions = allCorrectOptions.Select(opts =>
         {
