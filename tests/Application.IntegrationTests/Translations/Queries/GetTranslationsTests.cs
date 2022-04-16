@@ -7,7 +7,7 @@ using ITranslateTrainer.Domain.Enums;
 using MediatR;
 using Xunit;
 
-namespace ITranslateTrainer.Application.UnitTests.Translations.Queries;
+namespace ITranslateTrainer.Application.IntegrationTests.Translations.Queries;
 
 public class GetTranslationsTests
 {

@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-namespace ITranslateTrainer.Application.UnitTests.Translations.Commands;
+namespace ITranslateTrainer.Application.IntegrationTests.Translations.Commands;
 
 public class DeleteTranslationTests
 {
