@@ -1,9 +1,8 @@
 ﻿using System.Reflection;
 using ITranslateTrainer.Application.Common.Behaviours;
 using ITranslateTrainer.Application.Texts.Commands;
-using ITranslateTrainer.Application.Texts.Extensions;
 using ITranslateTrainer.Application.Translations.Commands;
-using ITranslateTrainer.Application.Translations.Handlers;
+using ITranslateTrainer.Application.Translations.Requests;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,12 +18,10 @@ public static class ServiceCollectionExtension
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CommandSaveBehaviour<,>));
 
-        services.AddScoped(typeof(IPipelineBehavior<FilterText, string>),
-            typeof(FilterTextValidateBehaviour));
         services.AddScoped(typeof(IPipelineBehavior<PatchTextCommand, Unit>),
             typeof(PatchTextCommandValidateBehaviour));
-        services.AddScoped(typeof(IPipelineBehavior<CreateTranslation, Translation>),
-            typeof(CreateTranslationValidateBehaviour));
+        services.AddScoped(typeof(IPipelineBehavior<CreateTranslationRequest, Translation>),
+            typeof(CreateTranslationRequestValidateBehaviour));
         services.AddScoped(typeof(IPipelineBehavior<DeleteTranslationCommand, Unit>),
             typeof(DeleteTranslationCommandValidateBehaviour));
 

@@ -3,7 +3,7 @@ using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Infrastructure.Persistence;
+namespace ITranslateTrainer.Infrastructure.Persistence.Contexts;
 
 public sealed class TranslateDbContext : DbContext, ITranslateDbContext
 {

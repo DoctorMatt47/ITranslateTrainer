@@ -2,6 +2,7 @@
 
 namespace ITranslateTrainer.WebUI.Controllers;
 
-public class TextController : ControllerBase
+[ApiController]
+public class TextsController : ControllerBase
 {
 }
