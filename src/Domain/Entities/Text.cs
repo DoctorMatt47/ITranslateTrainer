@@ -5,19 +5,19 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class Text : UintIdBase
 {
-    // ReSharper disable once CollectionNeverUpdated.Local
-    private readonly List<Translation> _translations = new();
-
-    public Text(TextString textString, Language language)
+    public Text(TextString @string, Language language)
     {
-        String = textString;
+        String = @string;
         Language = language;
     }
 
-    public TextString String { get; protected set; }
+    protected Text()
+    {
+    }
+
+    public TextString String { get; protected set; } = null!;
     public Language Language { get; protected set; }
 
     public bool CanBeOption { get; set; } = true;
     public bool CanBeTested { get; set; } = true;
-    public IEnumerable<Translation> Translations => _translations.ToList();
 }
