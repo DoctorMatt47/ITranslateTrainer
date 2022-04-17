@@ -7,10 +7,12 @@ namespace ITranslateTrainer.Domain.UnitTests.ValueObjects;
 public class TextStringTests
 {
     [Theory]
+    [InlineData("")]
     [InlineData("1")]
-    public void ThrowsDomainArgumentExceptionIfInvalidString(string invalid)
+    [InlineData(null)]
+    public void ThrowsDomainArgumentExceptionIfInvalidString(string? invalid)
     {
-        Assert.Throws<DomainArgumentException>(() => (TextString) invalid);
+        Assert.Throws<DomainArgumentException>(() => (TextString) invalid!);
     }
 
     [Theory]

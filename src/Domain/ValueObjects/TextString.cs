@@ -1,8 +1,11 @@
-﻿using ITranslateTrainer.Domain.Attributes;
+﻿using System.Text.Json.Serialization;
+using ITranslateTrainer.Domain.Attributes;
 using ITranslateTrainer.Domain.Exceptions;
+using ITranslateTrainer.Domain.JsonConverters;
 
 namespace ITranslateTrainer.Domain.ValueObjects;
 
+[JsonConverter(typeof(TextStringJsonConverter))]
 public record TextString : WrapperBase<string>
 {
     private static readonly TextStringAttribute Attr = new();
@@ -14,5 +17,5 @@ public record TextString : WrapperBase<string>
 
     private static string Filtered(string value) => value.ToLowerInvariant().Replace("\n", "").Replace("\t", "").Trim();
 
-    public static implicit operator TextString(string value) => new(value);
+    public static implicit operator TextString(string? value) => (value is null ? null : new TextString(value))!;
 }
