@@ -1,4 +1,5 @@
 ﻿using ITranslateTrainer.Domain.Enums;
+using ITranslateTrainer.Domain.Exceptions;
 using ITranslateTrainer.Domain.ValueObjects;
 
 namespace ITranslateTrainer.Domain.Entities;
@@ -11,6 +12,9 @@ public class Text : UintIdBase
 
     public Text(TextString @string, Language language)
     {
+        if (language == Language.None)
+            throw new DomainArgumentException("Language should not be none", nameof(language));
+
         String = @string;
         Language = language;
     }
