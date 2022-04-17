@@ -14,6 +14,7 @@ public class QuizController : ControllerBase
     public QuizController(IMediator mediator) => _mediator = mediator;
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<GetQuizResponse>>> Get([FromQuery] GetQuizQuery query) =>
-        Ok(await _mediator.Send(query));
+    public async Task<ActionResult<IEnumerable<GetQuizResponse>>> Get([FromQuery] GetQuizQuery query,
+        CancellationToken cancellationToken) =>
+        Ok(await _mediator.Send(query, cancellationToken));
 }
