@@ -6,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Adds services
 builder.Services
     .AddApplication()
     .AddInfrastructure(connectionString)
@@ -18,15 +17,12 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
     app.UseSwagger().UseSwaggerUI().UseFileServerWithoutCaching();
-
 else
     app.UseFileServer();
 
-app.UseExceptionHandler("/error");
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+app.UseExceptionHandler("/error")
+    .UseHttpsRedirection()
+    .UseAuthorization();
 
 app.MapControllers();
 

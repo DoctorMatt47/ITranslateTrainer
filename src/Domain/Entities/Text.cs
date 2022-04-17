@@ -5,14 +5,14 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class Text : UintIdBase
 {
+    protected Text()
+    {
+    }
+
     public Text(TextString @string, Language language)
     {
         String = @string;
         Language = language;
-    }
-
-    protected Text()
-    {
     }
 
     public TextString String { get; protected set; } = null!;
