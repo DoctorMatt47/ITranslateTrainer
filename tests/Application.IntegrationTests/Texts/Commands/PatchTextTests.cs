@@ -20,15 +20,18 @@ public class PatchTextTests
     }
 
     [Fact]
-    public async Task ShouldChangedBoolOnFalseText()
+    public async Task ShouldChangeBoolOnFalseText()
     {
         var testedText = new Text("patch test", Language.English);
-        await _context.Set<Text>().AddAsync(testedText);
+        _context.Set<Text>().Add(testedText);
+        await _context.SaveChangesAsync();
 
         var command = new PatchTextCommand(testedText.Id, false, false);
         await _mediator.Send(command);
 
-        Assert.False(testedText.CanBeOption);
-        Assert.False(testedText.CanBeTested);
+        var resultText = await _context.Set<Text>().FindAsync(testedText.Id);
+
+        Assert.False(resultText!.CanBeOption);
+        Assert.False(resultText.CanBeTested);
     }
 }
