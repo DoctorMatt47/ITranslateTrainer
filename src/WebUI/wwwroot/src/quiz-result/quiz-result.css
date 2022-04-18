@@ -1,0 +1,9 @@
+﻿.circle-chart {
+	width: 14rem;
+	height: 14rem;
+	border-radius: 50%;
+	/* background: conic-gradient(
+					green 0.00% 58.00%,
+					grey 58.00% 60.00%,
+					red 60.00%); */
+}

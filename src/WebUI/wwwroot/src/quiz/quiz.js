@@ -1,9 +1,16 @@
 ﻿import * as testStorage from "../common/test-storage.js";
+import {answer, color} from "../common/common.js";
 
-const nextButton = document.getElementById("next-button");
+const goToSettings = () => window.location.href = "../quiz-settings/quiz-settings.html";
+const goToResults = () => window.location.href = "../quiz-result/quiz-result.html";
+
+if (testStorage.isEmpty()) goToSettings();
+if (!testStorage.currentTest()) goToResults();
+
 const optionsElement = document.getElementById("options");
 const toTranslateElement = document.getElementById("to-translate");
-const restartButton = document.getElementById("restart-button");
+
+let currentAnswer = answer.skipped;
 
 const optionHtml = option =>
     `<label class="mb-4">
@@ -11,10 +18,12 @@ const optionHtml = option =>
         ${option.string}
     </label>`;
 
-const optionsHtml = options => options.map(opt => optionHtml(opt)).reduce((acc, optHtml) => acc + optHtml);
+const optionsHtml = options => options
+    .map(opt => optionHtml(opt))
+    .reduce((acc, optHtml) => acc + optHtml);
 
 const showTest = test => {
-    toTranslateElement.innerText = test.text;
+    toTranslateElement.innerText = test.string;
     optionsElement.innerHTML = optionsHtml(test.options);
 };
 
@@ -24,9 +33,11 @@ const optionsChangeHandler = () => {
     for (let i = 0; i < optionElements.length; i++) {
         if (test.options[i].isCorrect) {
             showCorrectOption(optionElements[i]);
+            currentAnswer = answer.correct;
         }
         if (optionElements[i].checked) {
             optionClickHandler(optionElements[i], test.options[i].isCorrect);
+            currentAnswer = answer.incorrect;
         }
     }
     optionElements.forEach(opt => opt.disabled = true);
@@ -35,27 +46,29 @@ const optionsChangeHandler = () => {
 optionsElement.addEventListener("change", optionsChangeHandler);
 
 const showCorrectOption = option => {
-    option.parentElement.style.borderColor = "#499C54";
+    option.parentElement.style.borderColor = color.lightGreen;
 };
 
 const optionClickHandler = (option, isCorrect) => {
     const optionStyle = option.parentElement.style;
     if (isCorrect) {
-        optionStyle.backgroundColor = "#132b15";
+        optionStyle.backgroundColor = color.darkGreen;
         return;
     }
-    optionStyle.borderColor = "#9E2927";
-    optionStyle.backgroundColor = "#22090F";
+    optionStyle.borderColor = color.lightRed;
+    optionStyle.backgroundColor = color.darkRed;
 };
 
-nextButton.addEventListener("click", () => {
-    showTest(testStorage.nextTest());
+document.getElementById("next-button").addEventListener("click", () => {
+    const nextTest = testStorage.nextTest(currentAnswer);
+    currentAnswer = answer.skipped;
+    if (!nextTest) goToResults();
+    showTest(nextTest);
 });
 
-restartButton.addEventListener("click", () => {
+document.getElementById("restart-button").addEventListener("click", () => {
     testStorage.removeTests();
-    window.location.href = "../quiz-settings/quiz-settings.html";
+    goToSettings();
 });
 
-if (testStorage.isEmpty()) window.location.href = "../quiz-settings/quiz-settings.html";
 showTest(testStorage.currentTest());
