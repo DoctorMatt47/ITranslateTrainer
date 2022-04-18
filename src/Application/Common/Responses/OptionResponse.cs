@@ -1,3 +1,5 @@
-﻿namespace ITranslateTrainer.Application.Common.Responses;
+﻿using ITranslateTrainer.Domain.ValueObjects;
 
-public record OptionResponse(string String, bool IsCorrect);
+namespace ITranslateTrainer.Application.Common.Responses;
+
+public record OptionResponse(TextString String, bool IsCorrect);
