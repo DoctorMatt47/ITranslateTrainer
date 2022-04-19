@@ -20,8 +20,8 @@ public static class ServiceCollectionExtension
 
         services.AddScoped(typeof(IPipelineBehavior<PatchTextCommand, Unit>),
             typeof(PatchTextCommandValidateBehaviour));
-        services.AddScoped(typeof(IPipelineBehavior<CreateTranslationRequest, Translation>),
-            typeof(CreateTranslationRequestValidateBehaviour));
+        services.AddScoped(typeof(IPipelineBehavior<GetOrCreateTranslationRequest, Translation>),
+            typeof(GetOrCreateTranslationRequestValidateBehaviour));
         services.AddScoped(typeof(IPipelineBehavior<DeleteTranslationCommand, Unit>),
             typeof(DeleteTranslationCommandValidateBehaviour));
 

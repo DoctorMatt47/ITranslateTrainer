@@ -42,7 +42,8 @@ public record GetOrCreateTranslationRequestHandler(ITranslateDbContext _context,
     }
 }
 
-public record CreateTranslationRequestValidateBehaviour : IPipelineBehavior<GetOrCreateTranslationRequest, Translation>
+public record
+    GetOrCreateTranslationRequestValidateBehaviour : IPipelineBehavior<GetOrCreateTranslationRequest, Translation>
 {
     public async Task<Translation> Handle(GetOrCreateTranslationRequest request, CancellationToken cancellationToken,
         RequestHandlerDelegate<Translation> next)

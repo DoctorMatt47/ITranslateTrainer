@@ -1,4 +1,5 @@
-﻿using ITranslateTrainer.Application.Common.Responses;
+﻿using System.Collections;
+using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Translations.Commands;
 using ITranslateTrainer.Application.Translations.Queries;
 using ITranslateTrainer.Application.Translations.Responses;
@@ -20,13 +21,13 @@ public class TranslationsController : ControllerBase
     public async Task<IEnumerable<GetTranslationResponse>> GetTranslations(CancellationToken cancellationToken) =>
         await _mediator.Send(new GetTranslationsQuery(), cancellationToken);
 
-    [HttpPost]
-    public async Task<UintIdResponse> CreateTranslation(CreateTranslationCommand command,
+    [HttpPut]
+    public async Task<UintIdResponse> CreateTranslation(PutTranslationCommand command,
         CancellationToken cancellationToken) =>
         await _mediator.Send(command, cancellationToken);
 
-    [HttpPost("sheet")]
-    public async Task<IEnumerable<object>> CreateTranslationSheet(IFormFile sheet,
+    [HttpPut("sheet")]
+    public async Task<IEnumerable> CreateTranslationSheet(IFormFile sheet,
         CancellationToken cancellationToken) =>
-        await _mediator.Send(new ImportTranslationSheetCommand(sheet.OpenReadStream()), cancellationToken);
+        await _mediator.Send(new PutTranslationSheetCommand(sheet.OpenReadStream()), cancellationToken);
 }

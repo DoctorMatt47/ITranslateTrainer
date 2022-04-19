@@ -10,12 +10,12 @@ using Xunit;
 
 namespace ITranslateTrainer.Application.IntegrationTests.Translations.Commands;
 
-public class CreateTranslationTests
+public class PutTranslationTests
 {
     private readonly ITranslateDbContext _context;
     private readonly IMediator _mediator;
 
-    public CreateTranslationTests(IMediator mediator, ITranslateDbContext context)
+    public PutTranslationTests(IMediator mediator, ITranslateDbContext context)
     {
         _mediator = mediator;
         _context = context;
@@ -24,7 +24,7 @@ public class CreateTranslationTests
     [Fact]
     public async Task ShouldCreateTranslation()
     {
-        var command = new CreateTranslationCommand("Get", Language.English, "Получить", Language.Russian);
+        var command = new PutTranslationCommand("Get", Language.English, "Получить", Language.Russian);
         var idDto = await _mediator.Send(command);
         var addedTranslation = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == idDto.Id);
 
@@ -38,9 +38,9 @@ public class CreateTranslationTests
     [Fact]
     public async Task ShouldNotCreateTextRequestIfAlreadyExists()
     {
-        var command1 = new CreateTranslationCommand("One", Language.English, "111", Language.Russian);
+        var command1 = new PutTranslationCommand("One", Language.English, "111", Language.Russian);
 
-        var command2 = new CreateTranslationCommand("One", Language.English, "Один", Language.Russian);
+        var command2 = new PutTranslationCommand("One", Language.English, "Один", Language.Russian);
 
         var idDto1 = await _mediator.Send(command1);
         var idDto2 = await _mediator.Send(command2);
@@ -54,11 +54,11 @@ public class CreateTranslationTests
     [Fact]
     public async Task ShouldNotCreateTranslationIfAlreadyExists()
     {
-        var command1 = new CreateTranslationCommand("English", Language.English, "Russian", Language.Russian);
+        var command1 = new PutTranslationCommand("English", Language.English, "Russian", Language.Russian);
 
-        var command2 = new CreateTranslationCommand("English", Language.English, "Russian", Language.Russian);
+        var command2 = new PutTranslationCommand("English", Language.English, "Russian", Language.Russian);
 
-        var command3 = new CreateTranslationCommand("English", Language.English, "Russian", Language.Russian);
+        var command3 = new PutTranslationCommand("English", Language.English, "Russian", Language.Russian);
 
         var idDto1 = await _mediator.Send(command1);
         var idDto2 = await _mediator.Send(command2);
@@ -71,7 +71,7 @@ public class CreateTranslationTests
     [Fact]
     public async Task ShouldNotCreateTranslationWithSameLanguages()
     {
-        var command = new CreateTranslationCommand("Same", Language.English, "Same", Language.English);
+        var command = new PutTranslationCommand("Same", Language.English, "Same", Language.English);
 
         await Assert.ThrowsAsync<BadRequestException>(() => _mediator.Send(command));
     }

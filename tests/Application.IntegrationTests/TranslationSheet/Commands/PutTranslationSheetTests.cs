@@ -8,18 +8,18 @@ using Xunit;
 
 namespace ITranslateTrainer.Application.IntegrationTests.TranslationSheet.Commands;
 
-public class ImportTranslationSheetTests
+public class PutTranslationSheetTests
 {
     // ReSharper disable once NotAccessedField.Local
     private readonly IMediator _mediator;
 
-    public ImportTranslationSheetTests(IMediator mediator) => _mediator = mediator;
+    public PutTranslationSheetTests(IMediator mediator) => _mediator = mediator;
 
     [Fact]
     public async Task ShouldCallParseTranslationsMethod()
     {
         var stream = Stream.Null;
-        var command = new ImportTranslationSheetCommand(stream);
+        var command = new PutTranslationSheetCommand(stream);
 
         await _mediator.Send(command);
 
