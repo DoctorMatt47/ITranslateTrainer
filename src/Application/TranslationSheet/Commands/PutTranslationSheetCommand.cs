@@ -12,7 +12,7 @@ namespace ITranslateTrainer.Application.TranslationSheet.Commands;
 
 public record PutTranslationSheetCommand(Stream SheetStream) : IRequest<IEnumerable>;
 
-public record ImportTranslationSheetCommandHandler(IMediator _mediator, ITranslationSheetService _sheetService,
+public record PutTranslationSheetCommandHandler(IMediator _mediator, ITranslationSheetService _sheetService,
     ITranslateDbContext _context) : IRequestHandler<PutTranslationSheetCommand, IEnumerable>
 {
     private readonly ITranslateDbContext _context = _context;
@@ -36,7 +36,7 @@ public record ImportTranslationSheetCommandHandler(IMediator _mediator, ITransla
     private async Task<object> TryGetOrCreateTranslation(ParseTranslationResponse translationResponse,
         CancellationToken cancellationToken)
     {
-        var (firstText, firstLanguageString, secondText, secondLanguageString) = translationResponse;
+        var (firstLanguageString, secondLanguageString, firstText, secondText) = translationResponse;
         try
         {
             var firstLanguage = Enum.Parse<Language>(firstLanguageString);

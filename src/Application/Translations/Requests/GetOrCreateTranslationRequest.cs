@@ -22,11 +22,11 @@ public record GetOrCreateTranslationRequestHandler(ITranslateDbContext _context,
     {
         var (firstString, firstLanguage, secondString, secondLanguage) = request;
 
-        var firstText = await _mediator.Send(new GetOrCreateTextRequest(firstString, firstLanguage),
-            cancellationToken);
+        var firstTextRequest = new GetOrCreateTextRequest(firstString, firstLanguage);
+        var secondTextRequest = new GetOrCreateTextRequest(secondString, secondLanguage);
 
-        var secondText = await _mediator.Send(new GetOrCreateTextRequest(secondString, secondLanguage),
-            cancellationToken);
+        var firstText = await _mediator.Send(firstTextRequest, cancellationToken);
+        var secondText = await _mediator.Send(secondTextRequest, cancellationToken);
 
         var translation = await _context.Set<Translation>().FirstOrDefaultAsync(
             t => t.First == firstText && t.Second == secondText
