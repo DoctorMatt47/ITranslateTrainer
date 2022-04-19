@@ -18,14 +18,15 @@ public record GetOrCreateTextRequestHandler(ITranslateDbContext _context) :
     {
         var (textString, language) = request;
 
-        var text = await _context.Set<Text>().FirstOrDefaultAsync(
-            t => t.String == textString && t.Language == language,
-            cancellationToken);
+        var texts = _context.Set<Text>();
+
+        var text = texts.Local.FirstOrDefault(t => t.String == textString && t.Language == language) ??
+            await texts.FirstOrDefaultAsync(t => t.String == textString && t.Language == language, cancellationToken);
 
         if (text is not null) return text;
 
         var newText = new Text(textString, language);
-        await _context.Set<Text>().AddAsync(newText, cancellationToken);
+        await texts.AddAsync(newText, cancellationToken);
 
         return newText;
     }
