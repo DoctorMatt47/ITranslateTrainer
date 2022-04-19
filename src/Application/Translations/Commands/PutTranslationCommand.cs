@@ -8,11 +8,12 @@ using MediatR;
 namespace ITranslateTrainer.Application.Translations.Commands;
 
 public record PutTranslationCommand(TextString FirstText, Language FirstLanguage, TextString SecondText,
-    Language SecondLanguage) : IRequest<UintIdResponse>, ITransactional;
+    Language SecondLanguage) : IRequest<UintIdResponse>;
 
-public record CreateTranslationCommandHandler(IMediator _mediator) :
+public record CreateTranslationCommandHandler(IMediator _mediator, ITranslateDbContext _context) :
     IRequestHandler<PutTranslationCommand, UintIdResponse>
 {
+    private readonly ITranslateDbContext _context = _context;
     private readonly IMediator _mediator = _mediator;
 
     public async Task<UintIdResponse> Handle(PutTranslationCommand request, CancellationToken cancellationToken)
@@ -23,6 +24,8 @@ public record CreateTranslationCommandHandler(IMediator _mediator) :
             new GetOrCreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage);
 
         var translation = await _mediator.Send(getOrCreateTranslationRequest, cancellationToken);
+
+        await _context.SaveChangesAsync();
 
         return new UintIdResponse(translation.Id);
     }
