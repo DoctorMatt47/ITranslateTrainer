@@ -18,16 +18,14 @@ public class TranslationsController : ControllerBase
     public TranslationsController(IMediator mediator) => _mediator = mediator;
 
     [HttpGet]
-    public async Task<IEnumerable<GetTranslationResponse>> GetTranslations(CancellationToken cancellationToken) =>
+    public async Task<IEnumerable<GetTranslationResponse>> GetAll(CancellationToken cancellationToken) =>
         await _mediator.Send(new GetTranslationsQuery(), cancellationToken);
 
     [HttpPut]
-    public async Task<UintIdResponse> CreateTranslation(PutTranslationCommand command,
-        CancellationToken cancellationToken) =>
+    public async Task<UintIdResponse> Put(PutTranslationCommand command, CancellationToken cancellationToken) =>
         await _mediator.Send(command, cancellationToken);
 
     [HttpPut("sheet")]
-    public async Task<IEnumerable> CreateTranslationSheet(IFormFile sheet,
-        CancellationToken cancellationToken) =>
+    public async Task<IEnumerable> PutSheet(IFormFile sheet, CancellationToken cancellationToken) =>
         await _mediator.Send(new PutTranslationSheetCommand(sheet.OpenReadStream()), cancellationToken);
 }
