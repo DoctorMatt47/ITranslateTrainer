@@ -29,7 +29,7 @@ document.getElementById("import-sheet").addEventListener("change", e => {
     const sheetFile = e.currentTarget.files[0];
     const formData = new FormData();
     formData.append("sheet", sheetFile);
-    sendAsync(endpoints.translationsSheet, "POST", formData)
+    sendAsync(endpoints.translationsSheet, "PUT", formData)
         .then(_ => sendAsync(endpoints.translations))
         .then(showTranslationRows)
         .catch(err => console.log(err));

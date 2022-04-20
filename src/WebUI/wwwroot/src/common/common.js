@@ -24,7 +24,9 @@ export const color = {
     darkGreen: "#132b15",
     lightRed: "#9E2927",
     lightGreen: "#499C54",
-    lightGrey: "#686666",
+    diagramRed: "#c10b0c",
+    diagramGreen: "#089e07",
+    diagramGray: "#929292",
 };
 
 export const sendAsync = async (url, method = "GET", body = null) => {

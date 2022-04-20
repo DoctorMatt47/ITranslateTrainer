@@ -1,11 +1,10 @@
 ﻿import {answerCount, currentTest, isEmpty, removeTests} from "../common/test-storage.js";
+import {color} from "../common/common.js";
 
 if (isEmpty()) window.location.href = "../quiz-settings/quiz-settings.html";
 if (currentTest()) window.location.href = "../quiz/quiz.html";
 
-const sectorColors = ["#929292",
-    "#089e07",
-    "#c10b0c"];
+const sectorColors = [color.diagramGray, color.diagramGreen, color.diagramRed];
 
 const circleChart = document.getElementById("circle-chart");
 
@@ -17,6 +16,11 @@ const correctPercentElement = document.getElementById("correct-percent");
 const toPercent = num => round(num * 100) + "%";
 
 const round = num => Math.round((num + Number.EPSILON) * 100) / 100;
+
+document.getElementById("restart-button").addEventListener("click", () => {
+    removeTests();
+    window.location.href = "../quiz-settings/quiz-settings.html";
+});
 
 const answers = answerCount();
 skippedCountElement.innerText = answers[0];
@@ -33,8 +37,3 @@ const gradientParams = `${percents[0][0]} 0.00% ${toPercent(percents[0][1])},
     ${percents[2][0]} ${toPercent(1 - percents[2][1])}`;
 
 circleChart.style.background = `conic-gradient(${gradientParams})`;
-
-document.getElementById("restart-button").addEventListener("click", () => {
-    removeTests();
-    window.location.href = "../quiz-settings/quiz-settings.html";
-});

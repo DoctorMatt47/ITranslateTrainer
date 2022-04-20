@@ -27,6 +27,17 @@ const showTest = test => {
     optionsElement.innerHTML = optionsHtml(test.options);
 };
 
+const shuffled = array => {
+    const copy = [...array];
+    let i = copy.length;
+    while (i !== 0) {
+        const j = Math.floor(Math.random() * i--);
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+
+    return copy;
+};
+
 const optionsChangeHandler = () => {
     const optionElements = document.getElementsByName("option");
     const test = testStorage.currentTest();
