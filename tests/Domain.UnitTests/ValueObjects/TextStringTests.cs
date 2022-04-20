@@ -12,7 +12,7 @@ public class TextStringTests
     [InlineData(null)]
     public void ThrowsDomainArgumentExceptionIfInvalidString(string? invalid)
     {
-        Assert.Throws<DomainArgumentException>(() => (TextString) invalid!);
+        Assert.Throws<DomainArgumentException>(() => TextString.From(invalid!));
     }
 
     [Theory]
@@ -20,7 +20,7 @@ public class TextStringTests
     [InlineData("Correct")]
     public void DoesNotThrowExceptionIfValidString(string valid)
     {
-        var exception = Record.Exception(() => (TextString) valid);
+        var exception = Record.Exception(() => TextString.From(valid));
         Assert.Null(exception);
     }
 }

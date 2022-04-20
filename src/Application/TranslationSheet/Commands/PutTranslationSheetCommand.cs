@@ -6,6 +6,7 @@ using ITranslateTrainer.Application.Translations.Requests;
 using ITranslateTrainer.Application.TranslationSheet.Responses;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
+using ITranslateTrainer.Domain.ValueObjects;
 using MediatR;
 
 namespace ITranslateTrainer.Application.TranslationSheet.Commands;
@@ -36,11 +37,14 @@ public record PutTranslationSheetCommandHandler(IMediator _mediator, ITranslatio
     private async Task<object> TryGetOrCreateTranslation(ParseTranslationResponse translationResponse,
         CancellationToken cancellationToken)
     {
-        var (firstLanguageString, secondLanguageString, firstText, secondText) = translationResponse;
+        var (firstLanguageString, secondLanguageString, firstTextString, secondTextString) = translationResponse;
         try
         {
             var firstLanguage = Enum.Parse<Language>(firstLanguageString);
             var secondLanguage = Enum.Parse<Language>(secondLanguageString);
+
+            var firstText = TextString.From(firstTextString);
+            var secondText = TextString.From(secondTextString);
 
             var getOrCreateTranslationRequest =
                 new GetOrCreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage);

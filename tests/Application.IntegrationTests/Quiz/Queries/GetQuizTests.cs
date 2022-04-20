@@ -4,6 +4,7 @@ using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Quiz.Queries;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
+using ITranslateTrainer.Domain.ValueObjects;
 using MediatR;
 using Xunit;
 
@@ -28,8 +29,8 @@ public class GetQuizTests
         var translations = _context.Set<Translation>();
         for (var i = 0; i < 200; i++)
         {
-            var eng = new Text($"{i}-{i}", Language.English);
-            var rus = new Text($"{i}-{i}", Language.Russian);
+            var eng = new Text(TextString.From($"{i}-{i}"), Language.English);
+            var rus = new Text(TextString.From($"{i}-{i}"), Language.Russian);
             texts.AddRange(eng, rus);
             translations.Add(new Translation(eng, rus));
         }

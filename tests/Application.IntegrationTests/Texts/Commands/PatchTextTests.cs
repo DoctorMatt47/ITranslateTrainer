@@ -3,6 +3,7 @@ using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Texts.Commands;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
+using ITranslateTrainer.Domain.ValueObjects;
 using MediatR;
 using Xunit;
 
@@ -22,7 +23,7 @@ public class PatchTextTests
     [Fact]
     public async Task ShouldChangeBoolOnFalseText()
     {
-        var testedText = new Text("patch test", Language.English);
+        var testedText = new Text(TextString.From("patchTest"), Language.English);
         _context.Set<Text>().Add(testedText);
         await _context.SaveChangesAsync();
 

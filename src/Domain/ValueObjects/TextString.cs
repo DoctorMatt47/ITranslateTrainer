@@ -2,20 +2,17 @@
 using ITranslateTrainer.Domain.Attributes;
 using ITranslateTrainer.Domain.Exceptions;
 using ITranslateTrainer.Domain.JsonConverters;
+using ValueOf;
 
 namespace ITranslateTrainer.Domain.ValueObjects;
 
 [JsonConverter(typeof(TextStringJsonConverter))]
-public record TextString : WrapperBase<string>
+public class TextString : ValueOf<string, TextString>
 {
     private static readonly TextStringAttribute Attr = new();
 
-    private TextString(string value) : base(Filtered(value))
+    protected override void Validate()
     {
-        if (!Attr.IsValid(value)) throw new DomainArgumentException("Invalid string length", nameof(value));
+        if (!Attr.IsValid(Value)) throw new DomainArgumentException("Invalid string length", nameof(Value));
     }
-
-    private static string Filtered(string value) => value.ToLowerInvariant().Replace("\n", "").Replace("\t", "").Trim();
-
-    public static implicit operator TextString(string? value) => (value is null ? null : new TextString(value))!;
 }
