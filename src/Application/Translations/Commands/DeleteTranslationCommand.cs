@@ -22,14 +22,14 @@ public record DeleteTranslationCommandHandler(ITranslateDbContext _context, IMed
 
         _context.Set<Translation>().Remove(translationToDelete);
 
-        var firstTextTranslations =
-            await _mediator.Send(new GetTranslationTextsByTextIdRequest(translationToDelete.FirstId),
-                cancellationToken);
+        var firstTextTranslationsRequest = new GetTranslationTextsByTextIdRequest(translationToDelete.FirstId);
+        var firstTextTranslations = await _mediator.Send(firstTextTranslationsRequest, cancellationToken);
+
         if (firstTextTranslations.Count() <= 1) _context.Set<Text>().Remove(translationToDelete.First);
 
-        var secondTextTranslations =
-            await _mediator.Send(new GetTranslationTextsByTextIdRequest(translationToDelete.SecondId),
-                cancellationToken);
+        var secondTextTranslationsRequest = new GetTranslationTextsByTextIdRequest(translationToDelete.SecondId);
+        var secondTextTranslations = await _mediator.Send(secondTextTranslationsRequest, cancellationToken);
+
         if (secondTextTranslations.Count() <= 1) _context.Set<Text>().Remove(translationToDelete.Second);
 
         return Unit.Value;

@@ -32,6 +32,7 @@ public class DeleteTranslationTests
         await _context.SaveChangesAsync();
 
         await _mediator.Send(new DeleteTranslationCommand(translationToAdd.Id));
+
         var translation = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == translationToAdd.Id);
         Assert.Null(translation);
 

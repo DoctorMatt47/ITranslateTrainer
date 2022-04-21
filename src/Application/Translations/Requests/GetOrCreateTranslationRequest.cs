@@ -1,11 +1,11 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Texts.Requests;
+using ITranslateTrainer.Application.Translations.Extensions;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.Domain.Enums;
 using ITranslateTrainer.Domain.ValueObjects;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Translations.Requests;
 
@@ -23,15 +23,12 @@ public record GetOrCreateTranslationRequestHandler(ITranslateDbContext _context,
         var (firstString, firstLanguage, secondString, secondLanguage) = request;
 
         var firstTextRequest = new GetOrCreateTextRequest(firstString, firstLanguage);
-        var secondTextRequest = new GetOrCreateTextRequest(secondString, secondLanguage);
-
         var firstText = await _mediator.Send(firstTextRequest, cancellationToken);
+
+        var secondTextRequest = new GetOrCreateTextRequest(secondString, secondLanguage);
         var secondText = await _mediator.Send(secondTextRequest, cancellationToken);
 
-        var translation = await _context.Set<Translation>().FirstOrDefaultAsync(
-            t => t.First == firstText && t.Second == secondText
-                || t.First == secondText && t.Second == firstText,
-            cancellationToken);
+        var translation = await _context.Set<Translation>().FindByTexts(firstText, secondText, cancellationToken);
 
         if (translation is not null) return translation;
 
