@@ -38,7 +38,7 @@ public record GetQuizQueryHandler(ITranslateDbContext _context, IMediator _media
             .WhenAllAsync();
 
         var optionLists = correctOptionLists.Select(correctOptions =>
-            MergedCorrectAndIncorrectOptions(correctOptions, randomOptions, optionCount));
+            MergedCorrectAndIncorrectOptions(correctOptions, randomOptions, optionCount).Shuffle());
 
         return textsToTranslate.Zip(optionLists, (t, o) => new GetQuizResponse(t.String, o));
     }
