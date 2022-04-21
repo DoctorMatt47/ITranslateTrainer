@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ITranslateTrainer.Application.Texts.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ITranslateTrainer.WebUI.Controllers;
 
@@ -6,4 +8,14 @@ namespace ITranslateTrainer.WebUI.Controllers;
 [Route("api/[controller]")]
 public class TextsController : ControllerBase
 {
+    private readonly IMediator _mediator;
+
+    public TextsController(IMediator mediator) => _mediator = mediator;
+
+    [HttpPatch]
+    public async Task<ActionResult> Patch(PatchTextCommand command, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(command, cancellationToken);
+        return NoContent();
+    }
 }

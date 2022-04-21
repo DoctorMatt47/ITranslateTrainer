@@ -25,6 +25,13 @@ public class TranslationsController : ControllerBase
     public async Task<UintIdResponse> Put(PutTranslationCommand command, CancellationToken cancellationToken) =>
         await _mediator.Send(command, cancellationToken);
 
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(uint id, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new DeleteTranslationCommand(id), cancellationToken);
+        return NoContent();
+    }
+
     [HttpPut("sheet")]
     public async Task<IEnumerable> PutSheet(IFormFile sheet, CancellationToken cancellationToken) =>
         await _mediator.Send(new PutTranslationSheetCommand(sheet.OpenReadStream()), cancellationToken);

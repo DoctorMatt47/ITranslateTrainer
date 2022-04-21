@@ -37,13 +37,20 @@ public record GetQuizQueryHandler(ITranslateDbContext _context, IMediator _media
             .Select(t => _mediator.Send(new GetTranslationTextsByTextIdRequest(t.Id), cancellationToken))
             .WhenAllAsync();
 
-        var optionLists = correctOptionLists.Select(correctOptions =>
-            MergedCorrectAndIncorrectOptions(correctOptions, randomOptions, optionCount).Shuffle());
+        var optionLists = MergeAndShuffleOptionLists(correctOptionLists, randomOptions, optionCount);
 
         return textsToTranslate.Zip(optionLists, (t, o) => new GetQuizResponse(t.String, o));
     }
 
-    private static IEnumerable<OptionResponse> MergedCorrectAndIncorrectOptions(IEnumerable<Text> correctOpts,
+    private static IEnumerable<IEnumerable<OptionResponse>> MergeAndShuffleOptionLists(
+        IEnumerable<IEnumerable<Text>> correctOptionLists, IEnumerable<Text> randomOptions, int optionCount)
+    {
+        // For every correct option list merges it with random options and shuffles.
+        return correctOptionLists.Select(correctOptions =>
+            MergeOptions(correctOptions, randomOptions, optionCount).Shuffle());
+    }
+
+    private static IEnumerable<OptionResponse> MergeOptions(IEnumerable<Text> correctOpts,
         IEnumerable<Text> randomOptions, int optionCount)
     {
         var correctOptions = correctOpts.ToList();

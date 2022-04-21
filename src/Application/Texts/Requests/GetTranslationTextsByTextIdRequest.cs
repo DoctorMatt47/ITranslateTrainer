@@ -15,9 +15,14 @@ public record GetTranslationTextsByTextIdRequestHandler(ITranslateDbContext _con
     public async Task<IEnumerable<Text>> Handle(GetTranslationTextsByTextIdRequest request,
         CancellationToken cancellationToken)
     {
-        var firstTexts = _context.Set<Translation>().Where(t => t.First.Id == request.TextId).Include(t => t.Second)
+        var firstTexts = _context.Set<Translation>()
+            .Where(t => t.First.Id == request.TextId)
+            .Include(t => t.Second)
             .Select(t => t.Second);
-        var secondTexts = _context.Set<Translation>().Where(t => t.Second.Id == request.TextId).Include(t => t.First)
+
+        var secondTexts = _context.Set<Translation>()
+            .Where(t => t.Second.Id == request.TextId)
+            .Include(t => t.First)
             .Select(t => t.First);
 
         return await firstTexts.Concat(secondTexts).ToListAsync(cancellationToken);

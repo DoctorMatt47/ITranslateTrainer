@@ -20,10 +20,8 @@ public record CreateTranslationCommandHandler(IMediator _mediator, ITranslateDbC
     {
         var (firstText, firstLanguage, secondText, secondLanguage) = request;
 
-        var getOrCreateTranslationRequest =
-            new GetOrCreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage);
-
-        var translation = await _mediator.Send(getOrCreateTranslationRequest, cancellationToken);
+        var getTranslation = new GetOrCreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage);
+        var translation = await _mediator.Send(getTranslation, cancellationToken);
 
         await _context.SaveChangesAsync();
 
