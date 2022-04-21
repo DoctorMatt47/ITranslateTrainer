@@ -1,6 +1,6 @@
 ﻿namespace ITranslateTrainer.WebUI.Extensions;
 
-public static class WebApplicationExtensions
+public static class ApplicationBuilderExtensions
 {
     // ReSharper disable once UnusedMethodReturnValue.Global
     public static IApplicationBuilder UseFileServerWithoutCaching(this IApplicationBuilder app) =>

@@ -1,6 +1,6 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Domain.Exceptions;
-using ITranslateTrainer.WebUI.Dtos.Responses;
+using ITranslateTrainer.WebUI.Responses;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 

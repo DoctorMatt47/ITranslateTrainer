@@ -2,9 +2,9 @@
 using System.Text.Json.Serialization;
 using ITranslateTrainer.Domain.ValueObjects;
 
-namespace ITranslateTrainer.Domain.JsonConverters;
+namespace ITranslateTrainer.WebUI.JsonConverters;
 
-public class TextStringJsonConverter : JsonConverter<TextString>
+public class StringJsonConverter : JsonConverter<TextString>
 {
     public override TextString Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) =>
         TextString.From(reader.GetString()!);
