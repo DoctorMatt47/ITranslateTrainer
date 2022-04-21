@@ -20,7 +20,7 @@ public static class LinqExtension
         var random = new Random();
         var array = enumerable.ToArray();
         var n = array.Length;
-        while (n > 1)
+        while (n != 0)
         {
             var k = random.Next(n--);
             (array[n], array[k]) = (array[k], array[n]);
