@@ -5,6 +5,6 @@ del %ENV_FILE%
 
 copy %ENV_LOCALHOST_FILE% %ENV_FILE%
 
-start "" "https://localhost:7207"
+start "" "http://localhost:5000"
 
-WebUI.exe --urls="http://localhost:5207;https://localhost:7207"
+WebUI.exe --urls="http://localhost:5000"
