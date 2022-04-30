@@ -25,8 +25,8 @@ public class PutTranslationTests
     [Fact]
     public async Task ShouldCreateTranslation()
     {
-        var command = new PutTranslationCommand(TextString.From("Get"), Language.English,
-            TextString.From("Получить"), Language.Russian);
+        var command = new PutTranslationCommand(TextString.From("get"), Language.English,
+            TextString.From("получить"), Language.Russian);
 
         var idDto = await _mediator.Send(command);
         var addedTranslation = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == idDto.Id);
