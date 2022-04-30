@@ -10,11 +10,17 @@ namespace ITranslateTrainer.Application.Translations.Queries;
 
 public record GetTranslationsQuery : IRequest<IEnumerable<GetTranslationResponse>>;
 
-public record GetTranslationsQueryHandler(ITranslateDbContext _context, IMapper _mapper) :
+public class GetTranslationsQueryHandler :
     IRequestHandler<GetTranslationsQuery, IEnumerable<GetTranslationResponse>>
 {
-    private readonly ITranslateDbContext _context = _context;
-    private readonly IMapper _mapper = _mapper;
+    private readonly ITranslateDbContext _context;
+    private readonly IMapper _mapper;
+
+    public GetTranslationsQueryHandler(ITranslateDbContext context, IMapper mapper)
+    {
+        _context = context;
+        _mapper = mapper;
+    }
 
     public async Task<IEnumerable<GetTranslationResponse>> Handle(GetTranslationsQuery request,
         CancellationToken cancellationToken) =>

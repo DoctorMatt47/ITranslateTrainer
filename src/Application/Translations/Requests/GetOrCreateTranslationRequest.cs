@@ -12,11 +12,16 @@ namespace ITranslateTrainer.Application.Translations.Requests;
 public record GetOrCreateTranslationRequest(TextString FirstString, Language FirstLanguage,
     TextString SecondString, Language SecondLanguage) : IRequest<Translation>;
 
-public record GetOrCreateTranslationRequestHandler(ITranslateDbContext _context, IMediator _mediator) :
-    IRequestHandler<GetOrCreateTranslationRequest, Translation>
+public class GetOrCreateTranslationRequestHandler : IRequestHandler<GetOrCreateTranslationRequest, Translation>
 {
-    private readonly ITranslateDbContext _context = _context;
-    private readonly IMediator _mediator = _mediator;
+    private readonly ITranslateDbContext _context;
+    private readonly IMediator _mediator;
+
+    public GetOrCreateTranslationRequestHandler(ITranslateDbContext context, IMediator mediator)
+    {
+        _context = context;
+        _mediator = mediator;
+    }
 
     public async Task<Translation> Handle(GetOrCreateTranslationRequest request, CancellationToken cancellationToken)
     {

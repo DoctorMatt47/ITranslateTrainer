@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using ITranslateTrainer.Application.Common.Behaviours;
 using ITranslateTrainer.Application.Texts.Commands;
 using ITranslateTrainer.Application.Translations.Commands;
 using ITranslateTrainer.Application.Translations.Requests;
@@ -15,8 +14,6 @@ public static class ServiceCollectionExtension
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
-
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(CommandSaveBehaviour<,>));
 
         services.AddScoped(typeof(IPipelineBehavior<PatchTextCommand, Unit>),
             typeof(PatchTextCommandValidateBehaviour));

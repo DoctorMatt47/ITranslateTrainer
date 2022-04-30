@@ -7,13 +7,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Translations.Commands;
 
-public record DeleteTranslationCommand(uint Id) : IRequest, ITransactional;
+public record DeleteTranslationCommand(uint Id) : IRequest;
 
-public record DeleteTranslationCommandHandler(ITranslateDbContext _context, IMediator _mediator) :
-    IRequestHandler<DeleteTranslationCommand>
+public class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslationCommand>
 {
-    private readonly ITranslateDbContext _context = _context;
-    private readonly IMediator _mediator = _mediator;
+    private readonly ITranslateDbContext _context;
+    private readonly IMediator _mediator;
+
+    public DeleteTranslationCommandHandler(ITranslateDbContext context, IMediator mediator)
+    {
+        _context = context;
+        _mediator = mediator;
+    }
 
     public async Task<Unit> Handle(DeleteTranslationCommand request, CancellationToken cancellationToken)
     {
@@ -23,24 +28,25 @@ public record DeleteTranslationCommandHandler(ITranslateDbContext _context, IMed
 
         _context.Set<Translation>().Remove(translationToDelete);
 
-        var firstTextTranslationsRequest = new GetTranslationTextsByTextIdRequest(translationToDelete.FirstId);
-        var firstTextTranslations = await _mediator.Send(firstTextTranslationsRequest, cancellationToken);
-
+        var firstRequest = new GetTranslationTextsByTextIdRequest(translationToDelete.FirstId);
+        var firstTextTranslations = await _mediator.Send(firstRequest, cancellationToken);
         if (firstTextTranslations.Count() <= 1) _context.Set<Text>().Remove(translationToDelete.First);
 
-        var secondTextTranslationsRequest = new GetTranslationTextsByTextIdRequest(translationToDelete.SecondId);
-        var secondTextTranslations = await _mediator.Send(secondTextTranslationsRequest, cancellationToken);
-
+        var secondRequest = new GetTranslationTextsByTextIdRequest(translationToDelete.SecondId);
+        var secondTextTranslations = await _mediator.Send(secondRequest, cancellationToken);
         if (secondTextTranslations.Count() <= 1) _context.Set<Text>().Remove(translationToDelete.Second);
+
+        await _context.SaveChangesAsync();
 
         return Unit.Value;
     }
 }
 
-public record DeleteTranslationCommandValidateBehaviour(ITranslateDbContext _context) :
-    IPipelineBehavior<DeleteTranslationCommand>
+public class DeleteTranslationCommandValidateBehaviour : IPipelineBehavior<DeleteTranslationCommand>
 {
-    private readonly ITranslateDbContext _context = _context;
+    private readonly ITranslateDbContext _context;
+
+    public DeleteTranslationCommandValidateBehaviour(ITranslateDbContext context) => _context = context;
 
     public async Task<Unit> Handle(DeleteTranslationCommand request, CancellationToken cancellationToken,
         RequestHandlerDelegate<Unit> next)

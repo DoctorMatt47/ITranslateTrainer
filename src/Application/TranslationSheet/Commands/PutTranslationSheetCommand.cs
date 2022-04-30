@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using ITranslateTrainer.Application.Common.Exceptions;
+using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Translations.Requests;
@@ -13,21 +14,26 @@ namespace ITranslateTrainer.Application.TranslationSheet.Commands;
 
 public record PutTranslationSheetCommand(Stream SheetStream) : IRequest<IEnumerable>;
 
-public record PutTranslationSheetCommandHandler(IMediator _mediator, ITranslationSheetService _sheetService,
-    ITranslateDbContext _context) : IRequestHandler<PutTranslationSheetCommand, IEnumerable>
+public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationSheetCommand, IEnumerable>
 {
-    private readonly ITranslateDbContext _context = _context;
-    private readonly IMediator _mediator = _mediator;
-    private readonly ITranslationSheetService _sheetService = _sheetService;
+    private readonly ITranslateDbContext _context;
+    private readonly IMediator _mediator;
+    private readonly ITranslationSheetService _sheetService;
+
+    public PutTranslationSheetCommandHandler(IMediator mediator, ITranslationSheetService sheetService,
+        ITranslateDbContext context)
+    {
+        _context = context;
+        _mediator = mediator;
+        _sheetService = sheetService;
+    }
 
     public async Task<IEnumerable> Handle(PutTranslationSheetCommand request,
         CancellationToken cancellationToken)
     {
-        var translations = await _sheetService.ParseTranslations(request.SheetStream);
+        var translations = (await _sheetService.ParseTranslations(request.SheetStream)).ToList();
 
-        var response = new List<object>();
-        foreach (var translation in translations)
-            response.Add(await TryGetOrCreateTranslation(translation, cancellationToken));
+        var response = await translations.Select(t => TryGetOrCreateTranslation(t, cancellationToken)).WhenAllAsync();
 
         await _context.SaveChangesAsync();
 
@@ -46,10 +52,8 @@ public record PutTranslationSheetCommandHandler(IMediator _mediator, ITranslatio
             var firstText = TextString.From(firstTextString);
             var secondText = TextString.From(secondTextString);
 
-            var getOrCreateTranslationRequest =
-                new GetOrCreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage);
-
-            var translation = await _mediator.Send(getOrCreateTranslationRequest, cancellationToken);
+            var request = new GetOrCreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage);
+            var translation = await _mediator.Send(request, cancellationToken);
 
             return translation;
         }

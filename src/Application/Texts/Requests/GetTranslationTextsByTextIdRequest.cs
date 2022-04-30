@@ -7,10 +7,12 @@ namespace ITranslateTrainer.Application.Texts.Requests;
 
 public record GetTranslationTextsByTextIdRequest(uint TextId) : IRequest<IEnumerable<Text>>;
 
-public record GetTranslationTextsByTextIdRequestHandler(ITranslateDbContext _context) :
+public class GetTranslationTextsByTextIdRequestHandler :
     IRequestHandler<GetTranslationTextsByTextIdRequest, IEnumerable<Text>>
 {
-    private readonly ITranslateDbContext _context = _context;
+    private readonly ITranslateDbContext _context;
+
+    public GetTranslationTextsByTextIdRequestHandler(ITranslateDbContext context) => _context = context;
 
     public async Task<IEnumerable<Text>> Handle(GetTranslationTextsByTextIdRequest request,
         CancellationToken cancellationToken)

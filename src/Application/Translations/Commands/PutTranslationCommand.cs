@@ -10,11 +10,16 @@ namespace ITranslateTrainer.Application.Translations.Commands;
 public record PutTranslationCommand(TextString FirstText, Language FirstLanguage, TextString SecondText,
     Language SecondLanguage) : IRequest<UintIdResponse>;
 
-public record CreateTranslationCommandHandler(IMediator _mediator, ITranslateDbContext _context) :
-    IRequestHandler<PutTranslationCommand, UintIdResponse>
+public class CreateTranslationCommandHandler : IRequestHandler<PutTranslationCommand, UintIdResponse>
 {
-    private readonly ITranslateDbContext _context = _context;
-    private readonly IMediator _mediator = _mediator;
+    private readonly ITranslateDbContext _context;
+    private readonly IMediator _mediator;
+
+    public CreateTranslationCommandHandler(IMediator mediator, ITranslateDbContext context)
+    {
+        _context = context;
+        _mediator = mediator;
+    }
 
     public async Task<UintIdResponse> Handle(PutTranslationCommand request, CancellationToken cancellationToken)
     {
