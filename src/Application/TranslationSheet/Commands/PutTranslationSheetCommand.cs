@@ -49,8 +49,8 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
             var firstLanguage = Enum.Parse<Language>(firstLanguageString);
             var secondLanguage = Enum.Parse<Language>(secondLanguageString);
 
-            var firstText = TextString.From(firstTextString);
-            var secondText = TextString.From(secondTextString);
+            var firstText = TextString.From(firstTextString.ReplaceLineEndings());
+            var secondText = TextString.From(secondTextString.ReplaceLineEndings());
 
             var request = new GetOrCreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage);
             var translation = await _mediator.Send(request, cancellationToken);
