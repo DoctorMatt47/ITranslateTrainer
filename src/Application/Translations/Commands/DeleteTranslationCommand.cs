@@ -17,7 +17,8 @@ public record DeleteTranslationCommandHandler(ITranslateDbContext _context, IMed
 
     public async Task<Unit> Handle(DeleteTranslationCommand request, CancellationToken cancellationToken)
     {
-        var translationToDelete = await _context.Set<Translation>().Include(t => t.First).Include(t => t.Second)
+        var translationToDelete = await _context.Set<Translation>()
+            .Include(t => t.First).Include(t => t.Second)
             .FirstAsync(t => t.Id == request.Id, cancellationToken);
 
         _context.Set<Translation>().Remove(translationToDelete);
@@ -46,6 +47,7 @@ public record DeleteTranslationCommandValidateBehaviour(ITranslateDbContext _con
     {
         var isExist = await _context.Set<Translation>().AnyAsync(t => t.Id == request.Id, cancellationToken);
         if (!isExist) throw new BadRequestException($"There is no translation with id = {request.Id}");
+
         return await next.Invoke();
     }
 }
