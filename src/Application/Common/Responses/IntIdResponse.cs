@@ -1,3 +1,3 @@
 ﻿namespace ITranslateTrainer.Application.Common.Responses;
 
-public record UintIdResponse(uint Id);
+public record IntIdResponse(int Id);

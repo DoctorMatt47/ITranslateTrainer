@@ -18,15 +18,15 @@ public class TranslationsController : ControllerBase
     public TranslationsController(IMediator mediator) => _mediator = mediator;
 
     [HttpGet]
-    public async Task<IEnumerable<GetTranslationResponse>> GetAll(CancellationToken cancellationToken) =>
+    public async Task<IEnumerable<GetTranslationResponse>> Get(CancellationToken cancellationToken) =>
         await _mediator.Send(new GetTranslationsQuery(), cancellationToken);
 
     [HttpPut]
-    public async Task<UintIdResponse> Put(PutTranslationCommand command, CancellationToken cancellationToken) =>
+    public async Task<IntIdResponse> Put(PutTranslationCommand command, CancellationToken cancellationToken) =>
         await _mediator.Send(command, cancellationToken);
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(uint id, CancellationToken cancellationToken)
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         await _mediator.Send(new DeleteTranslationCommand(id), cancellationToken);
         return NoContent();

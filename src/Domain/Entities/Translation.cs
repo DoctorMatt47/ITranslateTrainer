@@ -2,7 +2,7 @@
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Translation : UintIdBase
+public class Translation : IntIdBase
 {
     public Translation(Text first, Text second)
     {
@@ -10,14 +10,14 @@ public class Translation : UintIdBase
         Second = second;
     }
 
-    public Translation(uint firstId, uint secondId)
+    public Translation(int firstId, int secondId)
     {
         FirstId = firstId;
         SecondId = secondId;
     }
 
-    public uint FirstId { get; protected set; }
-    public uint SecondId { get; protected set; }
+    public int FirstId { get; protected set; }
+    public int SecondId { get; protected set; }
 
     public Text First { get; protected set; } = null!;
     public Text Second { get; protected set; } = null!;

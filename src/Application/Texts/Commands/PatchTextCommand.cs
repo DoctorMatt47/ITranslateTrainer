@@ -5,7 +5,7 @@ using MediatR;
 
 namespace ITranslateTrainer.Application.Texts.Commands;
 
-public record PatchTextCommand(uint Id, bool? CanBeOption, bool? CanBeTested) : IRequest;
+public record PatchTextCommand(int Id, bool? CanBeOption, bool? CanBeTested) : IRequest;
 
 public record PatchTextCommandHandler(ITranslateDbContext _context) : IRequestHandler<PatchTextCommand>
 {

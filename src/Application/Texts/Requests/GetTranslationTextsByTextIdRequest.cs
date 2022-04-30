@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Texts.Requests;
 
-public record GetTranslationTextsByTextIdRequest(uint TextId) : IRequest<IEnumerable<Text>>;
+public record GetTranslationTextsByTextIdRequest(int TextId) : IRequest<IEnumerable<Text>>;
 
 public class GetTranslationTextsByTextIdRequestHandler :
     IRequestHandler<GetTranslationTextsByTextIdRequest, IEnumerable<Text>>

@@ -37,7 +37,7 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
 
         await _context.SaveChangesAsync();
 
-        return response.Select(o => o is Translation t ? new UintIdResponse(t.Id) : o);
+        return response.Select(o => o is Translation t ? new IntIdResponse(t.Id) : o);
     }
 
     private async Task<object> TryGetOrCreateTranslation(ParseTranslationResponse translationResponse,

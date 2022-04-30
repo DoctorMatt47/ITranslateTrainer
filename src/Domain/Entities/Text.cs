@@ -4,7 +4,7 @@ using ITranslateTrainer.Domain.ValueObjects;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Text : UintIdBase
+public class Text : IntIdBase
 {
     protected Text()
     {

@@ -2,7 +2,7 @@
 
 namespace ITranslateTrainer.Domain.ValueObjects;
 
-public abstract class UintIdBase : IHasId<uint>
+public abstract class IntIdBase : IHasId<int>
 {
-    public uint Id { get; protected set; }
+    public int Id { get; protected set; }
 }

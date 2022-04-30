@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Translations.Commands;
 
-public record DeleteTranslationCommand(uint Id) : IRequest;
+public record DeleteTranslationCommand(int Id) : IRequest;
 
 public class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslationCommand>
 {
