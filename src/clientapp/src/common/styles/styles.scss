@@ -1,0 +1,83 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import 'vars';
+
+body {
+  margin: 0;
+  background-color: #0F111A !important;
+  color: #A3C7C7 !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: #A3C7C7 !important;
+  text-decoration: none !important;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.table {
+  color: $color-light-sky !important;
+}
+
+label.app-button:hover {
+  background-color: $color-dark-swamp;
+}
+
+.settings {
+  font-size: 1.2rem;
+}
+
+.settings .setting-input {
+  border: 0.1rem solid $color-light-sky;
+  border-radius: 0.2rem;
+  background-color: $color-dark-swamp;
+  color: $color-light-sky;
+  padding: 0.1rem;
+}
+
+.test {
+  border: 0.1rem solid $color-dark-swamp;
+  border-radius: 0.2rem;
+  padding: 1.5rem;
+  font-size: 1.2rem;
+}
+
+.test .options label {
+  padding: 0.5rem;
+  border: 0.1rem solid $color-light-blue;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+
+.test .options label:hover {
+  background-color: $color-dark-swamp;
+}
+
+.test input[type=radio] {
+  display: none;
+}
+
+.test .next-button {
+  border: 0.1rem solid $color-dark-swamp;
+  width: 100%;
+  padding: 0.1rem;
+  text-align: center;
+  font-size: 1rem;
+}
+
+@media only screen and (max-width: 991px) {
+  .container-lg {
+    padding: 0 !important;
+  }
+
+  body {
+    background-color: $color-black-navy !important;
+  }
+}
