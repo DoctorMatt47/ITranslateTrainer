@@ -21,8 +21,9 @@ if (app.Environment.IsDevelopment())
 else
     app.UseFileServer();
 
+app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
 app.UseExceptionHandler("/error")
-    .UseHttpsRedirection()
     .UseAuthorization();
 
 app.MapControllers();
