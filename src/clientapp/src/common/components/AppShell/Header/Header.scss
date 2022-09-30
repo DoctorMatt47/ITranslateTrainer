@@ -1,0 +1,6 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+
+.bg-black-opacity-25 {
+  @extend .bg-black;
+  @extend .bg-opacity-25
+}
