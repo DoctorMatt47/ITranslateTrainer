@@ -8,6 +8,7 @@ public class TextMappingProfile : Profile
 {
     public TextMappingProfile()
     {
-        CreateMap<Text, GetTextResponse>();
+        CreateMap<Text, GetTextResponse>()
+            .ForMember(t => t.Language, c => c.MapFrom(t => Enum.GetName(t.Language)));
     }
 }
