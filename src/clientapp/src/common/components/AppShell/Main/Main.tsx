@@ -1,8 +1,12 @@
-import {ChildrenProps} from "../../../interfaces/props";
+import React from "react";
 import {Container} from "react-bootstrap";
 import "./Main.scss"
 
-const Main = ({children}: ChildrenProps) => {
+interface MainProps {
+  children: React.ReactNode
+}
+
+const Main = ({children}: MainProps) => {
   return (
     <Container fluid="lg" className="mt-5">
       <div className="main d-flex flex-column">

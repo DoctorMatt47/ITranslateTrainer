@@ -1,8 +1,7 @@
 import React from "react";
-import {ChildrenProps, ClassNameProps} from "../../interfaces/props";
 import "./AppButton.scss";
 
-interface AppButtonProps extends ChildrenProps, ClassNameProps {
+interface AppButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: string
 }
 

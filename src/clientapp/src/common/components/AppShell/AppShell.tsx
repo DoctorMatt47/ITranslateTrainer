@@ -1,8 +1,12 @@
 import Header from "common/components/AppShell/Header/Header";
-import {ChildrenProps} from "common/interfaces/props";
 import Main from "./Main/Main";
+import React from "react";
 
-const AppShell = ({children}: ChildrenProps) => {
+interface AppShellProps {
+  children: React.ReactNode
+}
+
+const AppShell = ({children}: AppShellProps) => {
   return (
     <>
       <Header/>
