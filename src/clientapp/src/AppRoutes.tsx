@@ -4,6 +4,7 @@ import AppShell from "./common/components/AppShell/AppShell";
 import Menu from "./Menu/Menu";
 import NotFound from "./NotFound/NotFound";
 import Translations from "./Translations/Translations";
+import Quiz from "./Quiz/Quiz";
 
 const AppRoutes = () => {
   return (
@@ -13,6 +14,7 @@ const AppRoutes = () => {
           <Route path="/" element={<Navigate to="/menu" replace/>}/>
           <Route path="/menu" element={<Menu/>}/>
           <Route path="/translations" element={<Translations/>}/>
+          <Route path="/quiz" element={<Quiz/>}/>
           <Route path="*" element={<NotFound/>}/>
         </Routes>
       </AppShell>
