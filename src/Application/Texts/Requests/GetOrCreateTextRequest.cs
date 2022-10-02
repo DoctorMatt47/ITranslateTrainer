@@ -33,8 +33,11 @@ public class GetOrCreateTextRequestHandler : IRequestHandler<GetOrCreateTextRequ
     {
         // Tries to find in local, if not, requests database.
         // It is necessary for bulk addition to prevent duplicates.
-        return texts.Local.FirstOrDefault(t => t.String == textString.ToLowerInvariant() && t.Language == language) ??
-            await texts.FirstOrDefaultAsync(t => t.String == textString.ToLowerInvariant() && t.Language == language,
+        return texts.Local.FirstOrDefault(
+                t => t.String == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant())
+            ??
+            await texts.FirstOrDefaultAsync(
+                t => t.String == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant(),
                 cancellationToken);
     }
 }
