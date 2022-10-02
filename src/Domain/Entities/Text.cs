@@ -1,27 +1,24 @@
-﻿using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.Exceptions;
-using ITranslateTrainer.Domain.ValueObjects;
+﻿using ITranslateTrainer.Domain.Interfaces;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Text : IntIdBase
+public class Text : IHasId<int>
 {
     protected Text()
     {
     }
 
-    public Text(TextString @string, Language language)
+    public Text(string @string, string language)
     {
-        if (language == Language.None)
-            throw new DomainArgumentException("Language should not be none", nameof(language));
-
-        String = @string;
-        Language = language;
+        String = @string.ToLowerInvariant();
+        Language = language.ToLowerInvariant();
     }
 
-    public TextString String { get; protected set; } = null!;
-    public Language Language { get; protected set; }
+    public string String { get; protected set; } = null!;
+    public string Language { get; protected set; } = null!;
 
     public bool CanBeOption { get; set; } = true;
     public bool CanBeTested { get; set; } = true;
+
+    public int Id { get; protected set; }
 }

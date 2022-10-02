@@ -5,13 +5,12 @@ using ITranslateTrainer.Application.Quiz.Responses;
 using ITranslateTrainer.Application.Texts.Extensions;
 using ITranslateTrainer.Application.Texts.Requests;
 using ITranslateTrainer.Domain.Entities;
-using ITranslateTrainer.Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Quiz.Queries;
 
-public record GetQuizQuery(Language From, Language To, int TestCount, int OptionCount)
+public record GetQuizQuery(string From, string To, int TestCount, int OptionCount)
     : IRequest<IEnumerable<GetQuizResponse>>;
 
 public class GetQuizQueryHandler : IRequestHandler<GetQuizQuery, IEnumerable<GetQuizResponse>>
@@ -25,7 +24,8 @@ public class GetQuizQueryHandler : IRequestHandler<GetQuizQuery, IEnumerable<Get
         _mediator = mediator;
     }
 
-    public async Task<IEnumerable<GetQuizResponse>> Handle(GetQuizQuery request,
+    public async Task<IEnumerable<GetQuizResponse>> Handle(
+        GetQuizQuery request,
         CancellationToken cancellationToken)
     {
         var (from, to, testCount, optionCount) = request;
@@ -49,7 +49,8 @@ public class GetQuizQueryHandler : IRequestHandler<GetQuizQuery, IEnumerable<Get
         return textsToTranslate.Zip(optionLists, (t, o) => new GetQuizResponse(t.String, o));
     }
 
-    private static IEnumerable<OptionResponse> MergeOptions(IEnumerable<Text> correctOpts,
+    private static IEnumerable<OptionResponse> MergeOptions(
+        IEnumerable<Text> correctOpts,
         IEnumerable<Text> randomOptions, int optionCount)
     {
         var correctOptions = correctOpts.ToList();

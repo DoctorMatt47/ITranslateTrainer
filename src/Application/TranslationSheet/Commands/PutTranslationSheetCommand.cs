@@ -6,8 +6,6 @@ using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Translations.Requests;
 using ITranslateTrainer.Application.TranslationSheet.Responses;
 using ITranslateTrainer.Domain.Entities;
-using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.ValueObjects;
 using MediatR;
 
 namespace ITranslateTrainer.Application.TranslationSheet.Commands;
@@ -20,7 +18,8 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
     private readonly IMediator _mediator;
     private readonly ITranslationSheetService _sheetService;
 
-    public PutTranslationSheetCommandHandler(IMediator mediator, ITranslationSheetService sheetService,
+    public PutTranslationSheetCommandHandler(
+        IMediator mediator, ITranslationSheetService sheetService,
         ITranslateDbContext context)
     {
         _context = context;
@@ -28,7 +27,8 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
         _sheetService = sheetService;
     }
 
-    public async Task<IEnumerable> Handle(PutTranslationSheetCommand request,
+    public async Task<IEnumerable> Handle(
+        PutTranslationSheetCommand request,
         CancellationToken cancellationToken)
     {
         var translations = (await _sheetService.ParseTranslations(request.SheetStream)).ToList();
@@ -40,18 +40,13 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
         return response.Select(o => o is Translation t ? new IntIdResponse(t.Id) : o);
     }
 
-    private async Task<object> TryGetOrCreateTranslation(ParseTranslationResponse translationResponse,
+    private async Task<object> TryGetOrCreateTranslation(
+        ParseTranslationResponse translationResponse,
         CancellationToken cancellationToken)
     {
-        var (firstLanguageString, secondLanguageString, firstTextString, secondTextString) = translationResponse;
+        var (firstLanguage, secondLanguage, firstText, secondText) = translationResponse;
         try
         {
-            var firstLanguage = Enum.Parse<Language>(firstLanguageString);
-            var secondLanguage = Enum.Parse<Language>(secondLanguageString);
-
-            var firstText = TextString.From(firstTextString.ReplaceLineEndings());
-            var secondText = TextString.From(secondTextString.ReplaceLineEndings());
-
             var request = new GetOrCreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage);
             var translation = await _mediator.Send(request, cancellationToken);
 

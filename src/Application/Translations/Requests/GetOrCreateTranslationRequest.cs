@@ -3,14 +3,13 @@ using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Texts.Requests;
 using ITranslateTrainer.Application.Translations.Extensions;
 using ITranslateTrainer.Domain.Entities;
-using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.ValueObjects;
 using MediatR;
 
 namespace ITranslateTrainer.Application.Translations.Requests;
 
-public record GetOrCreateTranslationRequest(TextString FirstString, Language FirstLanguage,
-    TextString SecondString, Language SecondLanguage) : IRequest<Translation>;
+public record GetOrCreateTranslationRequest(
+    string FirstString, string FirstLanguage,
+    string SecondString, string SecondLanguage) : IRequest<Translation>;
 
 public class GetOrCreateTranslationRequestHandler : IRequestHandler<GetOrCreateTranslationRequest, Translation>
 {
@@ -47,7 +46,8 @@ public class GetOrCreateTranslationRequestHandler : IRequestHandler<GetOrCreateT
 public record GetOrCreateTranslationRequestValidateBehaviour :
     IPipelineBehavior<GetOrCreateTranslationRequest, Translation>
 {
-    public async Task<Translation> Handle(GetOrCreateTranslationRequest request, CancellationToken cancellationToken,
+    public async Task<Translation> Handle(
+        GetOrCreateTranslationRequest request, CancellationToken cancellationToken,
         RequestHandlerDelegate<Translation> next)
     {
         var (_, firstLanguage, _, secondLanguage) = request;

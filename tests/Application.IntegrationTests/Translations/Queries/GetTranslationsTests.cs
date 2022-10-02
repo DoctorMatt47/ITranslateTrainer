@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Translations.Queries;
 using ITranslateTrainer.Domain.Entities;
-using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.ValueObjects;
 using MediatR;
 using Xunit;
 
@@ -36,10 +34,10 @@ public class GetTranslationsTests
     {
         var texts = new List<Text>
         {
-            new(TextString.From("One"), Language.English),
-            new(TextString.From("Two"), Language.English),
-            new(TextString.From("Один"), Language.Russian),
-            new(TextString.From("Два"), Language.Russian)
+            new("One", "English"),
+            new("Two", "English"),
+            new("Один", "Russian"),
+            new("Два", "Russian"),
         };
 
         var translations = new List<Translation>

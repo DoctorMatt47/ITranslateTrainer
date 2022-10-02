@@ -1,14 +1,13 @@
 ﻿using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Translations.Requests;
-using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.ValueObjects;
 using MediatR;
 
 namespace ITranslateTrainer.Application.Translations.Commands;
 
-public record PutTranslationCommand(TextString FirstText, Language FirstLanguage, TextString SecondText,
-    Language SecondLanguage) : IRequest<IntIdResponse>;
+public record PutTranslationCommand(
+    string FirstText, string FirstLanguage, string SecondText,
+    string SecondLanguage) : IRequest<IntIdResponse>;
 
 public class CreateTranslationCommandHandler : IRequestHandler<PutTranslationCommand, IntIdResponse>
 {

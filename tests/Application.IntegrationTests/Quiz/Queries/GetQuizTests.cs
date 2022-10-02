@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Quiz.Queries;
 using ITranslateTrainer.Domain.Entities;
-using ITranslateTrainer.Domain.Enums;
-using ITranslateTrainer.Domain.ValueObjects;
 using MediatR;
 using Xunit;
 
@@ -29,8 +27,8 @@ public class GetQuizTests
         var translations = _context.Set<Translation>();
         for (var i = 0; i < 200; i++)
         {
-            var eng = new Text(TextString.From($"{i}-{i}"), Language.English);
-            var rus = new Text(TextString.From($"{i}-{i}"), Language.Russian);
+            var eng = new Text($"{i}-{i}", "English");
+            var rus = new Text($"{i}-{i}", "Russian");
             texts.AddRange(eng, rus);
             translations.Add(new Translation(eng, rus));
         }
@@ -44,7 +42,7 @@ public class GetQuizTests
     [InlineData(200, 10)]
     public async Task ShouldContainCorrectOption(int testCount, int optionCount)
     {
-        var quiz = await _mediator.Send(new GetQuizQuery(Language.English, Language.Russian, testCount, optionCount));
+        var quiz = await _mediator.Send(new GetQuizQuery("English", "Russian", testCount, optionCount));
         var quizList = quiz.ToList();
 
         Assert.Equal(testCount, quizList.Count);

@@ -1,8 +1,8 @@
-﻿using ITranslateTrainer.Domain.ValueObjects;
+﻿using ITranslateTrainer.Domain.Interfaces;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Translation : IntIdBase
+public class Translation : IHasId<int>
 {
     public Translation(Text first, Text second)
     {
@@ -21,4 +21,6 @@ public class Translation : IntIdBase
 
     public Text First { get; protected set; } = null!;
     public Text Second { get; protected set; } = null!;
+
+    public int Id { get; protected set; }
 }
