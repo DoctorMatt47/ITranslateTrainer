@@ -48,7 +48,8 @@ public class DeleteTranslationCommandValidateBehaviour : IPipelineBehavior<Delet
 
     public DeleteTranslationCommandValidateBehaviour(ITranslateDbContext context) => _context = context;
 
-    public async Task<Unit> Handle(DeleteTranslationCommand request, CancellationToken cancellationToken,
+    public async Task<Unit> Handle(
+        DeleteTranslationCommand request, CancellationToken cancellationToken,
         RequestHandlerDelegate<Unit> next)
     {
         var isExist = await _context.Set<Translation>().AnyAsync(t => t.Id == request.Id, cancellationToken);

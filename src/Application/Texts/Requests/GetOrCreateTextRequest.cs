@@ -27,17 +27,21 @@ public class GetOrCreateTextRequestHandler : IRequestHandler<GetOrCreateTextRequ
         return newText;
     }
 
+    // Tries to find in local, if not, requests database.
+    // It is necessary for bulk addition to prevent duplicates.
     private static async Task<Text?> FindInLocalOrInDb(
-        DbSet<Text> texts, string textString, string language,
+        DbSet<Text> texts,
+        string textString,
+        string language,
         CancellationToken cancellationToken)
     {
-        // Tries to find in local, if not, requests database.
-        // It is necessary for bulk addition to prevent duplicates.
-        return texts.Local.FirstOrDefault(
-                t => t.String == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant())
-            ??
-            await texts.FirstOrDefaultAsync(
-                t => t.String == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant(),
-                cancellationToken);
+        var textsInLocal = texts.Local.FirstOrDefault(t =>
+            t.String == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant());
+
+        if (textsInLocal is not null) return textsInLocal;
+
+        return await texts.FirstOrDefaultAsync(
+            t => t.String == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant(),
+            cancellationToken);
     }
 }

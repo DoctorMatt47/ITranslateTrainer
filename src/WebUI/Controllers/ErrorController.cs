@@ -18,7 +18,7 @@ public class ErrorController : Controller
         {
             BadRequestException or DomainArgumentException => 400,
             NotFoundException => 404,
-            _ => 500
+            _ => 500,
         };
 
         return StatusCode(responseCode, new ErrorResponse(exception?.Message, exception?.StackTrace));

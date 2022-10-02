@@ -15,11 +15,16 @@ public static class ServiceCollectionExtension
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
 
-        services.AddScoped(typeof(IPipelineBehavior<PatchTextCommand, Unit>),
+        services.AddScoped(
+            typeof(IPipelineBehavior<PatchTextCommand, Unit>),
             typeof(PatchTextCommandValidateBehaviour));
-        services.AddScoped(typeof(IPipelineBehavior<GetOrCreateTranslationRequest, Translation>),
+
+        services.AddScoped(
+            typeof(IPipelineBehavior<GetOrCreateTranslationRequest, Translation>),
             typeof(GetOrCreateTranslationRequestValidateBehaviour));
-        services.AddScoped(typeof(IPipelineBehavior<DeleteTranslationCommand, Unit>),
+
+        services.AddScoped(
+            typeof(IPipelineBehavior<DeleteTranslationCommand, Unit>),
             typeof(DeleteTranslationCommandValidateBehaviour));
 
         return services;

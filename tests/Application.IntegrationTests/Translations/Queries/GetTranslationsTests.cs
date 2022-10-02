@@ -43,7 +43,7 @@ public class GetTranslationsTests
         var translations = new List<Translation>
         {
             new(texts[0], texts[2]),
-            new(texts[1], texts[3])
+            new(texts[1], texts[3]),
         };
 
         await _context.Set<Text>().AddRangeAsync(texts);

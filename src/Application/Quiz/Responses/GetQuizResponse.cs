@@ -2,4 +2,6 @@
 
 namespace ITranslateTrainer.Application.Quiz.Responses;
 
-public record GetQuizResponse(string String, IEnumerable<OptionResponse> Options);
+public record GetQuizResponse(
+    string String,
+    IEnumerable<OptionResponse> Options);

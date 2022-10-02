@@ -5,7 +5,11 @@ using MediatR;
 
 namespace ITranslateTrainer.Application.Texts.Commands;
 
-public record PatchTextCommand(int Id, bool? CanBeOption, bool? CanBeTested) : IRequest;
+public record PatchTextCommand(
+        int Id,
+        bool? CanBeOption,
+        bool? CanBeTested)
+    : IRequest;
 
 public record PatchTextCommandHandler(ITranslateDbContext _context) : IRequestHandler<PatchTextCommand>
 {
@@ -32,7 +36,8 @@ public class PatchTextCommandValidateBehaviour : IPipelineBehavior<PatchTextComm
 
     public PatchTextCommandValidateBehaviour(ITranslateDbContext context) => _context = context;
 
-    public async Task<Unit> Handle(PatchTextCommand request, CancellationToken cancellationToken,
+    public async Task<Unit> Handle(
+        PatchTextCommand request, CancellationToken cancellationToken,
         RequestHandlerDelegate<Unit> next)
     {
         var (id, canBeOption, canBeTested) = request;

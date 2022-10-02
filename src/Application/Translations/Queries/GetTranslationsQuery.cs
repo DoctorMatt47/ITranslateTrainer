@@ -22,11 +22,14 @@ public class GetTranslationsQueryHandler :
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<GetTranslationResponse>> Handle(GetTranslationsQuery request,
-        CancellationToken cancellationToken) =>
-        await _context.Set<Translation>()
+    public async Task<IEnumerable<GetTranslationResponse>> Handle(
+        GetTranslationsQuery request,
+        CancellationToken cancellationToken)
+    {
+        return await _context.Set<Translation>()
             .Include(t => t.First)
             .Include(t => t.Second)
             .ProjectTo<GetTranslationResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
+    }
 }

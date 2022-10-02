@@ -6,8 +6,11 @@ using MediatR;
 namespace ITranslateTrainer.Application.Translations.Commands;
 
 public record PutTranslationCommand(
-    string FirstText, string FirstLanguage, string SecondText,
-    string SecondLanguage) : IRequest<IntIdResponse>;
+        string FirstText,
+        string FirstLanguage,
+        string SecondText,
+        string SecondLanguage)
+    : IRequest<IntIdResponse>;
 
 public class CreateTranslationCommandHandler : IRequestHandler<PutTranslationCommand, IntIdResponse>
 {

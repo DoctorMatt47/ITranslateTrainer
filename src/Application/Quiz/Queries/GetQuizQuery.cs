@@ -10,7 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Quiz.Queries;
 
-public record GetQuizQuery(string From, string To, int TestCount, int OptionCount)
+public record GetQuizQuery(
+        string From,
+        string To,
+        int TestCount,
+        int OptionCount)
     : IRequest<IEnumerable<GetQuizResponse>>;
 
 public class GetQuizQueryHandler : IRequestHandler<GetQuizQuery, IEnumerable<GetQuizResponse>>
@@ -51,7 +55,8 @@ public class GetQuizQueryHandler : IRequestHandler<GetQuizQuery, IEnumerable<Get
 
     private static IEnumerable<OptionResponse> MergeOptions(
         IEnumerable<Text> correctOpts,
-        IEnumerable<Text> randomOptions, int optionCount)
+        IEnumerable<Text> randomOptions,
+        int optionCount)
     {
         var correctOptions = correctOpts.ToList();
         var count = correctOptions.Count;
@@ -63,11 +68,14 @@ public class GetQuizQueryHandler : IRequestHandler<GetQuizQuery, IEnumerable<Get
 
         // Finds options without correct translations and shuffles them.
         // Takes only general number minus correct number of incorrect options.
-        var incorrectOptions = randomOptions.ExceptBy(correctOptions, opt => opt.Id)
-            .Shuffle().Take(optionCount - count);
+        var incorrectOptions = randomOptions
+            .ExceptBy(correctOptions, opt => opt.Id)
+            .Shuffle()
+            .Take(optionCount - count);
 
         // Concatenates incorrect and correct options.
-        return incorrectOptions.Select(o => new OptionResponse(o.String, false))
+        return incorrectOptions
+            .Select(o => new OptionResponse(o.String, false))
             .Concat(correctOptions.Select(o => new OptionResponse(o.String, true)));
     }
 }

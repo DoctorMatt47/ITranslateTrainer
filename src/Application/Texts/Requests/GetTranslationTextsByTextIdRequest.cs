@@ -14,7 +14,8 @@ public class GetTranslationTextsByTextIdRequestHandler :
 
     public GetTranslationTextsByTextIdRequestHandler(ITranslateDbContext context) => _context = context;
 
-    public async Task<IEnumerable<Text>> Handle(GetTranslationTextsByTextIdRequest request,
+    public async Task<IEnumerable<Text>> Handle(
+        GetTranslationTextsByTextIdRequest request,
         CancellationToken cancellationToken)
     {
         var firstTexts = _context.Set<Translation>()

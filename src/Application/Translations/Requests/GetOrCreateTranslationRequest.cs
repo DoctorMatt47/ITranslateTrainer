@@ -8,8 +8,11 @@ using MediatR;
 namespace ITranslateTrainer.Application.Translations.Requests;
 
 public record GetOrCreateTranslationRequest(
-    string FirstString, string FirstLanguage,
-    string SecondString, string SecondLanguage) : IRequest<Translation>;
+        string FirstString,
+        string FirstLanguage,
+        string SecondString,
+        string SecondLanguage)
+    : IRequest<Translation>;
 
 public class GetOrCreateTranslationRequestHandler : IRequestHandler<GetOrCreateTranslationRequest, Translation>
 {
@@ -47,7 +50,8 @@ public record GetOrCreateTranslationRequestValidateBehaviour :
     IPipelineBehavior<GetOrCreateTranslationRequest, Translation>
 {
     public async Task<Translation> Handle(
-        GetOrCreateTranslationRequest request, CancellationToken cancellationToken,
+        GetOrCreateTranslationRequest request,
+        CancellationToken cancellationToken,
         RequestHandlerDelegate<Translation> next)
     {
         var (_, firstLanguage, _, secondLanguage) = request;
