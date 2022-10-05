@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {baseUrl} from '../utils/env';
+import {baseUrl} from 'common/utils/env';
 
 export interface Translation {
   id: number;

@@ -1,85 +1,85 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>ITranslateTrainer</title>
-  <link href="../../libs/bootstrap.css" rel="stylesheet">
-  <link href="../common/styles.css" rel="stylesheet">
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>ITranslateTrainer</title>
+    <link href="../../libs/bootstrap.css" rel="stylesheet">
+    <link href="../common/styles.css" rel="stylesheet">
 
-  <link href="quiz-result.css" rel="stylesheet">
+    <link href="quiz-result.css" rel="stylesheet">
 </head>
 <body>
 
 <div>
 
-  <nav class="navbar navbar-dark bg-black bg-opacity-25">
-    <div class="container">
-      <a class="navbar-brand" href="../menu/menu.html">ITranlsateTrainer</a>
-    </div>
-  </nav>
+    <nav class="navbar navbar-dark bg-black bg-opacity-25">
+        <div class="container">
+            <a class="navbar-brand" href="../menu/menu.html">ITranlsateTrainer</a>
+        </div>
+    </nav>
 
-  <div class="container-lg mt-lg-5">
-    <div class="main">
-      <div class="display-4 text-center">
-        Result
-      </div>
-
-      <div class="container-lg fs-5">
-        <div class="row mt-3">
-          <div class="col">
-
-            <div class="row mt-4">
-              <div class="col-sm-6 text-center">
-                Correct:
-              </div>
-              <div class="col-sm-2 mt-2 mt-sm-0 text-center text-lg-start" id="correct-count">
-
-              </div>
+    <div class="container-lg mt-lg-5">
+        <div class="main">
+            <div class="display-4 text-center">
+                Result
             </div>
-            <div class="row mt-4">
-              <div class="col-sm-6 text-center">
-                Incorrect:
-              </div>
-              <div class="col-sm-2 mt-2 mt-sm-0 text-center text-lg-start" id="incorrect-count">
 
-              </div>
+            <div class="container-lg fs-5">
+                <div class="row mt-3">
+                    <div class="col">
+
+                        <div class="row mt-4">
+                            <div class="col-sm-6 text-center">
+                                Correct:
+                            </div>
+                            <div class="col-sm-2 mt-2 mt-sm-0 text-center text-lg-start" id="correct-count">
+
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-sm-6 text-center">
+                                Incorrect:
+                            </div>
+                            <div class="col-sm-2 mt-2 mt-sm-0 text-center text-lg-start" id="incorrect-count">
+
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-sm-6 text-center">
+                                Skipped:
+                            </div>
+                            <div class="col-sm-2 mt-2 mt-sm-0 text-center text-lg-start" id="skipped-count">
+
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-sm-6 text-center">
+                                Percent:
+                            </div>
+                            <div class="col-sm-2 mt-2 mt-sm-0 mb-4 text-center text-lg-start" id="correct-percent">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col d-flex justify-content-center align-items-center">
+                        <div class="circle-chart" id="circle-chart"></div>
+                    </div>
+
+                </div>
+
+                <div class="row justify-content-center mt-5">
+                    <label class="custom-button text-center w-75">
+                        Restart
+                        <button id="restart-button"></button>
+                    </label>
+                </div>
+
             </div>
-            <div class="row mt-4">
-              <div class="col-sm-6 text-center">
-                Skipped:
-              </div>
-              <div class="col-sm-2 mt-2 mt-sm-0 text-center text-lg-start" id="skipped-count">
-
-              </div>
-            </div>
-            <div class="row mt-4">
-              <div class="col-sm-6 text-center">
-                Percent:
-              </div>
-              <div class="col-sm-2 mt-2 mt-sm-0 mb-4 text-center text-lg-start" id="correct-percent">
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col d-flex justify-content-center align-items-center">
-            <div class="circle-chart" id="circle-chart"></div>
-          </div>
 
         </div>
-
-        <div class="row justify-content-center mt-5">
-          <label class="custom-button text-center w-75">
-            Restart
-            <button id="restart-button"></button>
-          </label>
-        </div>
-
-      </div>
-
     </div>
-  </div>
 
 </div>
 

@@ -1,8 +1,8 @@
 ﻿@media only screen and (max-width: 767px) {
-	.main {
-		top: 50%;
-		position: absolute;
-		transform: translate(0, -50%);
-		width: 100%;
-	}
+    .main {
+        top: 50%;
+        position: absolute;
+        transform: translate(0, -50%);
+        width: 100%;
+    }
 }

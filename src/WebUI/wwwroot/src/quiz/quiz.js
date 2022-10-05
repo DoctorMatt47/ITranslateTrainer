@@ -54,8 +54,6 @@ const optionsChangeHandler = () => {
     optionElements.forEach(opt => opt.disabled = true);
 };
 
-optionsElement.addEventListener("change", optionsChangeHandler);
-
 const showCorrectOption = option => {
     option.parentElement.style.borderColor = color.lightGreen;
 };
@@ -83,3 +81,5 @@ document.getElementById("restart-button").addEventListener("click", () => {
 });
 
 showTest(testStorage.currentTest());
+
+optionsElement.addEventListener("change", optionsChangeHandler);

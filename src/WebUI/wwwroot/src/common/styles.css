@@ -1,124 +1,124 @@
 ﻿body {
-	background-color: #0F111A !important;
-	color: #A3C7C7 !important;
+    background-color: #0F111A !important;
+    color: #A3C7C7 !important;
 }
 
 a {
-	color: #A3C7C7 !important;
-	text-decoration: none !important;
+    color: #A3C7C7 !important;
+    text-decoration: none !important;
 }
 
 .w-20 {
-	width: 20%;
+    width: 20%;
 }
 
 .w-30 {
-	width: 30%;
+    width: 30%;
 }
 
 .table {
-	color: #A3C7C7 !important;
+    color: #A3C7C7 !important;
 }
 
 .translation-table > tbody > tr {
-	border-width: 0.1rem 0 0 0;
-	border-color: #223C41;
+    border-width: 0.1rem 0 0 0;
+    border-color: #223C41;
 }
 
 .translation-table > tbody > tr td {
-	padding: 1.5rem;
+    padding: 1.5rem;
 }
 
 .translation-table > tbody > tr th {
-	padding: 1.5rem;
+    padding: 1.5rem;
 }
 
 .custom-button {
-	border: 0.1rem solid #223C41;
-	border-radius: 0.2rem;
-	display: inline-block;
-	padding: 1rem;
-	cursor: pointer;
+    border: 0.1rem solid #223C41;
+    border-radius: 0.2rem;
+    display: inline-block;
+    padding: 1rem;
+    cursor: pointer;
 }
 
 .custom-button input[type=file] {
-	display: none;
+    display: none;
 }
 
 .custom-button button {
-	display: none;
+    display: none;
 }
 
 label.custom-button:hover {
-	background-color: #223C41;
+    background-color: #223C41;
 }
 
 .main {
-	border-radius: 10px;
-	padding: 3rem;
-	background-color: #0A0B11;
+    border-radius: 10px;
+    padding: 3rem;
+    background-color: #0A0B11;
 }
 
 .settings {
-	font-size: 1.2rem;
+    font-size: 1.2rem;
 }
 
 .settings .setting-input {
-	border: 0.1rem solid #A3C7C7;
-	border-radius: 0.2rem;
-	background-color: #0F111A;
-	color: #A3C7C7;
-	padding: 0.1rem;
+    border: 0.1rem solid #A3C7C7;
+    border-radius: 0.2rem;
+    background-color: #0F111A;
+    color: #A3C7C7;
+    padding: 0.1rem;
 }
 
 .test {
-	border: 0.1rem solid #223C41;
-	border-radius: 0.2rem;
-	padding: 1.5rem;
-	font-size: 1.2rem;
+    border: 0.1rem solid #223C41;
+    border-radius: 0.2rem;
+    padding: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .test .options label {
-	padding: 0.5rem;
-	border: 0.1rem solid #84FFFF;
-	border-radius: 0.2rem;
-	cursor: pointer;
+    padding: 0.5rem;
+    border: 0.1rem solid #84FFFF;
+    border-radius: 0.2rem;
+    cursor: pointer;
 }
 
 .test .options label:hover {
-	background-color: #223C41;
+    background-color: #223C41;
 }
 
 .test input[type=radio] {
-	display: none;
+    display: none;
 }
 
 .test .next-button {
-	border: 0.1rem solid #223C41;
-	width: 100%;
-	padding: 0.1rem;
-	text-align: center;
-	font-size: 1rem;
+    border: 0.1rem solid #223C41;
+    width: 100%;
+    padding: 0.1rem;
+    text-align: center;
+    font-size: 1rem;
 }
 
 @media only screen and (max-width: 991px) {
-	.container-lg {
-		padding: 0 !important;
-	}
+    .container-lg {
+        padding: 0 !important;
+    }
 
-	body {
-		background-color: #0A0B11 !important;
-	}
+    body {
+        background-color: #0A0B11 !important;
+    }
 }
 
 @media only screen and (max-width: 767px) {
-	.main {
-		padding: 2.5rem 2rem 2.5rem 2rem;
-	}
+    .main {
+        padding: 2.5rem 2rem 2.5rem 2rem;
+    }
 }
 
 @media only screen and (max-width: 575px) {
-	.main {
-		padding: 2rem 1rem 2rem 1rem;
-	}
+    .main {
+        padding: 2rem 1rem 2rem 1rem;
+    }
 }

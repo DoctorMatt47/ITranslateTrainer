@@ -8,8 +8,11 @@ const testCountInput = document.getElementById("test-count");
 const optionCountInput = document.getElementById("option-count");
 const languageSelect = document.getElementById("language-select");
 
-const retrieveValues = () =>
-    [languageSelect.value[0], languageSelect.value[1], testCountInput.value, optionCountInput.value];
+const retrieveValues = () => {
+    const languages = languageSelect.value.split(" ");
+    console.log(languages);
+    return [languages[0], languages[1], testCountInput.value, optionCountInput.value];
+};
 
 const startClickHandler = () => {
     const [from, to, testCount, optionCount] = retrieveValues();
