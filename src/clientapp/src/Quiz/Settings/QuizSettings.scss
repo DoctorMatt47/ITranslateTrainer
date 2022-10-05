@@ -1,0 +1,15 @@
+@import "src/common/styles/vars";
+
+.settings {
+  font-size: 1.2rem;
+
+  .setting-input {
+    border: 0.1rem solid $color-light-sky;
+    border-radius: 0.2rem;
+    background-color: $color-black-blue;
+    color: $color-light-sky;
+    padding: 0.1rem;
+  }
+}
+
+
