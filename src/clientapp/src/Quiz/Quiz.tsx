@@ -5,22 +5,19 @@ import QuizTests from "./Tests/QuizTests";
 
 interface QuizState {
   tests: QuizTestData[];
-  isFinished: boolean;
 }
 
 const Quiz = () => {
-  const [state, setState] = useState<QuizState>({tests: [], isFinished: false});
+  const [state, setState] = useState<QuizState>({
+    tests: [],
+  });
 
   if (state.tests.length === 0)
     return <QuizSettings
       setTests={tests => setState({...state, tests: tests})}/>;
 
-  if (!state.isFinished)
-    return <QuizTests tests={state.tests}
-                      restart={() => setState({...state, tests: []})}
-                      finish={() => setState({...state, isFinished: true})}/>;
-
-  return <></>;
+  return <QuizTests tests={state.tests}
+                    restart={() => setState({...state, tests: []})}/>;
 }
 
 export default Quiz;
