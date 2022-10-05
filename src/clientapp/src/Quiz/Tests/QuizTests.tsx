@@ -56,7 +56,7 @@ const QuizTests = (props: QuizTestsProps) => {
       </Container>
     );
 
-  return <QuizResult count={state.count}/>
+  return <QuizResult count={state.count} restart={props.restart}/>
 }
 
 const setResult = (
