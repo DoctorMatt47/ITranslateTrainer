@@ -91,11 +91,11 @@ const toDegree = (relative: number, absolute: number) =>
 const testCount = (count: QuizResultCount) =>
   count.correct + count.skipped + count.incorrect;
 
-const diagramRed = "#c10b0c";
-const diagramGreen = "#089e07";
-const diagramGray = "#929292";
-
 const conicGradientStyle = (count: QuizResultCount) => {
+  const diagramRed = "#c10b0c";
+  const diagramGreen = "#089e07";
+  const diagramGray = "#929292";
+
   const absolute = testCount(count);
 
   const correct = toDegree(count.correct, absolute);
