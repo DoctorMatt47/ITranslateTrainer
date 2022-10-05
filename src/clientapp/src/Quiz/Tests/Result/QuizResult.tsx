@@ -12,9 +12,10 @@ export interface QuizResultCount {
 
 interface QuizResultProps {
   count: QuizResultCount;
+  restart: () => void;
 }
 
-const QuizResult = ({count}: QuizResultProps) => {
+const QuizResult = ({count, restart}: QuizResultProps) => {
   useEffect(() => {
     const circleChart = document.getElementById("circle-chart");
     circleChart!.style.background = conicGradientStyle(count);
@@ -24,7 +25,7 @@ const QuizResult = ({count}: QuizResultProps) => {
       <Display size={4} className="text-center" text="Result"/>
 
       <Container fluid="lg" className="fs-5">
-        <div className="mt-3">
+        <Row className="mt-3">
           <Col>
 
             <Row className="row mt-4">
@@ -61,20 +62,20 @@ const QuizResult = ({count}: QuizResultProps) => {
               </Col>
               <Col sm={2}
                    className="mt-2 mt-sm-0 mb-4 text-center text-lg-start">
-
+                {round(count.correct / testCount(count)) * 100 + "%"}
               </Col>
             </Row>
           </Col>
 
-          <div className="col d-flex justify-content-center align-items-center">
+          <Col className="d-flex justify-content-center align-items-center">
             <div className="circle-chart" id="circle-chart"/>
-          </div>
+          </Col>
 
-        </div>
+        </Row>
 
         <div className="row justify-content-center mt-5">
           <AppButton label="Restart" className="text-center w-75">
-            <button id="restart-button"/>
+            <button id="restart-button" onClick={restart}/>
           </AppButton>
         </div>
 
@@ -92,9 +93,9 @@ const testCount = (count: QuizResultCount) =>
   count.correct + count.skipped + count.incorrect;
 
 const conicGradientStyle = (count: QuizResultCount) => {
-  const diagramRed = "#c10b0c";
-  const diagramGreen = "#089e07";
-  const diagramGray = "#929292";
+  const diagramRed = "#c71113";
+  const diagramGreen = "#0eaa0d";
+  const diagramGray = "rgba(167,167,167,0.97)";
 
   const absolute = testCount(count);
 
