@@ -1,0 +1,26 @@
+@import "src/common/styles/vars";
+
+.option {
+  padding: 0.5rem;
+  border: 0.1rem solid $color-light-blue;
+  border-radius: 0.2rem;
+  cursor: pointer;
+
+  label:hover {
+    background-color: $color-dark-swamp;
+  }
+}
+
+.correct-not-chosen {
+  border-color: $color-light-green;
+}
+
+.correct-chosen {
+  border-color: $color-light-green;
+  background-color: $color-dark-green;
+}
+
+.incorrect-chosen {
+  border-color: $color-light-red;
+  background-color: $color-dark-red;
+}
