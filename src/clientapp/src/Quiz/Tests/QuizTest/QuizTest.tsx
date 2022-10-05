@@ -3,14 +3,10 @@ import QuizOption, {OptionType} from "./QuizTestOption/QuizOption";
 import {QuizTestData} from "../../../common/services/quiz-service";
 import {SyntheticEvent, useState} from "react";
 
-enum Result {
+export enum Result {
   Skipped,
   Correct,
   Incorrect,
-}
-
-interface QuizTestProps {
-  test: QuizTestData;
 }
 
 interface QuizOptionState {
@@ -20,23 +16,26 @@ interface QuizOptionState {
 
 interface QuizTestState {
   options: QuizOptionState[];
-  result: Result;
 }
 
-const QuizTest = ({test}: QuizTestProps) => {
+interface QuizTestProps {
+  test: QuizTestData;
+  setResult: (result: Result) => void;
+}
+
+const QuizTest = ({test, setResult}: QuizTestProps) => {
   const [state, setState] = useState<QuizTestState>({
     options: test.options.map(o => ({
       text: o.string,
       type: OptionType.Unknown
-    })),
-    result: Result.Skipped
+    }))
   });
 
   return (
     <>
       <Display size={5} className="display-5 mb-4" text={test.string}/>
       <form className="options d-flex flex-column"
-            onChange={optionsChangeHandler(test, state, setState)}>
+            onChange={optionsChangeHandler(test, state, setState, setResult)}>
         {state.options.map(o => <QuizOption className="mb-4"
                                             key={o.text}
                                             text={o.text}
@@ -49,7 +48,8 @@ const QuizTest = ({test}: QuizTestProps) => {
 const optionsChangeHandler = (
   test: QuizTestData,
   state: QuizTestState,
-  setState: (state: QuizTestState) => void
+  setState: (state: QuizTestState) => void,
+  setResult: (result: Result) => void
 ) => {
   return (e: SyntheticEvent<HTMLFormElement>) => {
     const optionElements = e.currentTarget.elements;
@@ -63,7 +63,7 @@ const optionsChangeHandler = (
         optionElement.checked);
     }
 
-    state.result = getTestResult(state.options);
+    setResult(getTestResult(state.options));
     setState({...state});
   }
 };
