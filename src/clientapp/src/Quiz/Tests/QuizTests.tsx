@@ -22,8 +22,10 @@ const QuizTests = (props: QuizTestsProps) => {
     count: {correct: 0, incorrect: 0, skipped: props.tests.length}
   });
 
-  if (state.index !== props.tests.length)
-    return (
+  if (state.index === props.tests.length)
+    return <QuizResult count={state.count} restart={props.restart}/>
+
+  return (
       <Container className="test">
         <Row>
           <Col lg={3}/>
@@ -56,7 +58,6 @@ const QuizTests = (props: QuizTestsProps) => {
       </Container>
     );
 
-  return <QuizResult count={state.count} restart={props.restart}/>
 }
 
 const setResult = (

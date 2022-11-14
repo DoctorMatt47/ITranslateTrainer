@@ -6,7 +6,7 @@ interface AppButtonProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const AppButton = (props: AppButtonProps) => {
-  let className = props.className + " app-button";
+  let className = [props.className, "app-button"].join(" ");
 
   if (props.label !== null)
     return <label className={className}>{props.label}{props.children}</label>;
