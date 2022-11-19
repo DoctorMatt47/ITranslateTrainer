@@ -5,15 +5,15 @@ import "./QuizSettings.scss";
 import React, {SyntheticEvent, useState} from "react";
 import {getQuiz, QuizTestData} from "../../common/services/quiz-service";
 
-interface LanguageOption {
-  to: string;
-  from: string;
-}
-
 interface QuizSettingsState {
   testCount: number;
   optionCount: number;
   language: LanguageOption;
+}
+
+interface LanguageOption {
+  to: string;
+  from: string;
 }
 
 interface QuizSettingsProps {
@@ -48,7 +48,7 @@ const QuizSettings = ({setTests}: QuizSettingsProps) => {
               <input className="setting-input m-3 w-75"
                      id="test-count"
                      type="number"
-                     onChange={setTestCount(state, setState)}/>
+                     onChange={setTestCount}/>
             </Col>
           </Row>
           <Row className="align-items-center">
@@ -61,7 +61,7 @@ const QuizSettings = ({setTests}: QuizSettingsProps) => {
             <Col lg={4} className="text-center">
               <input className="setting-input m-3 w-75"
                      type="number"
-                     onChange={setOptionCount(state, setState)}/>
+                     onChange={setOptionCount}/>
             </Col>
           </Row>
           <Row className="mb-4 align-items-center">
@@ -73,7 +73,7 @@ const QuizSettings = ({setTests}: QuizSettingsProps) => {
             </Col>
             <Col lg={4} className="text-center">
               <select className="setting-input m-3 w-75"
-                      onChange={setLanguage(state, setState)}>
+                      onChange={setLanguage}>
                 {languagePairs.map(l =>
                   <>
                     <option>{[l.first, l.second].join("-")}</option>
@@ -85,64 +85,44 @@ const QuizSettings = ({setTests}: QuizSettingsProps) => {
           <Row className="justify-content-center">
             <AppButton className="w-75">
               Start
-              <button onClick={start(state, setTests)}/>
+              <button onClick={start}/>
             </AppButton>
           </Row>
         </Container>
       </div>
     </>
   );
-}
 
-const setTestCount = (
-  state: QuizSettingsState,
-  setState: (x: QuizSettingsState) => void
-) => {
-  return (e: SyntheticEvent<HTMLInputElement>) => {
+  function setTestCount(e: SyntheticEvent<HTMLInputElement>) {
     const newState = {
       ...state,
       testCount: parseInt(e.currentTarget.value),
     };
     setState(newState);
   }
-}
 
-const setOptionCount = (
-  state: QuizSettingsState,
-  setState: (x: QuizSettingsState) => void
-) => {
-  return (e: SyntheticEvent<HTMLInputElement>) => {
+  function setOptionCount (e: SyntheticEvent<HTMLInputElement>) {
     const newState = {
       ...state,
       optionCount: parseInt(e.currentTarget.value),
     };
     setState(newState);
   }
-}
 
-const setLanguage = (
-  state: QuizSettingsState,
-  setState: (x: QuizSettingsState) => void
-) => {
-  return (e: SyntheticEvent<HTMLSelectElement>) => {
+  function setLanguage(e: SyntheticEvent<HTMLSelectElement>) {
     const languages = e.currentTarget.value.split("-");
     const newState = {
       ...state,
       language: {from: languages[0], to: languages[1]}
     };
     setState(newState);
-  };
-};
+  }
 
-const start = (
-  state: QuizSettingsState,
-  setTests: (tests: QuizTestData[]) => void
-) => {
-  return async () => {
+  async function start() {
     const tests = await getQuiz({...state.language, ...state});
     if (tests.length === 0) return;
     setTests(tests);
-  };
+  }
 };
 
 export default QuizSettings;

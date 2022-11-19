@@ -4,10 +4,6 @@ namespace ITranslateTrainer.Application.Common.Extensions;
 
 public static class LinqExtension
 {
-    public static bool Empty<T>(this IQueryable<T> queryable) => !queryable.Any();
-
-    public static bool Empty<T>(this IEnumerable<T> enumerable) => !enumerable.Any();
-
     public static IEnumerable<T> ExceptBy<T, TKey>(
         this IEnumerable<T> enumerable,
         IEnumerable<T> except,
@@ -33,8 +29,12 @@ public static class LinqExtension
         return array;
     }
 
-    public static async Task<IEnumerable<TResponse>> WhenAllAsync<TResponse>(this IEnumerable<Task<TResponse>> tasks)
+    public static async Task<IEnumerable<TResponse>> SelectAsync<TEntity, TResponse>(
+        this IEnumerable<TEntity> enumerable,
+        Func<TEntity, Task<TResponse>> selectTask)
     {
+        var tasks = enumerable.Select(selectTask);
+
         var responses = new List<TResponse>();
         foreach (var task in tasks)
         {

@@ -10,7 +10,7 @@ namespace ITranslateTrainer.Application.Translations.Queries;
 
 public record GetTranslationsQuery : IRequest<IEnumerable<GetTranslationResponse>>;
 
-public class GetTranslationsQueryHandler :
+internal class GetTranslationsQueryHandler :
     IRequestHandler<GetTranslationsQuery, IEnumerable<GetTranslationResponse>>
 {
     private readonly ITranslateDbContext _context;
@@ -23,7 +23,7 @@ public class GetTranslationsQueryHandler :
     }
 
     public async Task<IEnumerable<GetTranslationResponse>> Handle(
-        GetTranslationsQuery request,
+        GetTranslationsQuery _,
         CancellationToken cancellationToken)
     {
         return await _context.Set<Translation>()

@@ -3,17 +3,20 @@ using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.Texts.Requests;
+namespace ITranslateTrainer.Application.Texts.Commands;
 
-public record GetOrCreateTextRequest(string String, string Language) : IRequest<Text>;
+public record GetOrCreateText(
+        string String,
+        string Language)
+    : IRequest<Text>;
 
-public class GetOrCreateTextRequestHandler : IRequestHandler<GetOrCreateTextRequest, Text>
+internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, Text>
 {
     private readonly ITranslateDbContext _context;
 
-    public GetOrCreateTextRequestHandler(ITranslateDbContext context) => _context = context;
+    public GetOrCreateTextHandler(ITranslateDbContext context) => _context = context;
 
-    public async Task<Text> Handle(GetOrCreateTextRequest request, CancellationToken cancellationToken)
+    public async Task<Text> Handle(GetOrCreateText request, CancellationToken cancellationToken)
     {
         var (textString, language) = request;
 

@@ -3,10 +3,8 @@ import QuizOption, {OptionType} from "./QuizTestOption/QuizOption";
 import {QuizTestData} from "../../../common/services/quiz-service";
 import {SyntheticEvent, useState} from "react";
 
-export enum Result {
-  Skipped,
-  Correct,
-  Incorrect,
+interface QuizTestState {
+  options: QuizOptionState[];
 }
 
 interface QuizOptionState {
@@ -14,13 +12,15 @@ interface QuizOptionState {
   type: OptionType
 }
 
-interface QuizTestState {
-  options: QuizOptionState[];
-}
-
 interface QuizTestProps {
   test: QuizTestData;
   setResult: (result: Result) => void;
+}
+
+export enum Result {
+  Skipped,
+  Correct,
+  Incorrect,
 }
 
 const QuizTest = ({test, setResult}: QuizTestProps) => {
@@ -35,23 +35,17 @@ const QuizTest = ({test, setResult}: QuizTestProps) => {
     <>
       <Display size={5} className="display-5 mb-4" text={test.string}/>
       <form className="options d-flex flex-column"
-            onChange={optionsChangeHandler(test, state, setState, setResult)}>
-        {state.options.map(o => <QuizOption className="mb-4"
-                                            key={o.text}
-                                            text={o.text}
-                                            type={o.type}/>)}
+            onChange={optionsChangeHandler}>
+        {state.options.map(o =>
+          <QuizOption className="mb-4"
+                      key={o.text}
+                      text={o.text}
+                      type={o.type}/>)}
       </form>
     </>
   );
-}
 
-const optionsChangeHandler = (
-  test: QuizTestData,
-  state: QuizTestState,
-  setState: (state: QuizTestState) => void,
-  setResult: (result: Result) => void
-) => {
-  return (e: SyntheticEvent<HTMLFormElement>) => {
+  function optionsChangeHandler(e: SyntheticEvent<HTMLFormElement>) {
     const optionElements = e.currentTarget.elements;
 
     for (let i = 0; i < optionElements.length; i++) {
@@ -65,22 +59,26 @@ const optionsChangeHandler = (
 
     setResult(getTestResult(state.options));
     setState({...state});
+
+    function optionType(isCorrect: boolean, isChosen: boolean): OptionType {
+      if (isCorrect && isChosen) return OptionType.CorrectChosen;
+      if (isCorrect && !isChosen) return OptionType.CorrectNotChosen;
+      if (!isCorrect && isChosen) return OptionType.IncorrectChosen;
+      return OptionType.Unknown;
+    }
+
+    function getTestResult(options: QuizOptionState[]): Result {
+      for (const option of options) {
+        switch (option.type) {
+          case OptionType.CorrectChosen:
+            return Result.Correct;
+          case OptionType.IncorrectChosen:
+            return Result.Incorrect;
+        }
+      }
+      return Result.Skipped;
+    }
   }
 };
-
-const optionType = (isCorrect: boolean, isChosen: boolean): OptionType => {
-  if (isCorrect && isChosen) return OptionType.CorrectChosen;
-  if (isCorrect && !isChosen) return OptionType.CorrectNotChosen;
-  if (!isCorrect && isChosen) return OptionType.IncorrectChosen;
-  return OptionType.Unknown;
-}
-
-const getTestResult = (options: QuizOptionState[]): Result => {
-  for (const option of options) {
-    if (option.type === OptionType.CorrectChosen) return Result.Correct;
-    if (option.type === OptionType.IncorrectChosen) return Result.Incorrect;
-  }
-  return Result.Skipped;
-}
 
 export default QuizTest;

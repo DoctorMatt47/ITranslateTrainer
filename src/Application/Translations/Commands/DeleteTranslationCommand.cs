@@ -1,6 +1,6 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Texts.Requests;
+using ITranslateTrainer.Application.Texts.Queries;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ namespace ITranslateTrainer.Application.Translations.Commands;
 
 public record DeleteTranslationCommand(int Id) : IRequest;
 
-public class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslationCommand>
+internal class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslationCommand>
 {
     private readonly ITranslateDbContext _context;
     private readonly IMediator _mediator;
@@ -28,11 +28,11 @@ public class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslation
 
         _context.Set<Translation>().Remove(translationToDelete);
 
-        var firstRequest = new GetTranslationTextsByTextIdRequest(translationToDelete.FirstId);
+        var firstRequest = new GetTranslationTextsByTextId(translationToDelete.FirstId);
         var firstTextTranslations = await _mediator.Send(firstRequest, cancellationToken);
         if (firstTextTranslations.Count() <= 1) _context.Set<Text>().Remove(translationToDelete.First);
 
-        var secondRequest = new GetTranslationTextsByTextIdRequest(translationToDelete.SecondId);
+        var secondRequest = new GetTranslationTextsByTextId(translationToDelete.SecondId);
         var secondTextTranslations = await _mediator.Send(secondRequest, cancellationToken);
         if (secondTextTranslations.Count() <= 1) _context.Set<Text>().Remove(translationToDelete.Second);
 
@@ -49,7 +49,8 @@ public class DeleteTranslationCommandValidateBehaviour : IPipelineBehavior<Delet
     public DeleteTranslationCommandValidateBehaviour(ITranslateDbContext context) => _context = context;
 
     public async Task<Unit> Handle(
-        DeleteTranslationCommand request, CancellationToken cancellationToken,
+        DeleteTranslationCommand request,
+        CancellationToken cancellationToken,
         RequestHandlerDelegate<Unit> next)
     {
         var isExist = await _context.Set<Translation>().AnyAsync(t => t.Id == request.Id, cancellationToken);

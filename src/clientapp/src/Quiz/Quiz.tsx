@@ -16,8 +16,8 @@ const Quiz = () => {
     return <QuizSettings
       setTests={tests => setState({...state, tests: tests})}/>;
 
-  return <QuizTests tests={state.tests}
-                    restart={() => setState({...state, tests: []})}/>;
-}
+  return <QuizTests
+    tests={state.tests} restart={() => setState({...state, tests: []})}/>;
+};
 
 export default Quiz;

@@ -20,6 +20,6 @@ const AppRoutes = () => {
       </AppShell>
     </BrowserRouter>
   );
-}
+};
 
 export default AppRoutes;

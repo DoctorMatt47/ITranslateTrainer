@@ -3,7 +3,7 @@ using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Quiz.Responses;
 using ITranslateTrainer.Application.Texts.Extensions;
-using ITranslateTrainer.Application.Texts.Requests;
+using ITranslateTrainer.Application.Texts.Queries;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ public record GetQuizQuery(
         int OptionCount)
     : IRequest<IEnumerable<GetQuizResponse>>;
 
-public class GetQuizQueryHandler : IRequestHandler<GetQuizQuery, IEnumerable<GetQuizResponse>>
+internal class GetQuizQueryHandler : IRequestHandler<GetQuizQuery, IEnumerable<GetQuizResponse>>
 {
     private readonly ITranslateDbContext _context;
     private readonly IMediator _mediator;
@@ -43,8 +43,7 @@ public class GetQuizQueryHandler : IRequestHandler<GetQuizQuery, IEnumerable<Get
             .ToListAsync(cancellationToken);
 
         var correctOptionLists = await textsToTranslate
-            .Select(t => _mediator.Send(new GetTranslationTextsByTextIdRequest(t.Id), cancellationToken))
-            .WhenAllAsync();
+            .SelectAsync(t => _mediator.Send(new GetTranslationTextsByTextId(t.Id), cancellationToken));
 
         // Every correct option list merges with random options and shuffles.
         var optionLists = correctOptionLists.Select(correctOptions =>

@@ -1,6 +1,5 @@
 ﻿using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
-using ITranslateTrainer.Application.Translations.Requests;
 using MediatR;
 
 namespace ITranslateTrainer.Application.Translations.Commands;
@@ -12,12 +11,12 @@ public record PutTranslationCommand(
         string SecondLanguage)
     : IRequest<IntIdResponse>;
 
-public class CreateTranslationCommandHandler : IRequestHandler<PutTranslationCommand, IntIdResponse>
+internal class PutTranslationCommandHandler : IRequestHandler<PutTranslationCommand, IntIdResponse>
 {
     private readonly ITranslateDbContext _context;
     private readonly IMediator _mediator;
 
-    public CreateTranslationCommandHandler(IMediator mediator, ITranslateDbContext context)
+    public PutTranslationCommandHandler(IMediator mediator, ITranslateDbContext context)
     {
         _context = context;
         _mediator = mediator;
@@ -27,8 +26,8 @@ public class CreateTranslationCommandHandler : IRequestHandler<PutTranslationCom
     {
         var (firstText, firstLanguage, secondText, secondLanguage) = request;
 
-        var getTranslation = new GetOrCreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage);
-        var translation = await _mediator.Send(getTranslation, cancellationToken);
+        var getOrCreate = new GetOrCreateTranslation(firstText, firstLanguage, secondText, secondLanguage);
+        var translation = await _mediator.Send(getOrCreate, cancellationToken);
 
         await _context.SaveChangesAsync();
 

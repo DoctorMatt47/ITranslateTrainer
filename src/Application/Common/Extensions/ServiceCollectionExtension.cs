@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using ITranslateTrainer.Application.Texts.Commands;
 using ITranslateTrainer.Application.Translations.Commands;
-using ITranslateTrainer.Application.Translations.Requests;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +19,7 @@ public static class ServiceCollectionExtension
             typeof(PatchTextCommandValidateBehaviour));
 
         services.AddScoped(
-            typeof(IPipelineBehavior<GetOrCreateTranslationRequest, Translation>),
+            typeof(IPipelineBehavior<GetOrCreateTranslation, Translation>),
             typeof(GetOrCreateTranslationRequestValidateBehaviour));
 
         services.AddScoped(

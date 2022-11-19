@@ -11,7 +11,7 @@ export interface QuizTestData {
   options: QuizOptionData[]
 }
 
-const apiQuiz = baseUrl + "/api/quiz"
+const apiQuiz = baseUrl + "/api/quiz";
 
 interface GetQuizParams {
   from: string;
@@ -20,7 +20,8 @@ interface GetQuizParams {
   optionCount: number;
 }
 
-export const getQuiz = async (params: GetQuizParams): Promise<QuizTestData[]> => {
-  const response = await axios.get(apiQuiz, {params});
-  return response.data;
-}
+export const getQuiz =
+  async (params: GetQuizParams): Promise<QuizTestData[]> => {
+    const response = await axios.get(apiQuiz, {params});
+    return response.data;
+  };

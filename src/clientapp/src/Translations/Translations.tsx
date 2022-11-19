@@ -30,6 +30,6 @@ const Translations = () => {
 
     </>
   );
-}
+};
 
 export default Translations;

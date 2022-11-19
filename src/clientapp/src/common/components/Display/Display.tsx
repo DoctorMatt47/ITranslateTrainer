@@ -5,9 +5,10 @@ interface DisplayProps extends React.HTMLAttributes<HTMLDivElement> {
   text: string;
 }
 
-const Display = (props: DisplayProps) =>
-  <div className={props.className + " display-" + props.size}>
-    {props.text}
-  </div>
+const Display = (props: DisplayProps) => {
+  const className = [props.className, "display-" + props.size].join(" ");
+
+  return <div className={className}>{props.text}</div>;
+};
 
 export default Display;

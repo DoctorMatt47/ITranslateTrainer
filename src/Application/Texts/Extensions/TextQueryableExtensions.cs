@@ -3,7 +3,7 @@ using ITranslateTrainer.Domain.Entities;
 
 namespace ITranslateTrainer.Application.Texts.Extensions;
 
-public static class TextQueryableExtensions
+internal static class TextQueryableExtensions
 {
     public static IQueryable<Text> GetRandomCanBeOption(this IQueryable<Text> texts, string language, int count)
     {

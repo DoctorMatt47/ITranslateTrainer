@@ -3,19 +3,19 @@ using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.Texts.Requests;
+namespace ITranslateTrainer.Application.Texts.Queries;
 
-public record GetTranslationTextsByTextIdRequest(int TextId) : IRequest<IEnumerable<Text>>;
+internal record GetTranslationTextsByTextId(int TextId) : IRequest<IEnumerable<Text>>;
 
-public class GetTranslationTextsByTextIdRequestHandler :
-    IRequestHandler<GetTranslationTextsByTextIdRequest, IEnumerable<Text>>
+internal class GetTranslationTextsByTextIdHandler :
+    IRequestHandler<GetTranslationTextsByTextId, IEnumerable<Text>>
 {
     private readonly ITranslateDbContext _context;
 
-    public GetTranslationTextsByTextIdRequestHandler(ITranslateDbContext context) => _context = context;
+    public GetTranslationTextsByTextIdHandler(ITranslateDbContext context) => _context = context;
 
     public async Task<IEnumerable<Text>> Handle(
-        GetTranslationTextsByTextIdRequest request,
+        GetTranslationTextsByTextId request,
         CancellationToken cancellationToken)
     {
         var firstTexts = _context.Set<Translation>()

@@ -3,7 +3,7 @@ using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
-using ITranslateTrainer.Application.Translations.Requests;
+using ITranslateTrainer.Application.Translations.Commands;
 using ITranslateTrainer.Application.TranslationSheet.Responses;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
@@ -19,7 +19,8 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
     private readonly ITranslationSheetService _sheetService;
 
     public PutTranslationSheetCommandHandler(
-        IMediator mediator, ITranslationSheetService sheetService,
+        IMediator mediator,
+        ITranslationSheetService sheetService,
         ITranslateDbContext context)
     {
         _context = context;
@@ -33,7 +34,7 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
     {
         var translations = (await _sheetService.ParseTranslations(request.SheetStream)).ToList();
 
-        var response = await translations.Select(t => TryGetOrCreateTranslation(t, cancellationToken)).WhenAllAsync();
+        var response = await translations.SelectAsync(t => TryGetOrCreateTranslation(t, cancellationToken));
 
         await _context.SaveChangesAsync();
 
@@ -47,7 +48,7 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
         var (firstLanguage, secondLanguage, firstText, secondText) = translationResponse;
         try
         {
-            var request = new GetOrCreateTranslationRequest(firstText, firstLanguage, secondText, secondLanguage);
+            var request = new GetOrCreateTranslation(firstText, firstLanguage, secondText, secondLanguage);
             var translation = await _mediator.Send(request, cancellationToken);
 
             return translation;

@@ -11,9 +11,11 @@ public record PatchTextCommand(
         bool? CanBeTested)
     : IRequest;
 
-public record PatchTextCommandHandler(ITranslateDbContext _context) : IRequestHandler<PatchTextCommand>
+internal class PatchTextCommandHandler : IRequestHandler<PatchTextCommand>
 {
-    private readonly ITranslateDbContext _context = _context;
+    private readonly ITranslateDbContext _context;
+
+    public PatchTextCommandHandler(ITranslateDbContext context) => _context = context;
 
     public async Task<Unit> Handle(PatchTextCommand request, CancellationToken cancellationToken)
     {
@@ -30,14 +32,15 @@ public record PatchTextCommandHandler(ITranslateDbContext _context) : IRequestHa
     }
 }
 
-public class PatchTextCommandValidateBehaviour : IPipelineBehavior<PatchTextCommand>
+internal class PatchTextCommandValidateBehaviour : IPipelineBehavior<PatchTextCommand>
 {
     private readonly ITranslateDbContext _context;
 
     public PatchTextCommandValidateBehaviour(ITranslateDbContext context) => _context = context;
 
     public async Task<Unit> Handle(
-        PatchTextCommand request, CancellationToken cancellationToken,
+        PatchTextCommand request,
+        CancellationToken cancellationToken,
         RequestHandlerDelegate<Unit> next)
     {
         var (id, canBeOption, canBeTested) = request;

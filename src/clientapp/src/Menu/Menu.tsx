@@ -18,6 +18,6 @@ const Menu = () => {
       </AppButton>
     </>
   );
-}
+};
 
 export default Menu;

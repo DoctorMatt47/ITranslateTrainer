@@ -15,9 +15,9 @@ export interface Text {
   canBeTested: boolean;
 }
 
-const apiTranslations = baseUrl + "/api/translations"
+const apiTranslations = baseUrl + "/api/translations";
 
 export const getTranslations = async (): Promise<Translation[]> => {
-  const response = await axios.get(apiTranslations)
+  const response = await axios.get(apiTranslations);
   return response.data;
-}
+};

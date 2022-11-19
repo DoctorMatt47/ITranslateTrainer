@@ -1,5 +1,4 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Domain.Exceptions;
 using ITranslateTrainer.WebUI.Responses;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +15,9 @@ public class ErrorController : Controller
 
         var responseCode = exception switch
         {
-            BadRequestException or DomainArgumentException => 400,
+            BadRequestException => 400,
             NotFoundException => 404,
+            ConflictException => 409,
             _ => 500,
         };
 

@@ -14,6 +14,6 @@ const Main = ({children}: MainProps) => {
       </div>
     </Container>
   );
-}
+};
 
 export default Main;

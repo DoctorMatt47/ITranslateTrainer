@@ -107,6 +107,6 @@ const conicGradientStyle = (count: QuizResultCount) => {
       ${diagramGreen} 0deg ${correct}deg,
       ${diagramRed} ${correct}deg ${correct + incorrect}deg,
       ${diagramGray} ${360 - skipped}deg ${skipped}deg)`
-}
+};
 
 export default QuizResult;

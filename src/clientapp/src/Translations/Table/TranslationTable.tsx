@@ -12,7 +12,7 @@ const TranslationTable = () => {
   useEffect(() => {
     getTranslations()
       .then(t => setTranslations(t))
-      .catch(e => setError("Fetch error"))
+      .catch(_ => setError("Fetch error"))
   }, []);
 
   if (translations === null)
@@ -39,6 +39,6 @@ const TranslationTable = () => {
       </Table>
     </div>
   );
-}
+};
 
 export default TranslationTable;

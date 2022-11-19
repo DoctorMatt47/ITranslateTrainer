@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Translations.Extensions;
 
-public static class TranslationDbSetExtensions
+internal static class TranslationDbSetExtensions
 {
     public static Task<Translation?> FindByTexts(
-        this DbSet<Translation> translations,
+        this IQueryable<Translation> translations,
         Text first,
         Text second,
         CancellationToken cancellationToken)

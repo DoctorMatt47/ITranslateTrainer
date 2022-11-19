@@ -12,6 +12,6 @@ const AppButton = (props: AppButtonProps) => {
     return <label className={className}>{props.label}{props.children}</label>;
 
   return <div className={className}>{props.children}</div>;
-}
+};
 
 export default AppButton;

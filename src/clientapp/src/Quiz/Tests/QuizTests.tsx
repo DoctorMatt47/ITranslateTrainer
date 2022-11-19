@@ -23,7 +23,7 @@ const QuizTests = (props: QuizTestsProps) => {
   });
 
   if (state.index === props.tests.length)
-    return <QuizResult count={state.count} restart={props.restart}/>
+    return <QuizResult count={state.count} restart={props.restart}/>;
 
   return (
       <Container className="test">
@@ -58,7 +58,7 @@ const QuizTests = (props: QuizTestsProps) => {
       </Container>
     );
 
-}
+};
 
 const setResult = (
   state: QuizTestsState,
@@ -71,7 +71,7 @@ const setResult = (
       correct: state.count.correct,
       incorrect: state.count.incorrect,
       skipped: state.count.skipped
-    }
+    };
 
     if (result === Result.Correct) newCount.correct++;
     if (result === Result.Incorrect) newCount.incorrect++;
@@ -79,7 +79,7 @@ const setResult = (
     newCount.skipped--;
     setState({...state, count: newCount});
   }
-}
+};
 
 const nextTest = (
   props: QuizTestsProps,
@@ -88,10 +88,10 @@ const nextTest = (
 ) => {
   return () => {
     if (state.index !== props.tests.length) {
-      setState({...state, index: state.index + 1})
+      setState({...state, index: state.index + 1});
       return;
     }
   }
-}
+};
 
 export default QuizTests;

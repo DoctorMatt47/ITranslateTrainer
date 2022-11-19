@@ -1,38 +1,38 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Texts.Requests;
+using ITranslateTrainer.Application.Texts.Commands;
 using ITranslateTrainer.Application.Translations.Extensions;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 
-namespace ITranslateTrainer.Application.Translations.Requests;
+namespace ITranslateTrainer.Application.Translations.Commands;
 
-public record GetOrCreateTranslationRequest(
+internal record GetOrCreateTranslation(
         string FirstString,
         string FirstLanguage,
         string SecondString,
         string SecondLanguage)
     : IRequest<Translation>;
 
-public class GetOrCreateTranslationRequestHandler : IRequestHandler<GetOrCreateTranslationRequest, Translation>
+internal class GetOrCreateTranslationHandler : IRequestHandler<GetOrCreateTranslation, Translation>
 {
     private readonly ITranslateDbContext _context;
     private readonly IMediator _mediator;
 
-    public GetOrCreateTranslationRequestHandler(ITranslateDbContext context, IMediator mediator)
+    public GetOrCreateTranslationHandler(ITranslateDbContext context, IMediator mediator)
     {
         _context = context;
         _mediator = mediator;
     }
 
-    public async Task<Translation> Handle(GetOrCreateTranslationRequest request, CancellationToken cancellationToken)
+    public async Task<Translation> Handle(GetOrCreateTranslation request, CancellationToken cancellationToken)
     {
         var (firstString, firstLanguage, secondString, secondLanguage) = request;
 
-        var firstTextRequest = new GetOrCreateTextRequest(firstString, firstLanguage);
+        var firstTextRequest = new GetOrCreateText(firstString, firstLanguage);
         var firstText = await _mediator.Send(firstTextRequest, cancellationToken);
 
-        var secondTextRequest = new GetOrCreateTextRequest(secondString, secondLanguage);
+        var secondTextRequest = new GetOrCreateText(secondString, secondLanguage);
         var secondText = await _mediator.Send(secondTextRequest, cancellationToken);
 
         var translation = await _context.Set<Translation>().FindByTexts(firstText, secondText, cancellationToken);
@@ -46,11 +46,11 @@ public class GetOrCreateTranslationRequestHandler : IRequestHandler<GetOrCreateT
     }
 }
 
-public record GetOrCreateTranslationRequestValidateBehaviour :
-    IPipelineBehavior<GetOrCreateTranslationRequest, Translation>
+internal record GetOrCreateTranslationRequestValidateBehaviour :
+    IPipelineBehavior<GetOrCreateTranslation, Translation>
 {
     public async Task<Translation> Handle(
-        GetOrCreateTranslationRequest request,
+        GetOrCreateTranslation request,
         CancellationToken cancellationToken,
         RequestHandlerDelegate<Translation> next)
     {

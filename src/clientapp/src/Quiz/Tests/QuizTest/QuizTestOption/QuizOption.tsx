@@ -1,16 +1,16 @@
 import React from "react";
 import "./QuizOption.scss";
 
+interface QuizOptionProps extends React.HTMLAttributes<HTMLLabelElement> {
+  text: string;
+  type: OptionType
+}
+
 export enum OptionType {
   Unknown,
   CorrectNotChosen,
   CorrectChosen,
   IncorrectChosen,
-}
-
-interface QuizOptionProps extends React.HTMLAttributes<HTMLLabelElement> {
-  text: string;
-  type: OptionType
 }
 
 const QuizOption = (props: QuizOptionProps) => {
@@ -34,6 +34,6 @@ const labelClassName = (type: OptionType) => {
     case OptionType.IncorrectChosen:
       return "incorrect-chosen";
   }
-}
+};
 
 export default QuizOption;

@@ -13,6 +13,6 @@ const AppShell = ({children}: AppShellProps) => {
       <Main>{children}</Main>
     </>
   );
-}
+};
 
 export default AppShell;
