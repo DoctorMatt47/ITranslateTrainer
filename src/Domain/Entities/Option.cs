@@ -4,10 +4,11 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class Option : IHasId<int>
 {
-    public Option(int textId, int testId)
+    public Option(int textId, int testId, bool isCorrect)
     {
         TextId = textId;
         TestId = testId;
+        IsCorrect = isCorrect;
     }
 
     public int TextId { get; protected set; }
@@ -16,8 +17,14 @@ public class Option : IHasId<int>
     public int TestId { get; protected set; }
     public Test Test { get; protected set; } = null!;
 
-    public bool IsChosen { get; set; }
-    public bool IsCorrect { get; set; }
+    public bool IsCorrect { get; protected set; }
+
+    public bool IsChosen { get; protected set; }
 
     public int Id { get; protected set; }
+
+    public void Chosen()
+    {
+        IsChosen = true;
+    }
 }

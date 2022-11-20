@@ -34,9 +34,9 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
         CancellationToken cancellationToken)
     {
         var (from, to, optionCount) = request;
-        var test = await _context.Set<Test>().FirstOrDefaultAsync(
-            t => !t.IsAnswered && t.OptionCount == optionCount,
-            cancellationToken);
+        var test = await _context.Set<Test>()
+            .Where(Test.IsGotAnswer)
+            .FirstOrDefaultAsync(t => t.OptionCount == optionCount, cancellationToken);
 
         if (test is not null) return _mapper.Map<GetOrCreateTestResponse>(test);
 
@@ -45,20 +45,20 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
             .OrderBy(_ => EF.Functions.Random())
             .FirstAsync(cancellationToken);
 
-        var correct = await _mediator.Send(new GetTranslationTextsByTextId(testedText.Id), cancellationToken);
-
-        var incorrect = await _context.Set<Text>()
-            .GetRandomCanBeOption(to, optionCount - correct.Count)
-            .ToListAsync(cancellationToken);
-
-        var optionTexts = incorrect.Concat(correct).Shuffle();
-
         test = new Test(testedText.Id, optionCount);
         await _context.Set<Test>().AddAsync(test, cancellationToken);
 
-        var options = optionTexts.Select(t => new Option(t.Id, test.Id));
-        await _context.Set<Option>().AddRangeAsync(options, cancellationToken);
+        var correct = (await _mediator.Send(new GetTranslationTextsByTextId(testedText.Id), cancellationToken))
+            .Select(text => new Option(text.Id, test.Id, true))
+            .ToList();
 
+        var incorrect = await _context.Set<Text>()
+            .GetRandomCanBeOption(to, optionCount - correct.Count)
+            .Select(t => new Option(t.Id, test.Id, false))
+            .ToListAsync(cancellationToken);
+
+        var options = correct.Concat(incorrect).Shuffle();
+        await _context.Set<Option>().AddRangeAsync(options, cancellationToken);
         await _context.SaveChangesAsync();
 
         return _mapper.Map<GetOrCreateTestResponse>(test);

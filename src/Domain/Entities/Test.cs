@@ -1,4 +1,5 @@
-﻿using ITranslateTrainer.Domain.Interfaces;
+﻿using System.Linq.Expressions;
+using ITranslateTrainer.Domain.Interfaces;
 
 namespace ITranslateTrainer.Domain.Entities;
 
@@ -10,13 +11,20 @@ public class Test : IHasId<int>
         OptionCount = optionCount;
     }
 
+    public static Expression<Func<Test, bool>> IsGotAnswer => test => test.AnswerTime != null;
+
     public int TextId { get; protected set; }
     public Text Text { get; protected set; } = null!;
 
     public int OptionCount { get; protected set; }
     public List<Option> Options { get; protected set; } = new();
 
-    public bool IsAnswered { get; set; }
+    public DateTime? AnswerTime { get; protected set; }
 
     public int Id { get; protected set; }
+
+    public void GotAnswer()
+    {
+        AnswerTime = DateTime.UtcNow;
+    }
 }
