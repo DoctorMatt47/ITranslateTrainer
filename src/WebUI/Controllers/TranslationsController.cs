@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using ITranslateTrainer.Application.Common.Responses;
-using ITranslateTrainer.Application.Translations.Commands;
-using ITranslateTrainer.Application.Translations.Queries;
-using ITranslateTrainer.Application.Translations.Responses;
-using ITranslateTrainer.Application.TranslationSheet.Commands;
+using ITranslateTrainer.Application.Translations;
+using ITranslateTrainer.Application.TranslationSheet;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

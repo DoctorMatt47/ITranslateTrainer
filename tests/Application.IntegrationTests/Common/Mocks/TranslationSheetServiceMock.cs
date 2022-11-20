@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.TranslationSheet.Responses;
+using ITranslateTrainer.Application.TranslationSheet;
 using Moq;
 
 namespace ITranslateTrainer.Application.IntegrationTests.Common.Mocks;

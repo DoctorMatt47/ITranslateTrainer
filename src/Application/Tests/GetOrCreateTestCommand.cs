@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Tests.Responses;
-using ITranslateTrainer.Application.Texts.Extensions;
-using ITranslateTrainer.Application.Texts.Queries;
+using ITranslateTrainer.Application.Texts;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.Tests.Commands;
+namespace ITranslateTrainer.Application.Tests;
 
 public record GetOrCreateTestCommand(
         string From,

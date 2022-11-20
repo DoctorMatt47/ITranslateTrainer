@@ -1,6 +1,4 @@
-﻿using ITranslateTrainer.Application.Tests.Commands;
-using ITranslateTrainer.Application.Tests.Queries;
-using ITranslateTrainer.Application.Tests.Responses;
+﻿using ITranslateTrainer.Application.Tests;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

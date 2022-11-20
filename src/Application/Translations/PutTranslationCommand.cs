@@ -2,7 +2,7 @@
 using ITranslateTrainer.Application.Common.Responses;
 using MediatR;
 
-namespace ITranslateTrainer.Application.Translations.Commands;
+namespace ITranslateTrainer.Application.Translations;
 
 public record PutTranslationCommand(
         string FirstText,

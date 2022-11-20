@@ -1,9 +1,9 @@
 ﻿using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Domain.Entities;
 
-namespace ITranslateTrainer.Application.Texts.Extensions;
+namespace ITranslateTrainer.Application.Texts;
 
-internal static class TextQueryableExtensions
+internal static class TextExtensions
 {
     public static IQueryable<Text> GetRandomCanBeOption(this IQueryable<Text> texts, string language, int count)
     {

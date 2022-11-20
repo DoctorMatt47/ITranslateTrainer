@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Translations.Commands;
+using ITranslateTrainer.Application.Translations;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

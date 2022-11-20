@@ -1,4 +1,4 @@
-﻿using ITranslateTrainer.Application.TranslationSheet.Responses;
+﻿using ITranslateTrainer.Application.TranslationSheet;
 
 namespace ITranslateTrainer.Application.Common.Interfaces;
 

@@ -3,12 +3,11 @@ using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
-using ITranslateTrainer.Application.Translations.Commands;
-using ITranslateTrainer.Application.TranslationSheet.Responses;
+using ITranslateTrainer.Application.Translations;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 
-namespace ITranslateTrainer.Application.TranslationSheet.Commands;
+namespace ITranslateTrainer.Application.TranslationSheet;
 
 public record PutTranslationSheetCommand(Stream SheetStream) : IRequest<IEnumerable>;
 

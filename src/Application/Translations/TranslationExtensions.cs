@@ -1,9 +1,9 @@
 ﻿using ITranslateTrainer.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.Translations.Extensions;
+namespace ITranslateTrainer.Application.Translations;
 
-internal static class TranslationDbSetExtensions
+internal static class TranslationExtensions
 {
     public static Task<Translation?> FindByTexts(
         this IQueryable<Translation> translations,

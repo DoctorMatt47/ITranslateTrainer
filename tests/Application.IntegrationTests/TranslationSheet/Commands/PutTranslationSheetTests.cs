@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using ITranslateTrainer.Application.IntegrationTests.Common.Mocks;
-using ITranslateTrainer.Application.TranslationSheet.Commands;
+using ITranslateTrainer.Application.TranslationSheet;
 using MediatR;
 using Moq;
 using Xunit;
