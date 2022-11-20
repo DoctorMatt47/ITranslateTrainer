@@ -1,4 +1,4 @@
-﻿namespace ITranslateTrainer.Application.TranslationSheet.Responses;
+﻿namespace ITranslateTrainer.Application.TranslationSheet;
 
 public record ParseTranslationResponse(
     string FirstLanguage,

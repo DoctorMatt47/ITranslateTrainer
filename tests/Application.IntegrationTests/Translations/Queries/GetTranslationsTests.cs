@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Translations.Queries;
+using ITranslateTrainer.Application.Translations;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Xunit;

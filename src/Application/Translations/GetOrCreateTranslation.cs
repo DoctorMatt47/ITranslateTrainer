@@ -1,11 +1,10 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Texts.Commands;
-using ITranslateTrainer.Application.Translations.Extensions;
+using ITranslateTrainer.Application.Texts;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 
-namespace ITranslateTrainer.Application.Translations.Commands;
+namespace ITranslateTrainer.Application.Translations;
 
 internal record GetOrCreateTranslation(
         string FirstString,

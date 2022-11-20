@@ -4,7 +4,7 @@ using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.Tests.Commands;
+namespace ITranslateTrainer.Application.Tests;
 
 public record AnswerOnTestCommand(
         int Id,

@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Translations.Responses;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.Translations.Queries;
+namespace ITranslateTrainer.Application.Translations;
 
 public record GetTranslationsQuery : IRequest<IEnumerable<GetTranslationResponse>>;
 

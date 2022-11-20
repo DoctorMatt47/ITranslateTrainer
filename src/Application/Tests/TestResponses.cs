@@ -1,4 +1,4 @@
-﻿namespace ITranslateTrainer.Application.Tests.Responses;
+﻿namespace ITranslateTrainer.Application.Tests;
 
 public record GetTestResponse(
     int Id,

@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using ITranslateTrainer.Application.Common.Extensions;
-using ITranslateTrainer.Application.Tests.Responses;
 using ITranslateTrainer.Domain.Entities;
 
 namespace ITranslateTrainer.Application.Tests;
 
-public class TestMappingProfile : Profile
+public class TestMappings : Profile
 {
-    public TestMappingProfile()
+    public TestMappings()
     {
         CreateMap<Test, GetOrCreateTestResponse>()
             .MapRecordMember(r => r.String, o => o.Text.String);
