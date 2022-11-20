@@ -18,15 +18,7 @@ public static class LinqExtension
     public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable)
     {
         var random = new Random();
-        var array = enumerable.ToArray();
-        var n = array.Length;
-        while (n != 0)
-        {
-            var k = random.Next(n--);
-            (array[n], array[k]) = (array[k], array[n]);
-        }
-
-        return array;
+        return enumerable.OrderBy(_ => random.Next()).ToList();
     }
 
     public static async Task<IEnumerable<TResponse>> SelectAsync<TEntity, TResponse>(
