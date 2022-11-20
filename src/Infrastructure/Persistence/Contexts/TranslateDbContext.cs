@@ -14,6 +14,9 @@ public sealed class TranslateDbContext : DbContext, ITranslateDbContext
 
     public DbSet<Text> Texts { get; set; } = null!;
     public DbSet<Translation> Translations { get; set; } = null!;
+    public DbSet<Test> Tests { get; set; } = null!;
+    public DbSet<Option> Options { get; set; } = null!;
+    public DbSet<DayResult> DayResults { get; set; } = null!;
 
     public Task SaveChangesAsync() => base.SaveChangesAsync();
 
