@@ -11,7 +11,7 @@ public class Test : IHasId<int>
         OptionCount = optionCount;
     }
 
-    public static Expression<Func<Test, bool>> IsGotAnswer => test => test.AnswerTime != null;
+    public static Expression<Func<Test, bool>> IsAnswered => test => test.AnswerTime != null;
 
     public int TextId { get; protected set; }
     public Text Text { get; protected set; } = null!;

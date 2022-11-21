@@ -1,13 +1,13 @@
 import axios from 'axios';
 import {baseUrl} from 'common/utils/env';
 
-export interface Translation {
+export interface TranslationResponse {
   id: number;
-  first: Text;
-  second: Text;
+  first: TextResponse;
+  second: TextResponse;
 }
 
-export interface Text {
+export interface TextResponse {
   id: number;
   string: string;
   language: string;
@@ -17,7 +17,7 @@ export interface Text {
 
 const apiTranslations = baseUrl + "/api/translations";
 
-export const getTranslations = async (): Promise<Translation[]> => {
+export const getTranslations = async (): Promise<TranslationResponse[]> => {
   const response = await axios.get(apiTranslations);
   return response.data;
 };

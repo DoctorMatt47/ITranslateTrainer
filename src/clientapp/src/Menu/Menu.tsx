@@ -11,9 +11,14 @@ const Menu = () => {
           <Display size={4} text="Translations"/>
         </Link>
       </AppButton>
+      <AppButton className="mb-4">
+        <Link to="/test">
+          <Display size={4} text="Test"/>
+        </Link>
+      </AppButton>
       <AppButton>
-        <Link to="/quiz">
-          <Display size={4} text="Quiz"/>
+        <Link to="/statistics">
+          <Display size={4} text="Statistics"/>
         </Link>
       </AppButton>
     </>

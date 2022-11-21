@@ -1,7 +1,7 @@
-import Display from "../../../common/components/Display/Display";
-import QuizOption, {OptionType} from "./QuizTestOption/QuizOption";
-import {QuizTestData} from "../../../common/services/quiz-service";
-import {SyntheticEvent, useState} from "react";
+import Display from "../common/components/Display/Display";
+import Option, {OptionType} from "./QuizOption/Option";
+import {SyntheticEvent, useEffect, useState} from "react";
+import {putTest, TestResponse} from "../common/services/test-service";
 
 interface QuizTestState {
   options: QuizOptionState[];
@@ -13,7 +13,7 @@ interface QuizOptionState {
 }
 
 interface QuizTestProps {
-  test: QuizTestData;
+  test: TestResponse;
   setResult: (result: Result) => void;
 }
 
@@ -23,7 +23,11 @@ export enum Result {
   Incorrect,
 }
 
-const QuizTest = ({test, setResult}: QuizTestProps) => {
+const Test = ({test, setResult}: QuizTestProps) => {
+  useEffect(() => {
+    putTest({from: "Russian", to: "English", optionCount: 5});
+  });
+
   const [state, setState] = useState<QuizTestState>({
     options: test.options.map(o => ({
       text: o.string,
@@ -37,10 +41,10 @@ const QuizTest = ({test, setResult}: QuizTestProps) => {
       <form className="options d-flex flex-column"
             onChange={optionsChangeHandler}>
         {state.options.map(o =>
-          <QuizOption className="mb-4"
-                      key={o.text}
-                      text={o.text}
-                      type={o.type}/>)}
+          <Option className="mb-4"
+                  key={o.text}
+                  text={o.text}
+                  type={o.type}/>)}
       </form>
     </>
   );
@@ -81,4 +85,4 @@ const QuizTest = ({test, setResult}: QuizTestProps) => {
   }
 };
 
-export default QuizTest;
+export default Test;

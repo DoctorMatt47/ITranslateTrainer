@@ -10,3 +10,12 @@ public record GetOptionResponse(
     string String,
     bool IsChosen,
     bool IsCorrect);
+
+public record GetOrCreateTestResponse(
+    int Id,
+    string String,
+    IEnumerable<GetOrCreateOptionResponse> Options);
+
+public record GetOrCreateOptionResponse(
+    int Id,
+    string String);

@@ -33,7 +33,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
     {
         var (from, to, optionCount) = request;
         var test = await _context.Set<Test>()
-            .Where(Test.IsGotAnswer)
+            .Where(Test.IsAnswered)
             .FirstOrDefaultAsync(t => t.OptionCount == optionCount, cancellationToken);
 
         if (test is not null) return _mapper.Map<GetOrCreateTestResponse>(test);

@@ -11,6 +11,11 @@ public class TestsController : ControllerBase
     private readonly IMediator _mediator;
 
     public TestsController(IMediator mediator) => _mediator = mediator;
+    
+    [HttpGet]
+    public Task<IEnumerable<GetTestResponse>> GetTests(
+        CancellationToken cancellationToken) =>
+        _mediator.Send(new GetTestsQuery(), cancellationToken);
 
     [HttpGet("{id:int}")]
     public Task<GetTestResponse> GetTest(

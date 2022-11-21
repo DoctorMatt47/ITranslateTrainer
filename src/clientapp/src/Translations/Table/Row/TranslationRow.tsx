@@ -1,8 +1,8 @@
-import {Translation} from "common/services/translation-service";
+import {TranslationResponse} from "common/services/translation-service";
 import "./TranslationRow.scss";
 
 interface TranslationRowProps {
-  translation: Translation;
+  translation: TranslationResponse;
   index: number;
 }
 

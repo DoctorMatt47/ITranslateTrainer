@@ -1,5 +1,5 @@
 import React from "react";
-import "./QuizOption.scss";
+import "./Option.scss";
 
 interface QuizOptionProps extends React.HTMLAttributes<HTMLLabelElement> {
   text: string;
@@ -13,7 +13,7 @@ export enum OptionType {
   IncorrectChosen,
 }
 
-const QuizOption = (props: QuizOptionProps) => {
+const Option = (props: QuizOptionProps) => {
   return (
     <label {...props}
            className={["option", labelClassName(props.type), props.className].join(" ")}>
@@ -36,4 +36,4 @@ const labelClassName = (type: OptionType) => {
   }
 };
 
-export default QuizOption;
+export default Option;

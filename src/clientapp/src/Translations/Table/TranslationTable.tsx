@@ -1,6 +1,6 @@
 import {
   getTranslations,
-  Translation
+  TranslationResponse
 } from "common/services/translation-service";
 import {useEffect, useState} from "react";
 import TranslationRow from "./Row/TranslationRow";
@@ -8,7 +8,7 @@ import {Table} from "react-bootstrap";
 
 const TranslationTable = () => {
   const [error, setError] = useState<string | null>(null);
-  const [translations, setTranslations] = useState<Translation[] | null>(null);
+  const [translations, setTranslations] = useState<TranslationResponse[] | null>(null);
   useEffect(() => {
     getTranslations()
       .then(t => setTranslations(t))
