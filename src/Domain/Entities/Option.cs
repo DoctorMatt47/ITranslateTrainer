@@ -4,10 +4,14 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class Option : IHasId<int>
 {
-    public Option(int textId, int testId, bool isCorrect)
+    protected Option()
     {
-        TextId = textId;
-        TestId = testId;
+    }
+
+    public Option(Text text, Test test, bool isCorrect)
+    {
+        Text = text;
+        Test = test;
         IsCorrect = isCorrect;
     }
 
