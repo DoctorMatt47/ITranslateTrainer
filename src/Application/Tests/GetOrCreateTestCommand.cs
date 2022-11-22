@@ -33,7 +33,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
     {
         var (from, to, optionCount) = request;
         var test = await _context.Set<Test>()
-            .Where(Test.IsAnswered)
+            .Where(Test.IsNotAnswered)
             .FirstOrDefaultAsync(t => t.OptionCount == optionCount, cancellationToken);
 
         if (test is not null) return _mapper.Map<GetOrCreateTestResponse>(test);
@@ -47,15 +47,19 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
         await _context.Set<Test>().AddAsync(test, cancellationToken);
 
         var correct = (await _mediator.Send(new GetTranslationTextsByTextId(testedText.Id), cancellationToken))
-            .Select(text => new Option(text.Id, test.Id, true))
+            .Select(text => new Option(text, test, true))
             .ToList();
 
         var incorrect = await _context.Set<Text>()
             .GetRandomCanBeOption(to, optionCount - correct.Count)
-            .Select(t => new Option(t.Id, test.Id, false))
+            .Select(text => new Option(text, test, false))
             .ToListAsync(cancellationToken);
 
-        var options = correct.Concat(incorrect).Shuffle();
+        var options = correct
+            .Concat(incorrect)
+            .Shuffle()
+            .ToList();
+        
         await _context.Set<Option>().AddRangeAsync(options, cancellationToken);
         await _context.SaveChangesAsync();
 

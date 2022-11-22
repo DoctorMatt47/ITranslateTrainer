@@ -12,6 +12,7 @@ public class Test : IHasId<int>
     }
 
     public static Expression<Func<Test, bool>> IsAnswered => test => test.AnswerTime != null;
+    public static Expression<Func<Test, bool>> IsNotAnswered => test => test.AnswerTime == null;
 
     public int TextId { get; protected set; }
     public Text Text { get; protected set; } = null!;

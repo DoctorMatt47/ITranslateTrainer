@@ -14,7 +14,7 @@ export interface OptionResponse {
   isCorrect: boolean;
 }
 
-export interface TestRequest {
+export interface PutTestRequest {
   from: string;
   to: string;
   optionCount: number;
@@ -36,8 +36,9 @@ export const getTest = async (id: number): Promise<TestResponse> => {
   return response.data;
 };
 
-export const putTest = async (request: TestRequest) => {
-  await axios.put(apiTests, request);
+export const putTest = async (request: PutTestRequest): Promise<TestResponse> => {
+  const response = await axios.put(apiTests, request);
+  return response.data;
 };
 
 export const answerOnTest = async (

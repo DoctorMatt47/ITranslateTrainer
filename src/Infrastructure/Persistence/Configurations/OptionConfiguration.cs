@@ -10,5 +10,7 @@ public class OptionConfiguration : IEntityTypeConfiguration<Option>
     {
         builder.HasOne(o => o.Test).WithMany(t => t.Options);
         builder.HasOne(o => o.Text);
+        
+        builder.Navigation(t => t.Text).AutoInclude();
     }
 }

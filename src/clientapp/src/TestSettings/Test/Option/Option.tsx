@@ -3,7 +3,7 @@ import "./Option.scss";
 
 interface QuizOptionProps extends React.HTMLAttributes<HTMLLabelElement> {
   text: string;
-  type: OptionType
+  type?: OptionType;
 }
 
 export enum OptionType {
@@ -23,7 +23,7 @@ const Option = (props: QuizOptionProps) => {
   );
 };
 
-const labelClassName = (type: OptionType) => {
+const labelClassName = (type?: OptionType) => {
   switch (type) {
     case OptionType.Unknown:
       return "";

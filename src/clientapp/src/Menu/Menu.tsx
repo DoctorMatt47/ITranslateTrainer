@@ -12,7 +12,7 @@ const Menu = () => {
         </Link>
       </AppButton>
       <AppButton className="mb-4">
-        <Link to="/test">
+        <Link to="/test-settings">
           <Display size={4} text="Test"/>
         </Link>
       </AppButton>
