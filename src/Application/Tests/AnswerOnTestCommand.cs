@@ -22,6 +22,8 @@ internal class AnswerOnTestCommandHandler : IRequestHandler<AnswerOnTestCommand>
         var test = await _dbContext.Set<Test>().FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
         if (test is null) throw new NotFoundException($"There is no test with id: {request.Id}");
 
+        if (Test.IsAnswered.Compile().Invoke(test)) return Unit.Value;
+
         var option = test.Options.FirstOrDefault(o => o.Id == request.OptionId);
         if (option is null) throw new NotFoundException($"There is no option with id: {request.OptionId}");
 
@@ -37,6 +39,7 @@ internal class AnswerOnTestCommandHandler : IRequestHandler<AnswerOnTestCommand>
         option.Chosen();
         test.GotAnswer();
         dayResult.GotAnswer(option.IsCorrect);
+        test.Text.GotAnswer(option.IsCorrect);
 
         await _dbContext.SaveChangesAsync();
         return Unit.Value;

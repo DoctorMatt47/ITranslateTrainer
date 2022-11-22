@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Tests;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,12 +19,12 @@ public class GetDayResultsQueryHandler : IRequestHandler<GetDayResultsQuery, IEn
         _context = context;
         _mapper = mapper;
     }
-    
+
     public async Task<IEnumerable<GetDayResultResponse>> Handle(
         GetDayResultsQuery request,
         CancellationToken cancellationToken) =>
         await _context.Set<DayResult>()
-            .OrderBy(d => d.Day)
+            .OrderByDescending(d => d.Day)
             .ProjectTo<GetDayResultResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
 }

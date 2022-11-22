@@ -1,7 +1,11 @@
 import Display from "common/components/Display/Display";
 import Option, {OptionType} from "./Option/Option";
-import {useEffect, useState} from "react";
-import {getTest, TestResponse} from "common/services/test-service";
+import {SyntheticEvent, useEffect, useState} from "react";
+import {
+  answerOnTest,
+  getTest,
+  TestResponse
+} from "common/services/test-service";
 
 export enum Result {
   Skipped,
@@ -9,79 +13,44 @@ export enum Result {
   Incorrect,
 }
 
-interface TestState extends TestResponse {
-}
-
 interface QuizTestProps {
-  test: TestResponse
+  test: TestResponse;
+  isChosen: boolean;
+  setAnswer: (optionId : number) => void;
 }
 
-const Test = ({test}: QuizTestProps) => {
-  useEffect(() => {
-    },
-    []);
-
-  const [state, setState] = useState<TestState>({
-    id: 0,
-    string: "",
-    options: [],
-  });
-
+const Test = ({test, isChosen, setAnswer}: QuizTestProps) => {
   return (
     <>
       <Display size={5} className="display-5 mb-4" text={test.string}/>
       <form className="options d-flex flex-column"
-            onChange={() => {
-            }}>
+            onChange={optionChosen}>
         {test.options.map(o =>
           <Option className="mb-4"
                   key={o.id}
+                  optionId={o.id}
                   text={o.string}
-                  type={OptionType.Unknown}/>)}
+                  type={optionType(o.isCorrect, o.isChosen)}/>)}
       </form>
     </>
   );
 
+  async function optionChosen(e: SyntheticEvent<HTMLFormElement>) {
+    if (isChosen) return;
 
-  async function getResult() {
-    const test = await getTest(state.id);
-    setState(test);
+    const chosen = Array.from(e.currentTarget.elements)
+      .map(x => x as HTMLInputElement)
+      .find(x => x.checked);
+
+    setAnswer(parseInt(chosen!.value));
   }
 
-  // function optionsChangeHandler(e: SyntheticEvent<HTMLFormElement>) {
-  //   const optionElements = e.currentTarget.elements;
-  //
-  //   for (let i = 0; i < optionElements.length; i++) {
-  //     const optionElement = optionElements[i] as HTMLInputElement;
-  //     const option = test.options[i];
-  //
-  //     state.options[i].type = optionType(
-  //       option.isCorrect,
-  //       optionElement.checked);
-  //   }
-  //
-  //   setResult(getTestResult(state.options));
-  //   setState({...state});
-  //
-  //   function optionType(isCorrect: boolean, isChosen: boolean): OptionType {
-  //     if (isCorrect && isChosen) return OptionType.CorrectChosen;
-  //     if (isCorrect && !isChosen) return OptionType.CorrectNotChosen;
-  //     if (!isCorrect && isChosen) return OptionType.IncorrectChosen;
-  //     return OptionType.Unknown;
-  //   }
-  //
-  //   function getTestResult(options: any): Result {
-  //     for (const option of options) {
-  //       switch (option.type) {
-  //         case OptionType.CorrectChosen:
-  //           return Result.Correct;
-  //         case OptionType.IncorrectChosen:
-  //           return Result.Incorrect;
-  //       }
-  //     }
-  //     return Result.Skipped;
-  //   }
-  // }
+  function optionType(isCorrect: boolean, isChosen: boolean): OptionType {
+    if (isCorrect && isChosen) return OptionType.CorrectChosen;
+    if (isCorrect && !isChosen) return OptionType.CorrectNotChosen;
+    if (!isCorrect && isChosen) return OptionType.IncorrectChosen;
+    return OptionType.Unknown;
+  }
 };
 
 export default Test;

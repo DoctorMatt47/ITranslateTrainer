@@ -4,6 +4,7 @@ import axios from "axios";
 export interface TestResponse {
   id: number;
   string: string;
+  answerTime: string,
   options: OptionResponse[];
 }
 
@@ -45,5 +46,5 @@ export const answerOnTest = async (
   id: number,
   request: AnswerOnTestRequest
 ) => {
-  await axios.put(apiTests + `${id}/answer`, request);
+  await axios.put(apiTests + `/${id}/answer`, request);
 };

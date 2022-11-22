@@ -5,4 +5,6 @@ public record GetTextResponse(
     string String,
     string Language,
     bool CanBeOption,
-    bool CanBeTested);
+    bool CanBeTested,
+    int CorrectCount,
+    int IncorrectCount);

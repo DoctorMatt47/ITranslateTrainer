@@ -20,6 +20,6 @@ public class DayResult : IHasId<DateOnly>
             return;
         }
 
-        CorrectCount--;
+        IncorrectCount++;
     }
 }

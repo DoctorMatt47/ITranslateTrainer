@@ -2,6 +2,8 @@ import AppButton from "../common/components/AppButton/AppButton";
 import {Col, Container, Row} from "react-bootstrap";
 import TranslationTable from "./Table/TranslationTable";
 import Display from "../common/components/Display/Display";
+import {SyntheticEvent} from "react";
+import {putSheet} from "../common/services/translation-service";
 
 const Translations = () => {
   return (
@@ -15,7 +17,8 @@ const Translations = () => {
               <input accept=".xlsx"
                      className="form-control"
                      id="import-sheet"
-                     type="file"/>
+                     type="file"
+              onChange={sheetChanged}/>
             </AppButton>
           </Col>
           <Col className="text-center">
@@ -30,6 +33,13 @@ const Translations = () => {
 
     </>
   );
+
+  async function sheetChanged(event : any) {
+      const sheetFile = event.currentTarget.files[0];
+      const formData = new FormData();
+      formData.append("sheet", sheetFile);
+      await putSheet(formData)
+  }
 };
 
 export default Translations;

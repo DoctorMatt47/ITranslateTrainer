@@ -1,11 +1,6 @@
 import React from "react";
 import "./Option.scss";
 
-interface QuizOptionProps extends React.HTMLAttributes<HTMLLabelElement> {
-  text: string;
-  type?: OptionType;
-}
-
 export enum OptionType {
   Unknown,
   CorrectNotChosen,
@@ -13,12 +8,29 @@ export enum OptionType {
   IncorrectChosen,
 }
 
-const Option = (props: QuizOptionProps) => {
+interface QuizOptionProps extends React.HTMLAttributes<HTMLLabelElement> {
+  text: string;
+  type?: OptionType;
+  optionId: number;
+}
+
+const Option = (
+  {
+    type,
+    className,
+    optionId,
+    text,
+    ...labelProps
+  }: QuizOptionProps
+) => {
   return (
-    <label {...props}
-           className={["option", labelClassName(props.type), props.className].join(" ")}>
-      <input name="option" type="radio"/>
-      {props.text}
+    <label {...labelProps}
+           className={["option", labelClassName(type), className].join(" ")}>
+      <input className="visually-hidden"
+             name="option"
+             value={optionId}
+             type="radio"/>
+      {text}
     </label>
   );
 };

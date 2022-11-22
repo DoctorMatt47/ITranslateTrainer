@@ -3,32 +3,44 @@ import {Col, Container, Row} from "react-bootstrap";
 import AppButton from "common/components/AppButton/AppButton";
 import "./TestSettings.scss";
 import React, {useState} from "react";
-import {putTest, TestResponse} from "../common/services/test-service";
+import {
+  answerOnTest,
+  getTest,
+  putTest,
+  PutTestRequest,
+  TestResponse
+} from "../common/services/test-service";
 import {useForm} from "react-hook-form";
 import Test from "./Test/Test";
 
 interface QuizSettingsState {
-  test: TestResponse
+  test: TestResponse | null;
+  testRequest: PutTestRequest | null;
+  isChosen: boolean;
 }
 
 const QuizSettings = () => {
   const {register, handleSubmit, watch} = useForm();
-  const [state, setState] = useState<QuizSettingsState | null>(null);
+  const [state, setState] = useState<QuizSettingsState>({
+    test: null,
+    testRequest: null,
+    isChosen: false,
+  });
 
-  if (state !== null)
+  if (state.test !== null)
     return <Container className="test">
       <Row>
         <Col lg={3}/>
 
         <Col lg sm className="text-center">
 
-          <Test test={state.test}/>
+          <Test test={state.test} setAnswer={setAnswer} isChosen={state.isChosen}/>
 
           <Container className="p-0">
             <Row>
               <Col className="text-end">
                 <AppButton className="next-button" label="Next">
-                  <button/>
+                  <button onClick={next}/>
                 </AppButton>
               </Col>
             </Row>
@@ -104,16 +116,25 @@ const QuizSettings = () => {
     </>
   );
 
+  async function setAnswer(optionId: number) {
+    await answerOnTest(state.test!.id, {optionId});
+    const response = await getTest(state.test!.id);
+    setState({...state, test: response, isChosen: true});
+  }
+
   async function start() {
-    const test = await putTest({
-      from: watch("from"),
-      to: watch("to"),
-      optionCount: watch("option-count"),
-    });
+    setState({ ...state, testRequest: {
+        from: watch("from"),
+        to: watch("to"),
+        optionCount: watch("option-count"),
+      }});
 
-    console.log(test);
+    await next();
+  }
 
-    setState({...state, test: test});
+  async function next() {
+    const test = await putTest(state.testRequest!);
+    setState({...state, test: test, isChosen: false});
   }
 };
 

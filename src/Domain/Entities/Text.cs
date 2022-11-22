@@ -20,5 +20,19 @@ public class Text : IHasId<int>
     public bool CanBeOption { get; set; } = true;
     public bool CanBeTested { get; set; } = true;
 
+    public int CorrectCount { get; set; }
+    public int IncorrectCount { get; set; }
+
     public int Id { get; protected set; }
+
+    public void GotAnswer(bool isCorrect)
+    {
+        if (isCorrect)
+        {
+            CorrectCount++;
+            return;
+        }
+
+        IncorrectCount++;
+    }
 }

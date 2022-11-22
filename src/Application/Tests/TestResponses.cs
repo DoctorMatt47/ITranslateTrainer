@@ -3,6 +3,7 @@
 public record GetTestResponse(
     int Id,
     string String,
+    string AnswerTime,
     IEnumerable<GetOptionResponse> Options);
 
 public record GetOptionResponse(

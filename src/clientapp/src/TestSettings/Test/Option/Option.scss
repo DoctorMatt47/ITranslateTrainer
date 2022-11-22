@@ -5,10 +5,10 @@
   border: 0.1rem solid $color-light-blue;
   border-radius: 0.2rem;
   cursor: pointer;
+}
 
-  label:hover {
-    background-color: $color-dark-swamp;
-  }
+label:hover {
+  background-color: $color-dark-swamp;
 }
 
 .correct-not-chosen {
