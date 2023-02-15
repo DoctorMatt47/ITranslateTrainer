@@ -27,7 +27,7 @@ public class Option : IHasId<int>
 
     public int Id { get; protected set; }
 
-    public void Chosen()
+    public void Choose()
     {
         IsChosen = true;
     }

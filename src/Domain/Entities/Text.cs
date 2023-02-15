@@ -25,7 +25,7 @@ public class Text : IHasId<int>
 
     public int Id { get; protected set; }
 
-    public void GotAnswer(bool isCorrect)
+    public void Answer(bool isCorrect)
     {
         if (isCorrect)
         {

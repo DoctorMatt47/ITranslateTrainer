@@ -56,7 +56,9 @@ internal record GetOrCreateTranslationRequestValidateBehaviour :
         var (_, firstLanguage, _, secondLanguage) = request;
 
         if (string.Equals(firstLanguage, secondLanguage, StringComparison.InvariantCultureIgnoreCase))
+        {
             throw new BadRequestException("Languages are the same");
+        }
 
         return await next.Invoke();
     }

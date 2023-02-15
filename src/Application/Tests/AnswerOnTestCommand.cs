@@ -29,17 +29,13 @@ internal class AnswerOnTestCommandHandler : IRequestHandler<AnswerOnTestCommand>
 
         var dateNow = DateOnly.FromDateTime(DateTime.UtcNow);
 
-        var dayResult = await _dbContext.Set<DayResult>().FindAsync(dateNow);
-        if (dayResult is null)
-        {
-            dayResult = new DayResult(dateNow);
-            _dbContext.Set<DayResult>().Add(dayResult);
-        }
+        var dayResult = await _dbContext.Set<DayResult>().FindAsync(dateNow) ??
+            _dbContext.Set<DayResult>().Add(new DayResult(dateNow)).Entity;
 
-        option.Chosen();
-        test.GotAnswer();
-        dayResult.GotAnswer(option.IsCorrect);
-        test.Text.GotAnswer(option.IsCorrect);
+        option.Choose();
+        test.Answer();
+        dayResult.Answer(option.IsCorrect);
+        test.Text.Answer(option.IsCorrect);
 
         await _dbContext.SaveChangesAsync();
         return Unit.Value;

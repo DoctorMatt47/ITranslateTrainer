@@ -9,7 +9,7 @@ namespace ITranslateTrainer.Application.DayResults;
 
 public record GetDayResultsQuery : IRequest<IEnumerable<GetDayResultResponse>>;
 
-public class GetDayResultsQueryHandler : IRequestHandler<GetDayResultsQuery, IEnumerable<GetDayResultResponse>>
+internal class GetDayResultsQueryHandler : IRequestHandler<GetDayResultsQuery, IEnumerable<GetDayResultResponse>>
 {
     private readonly ITranslateDbContext _context;
     private readonly IMapper _mapper;
@@ -22,9 +22,11 @@ public class GetDayResultsQueryHandler : IRequestHandler<GetDayResultsQuery, IEn
 
     public async Task<IEnumerable<GetDayResultResponse>> Handle(
         GetDayResultsQuery request,
-        CancellationToken cancellationToken) =>
-        await _context.Set<DayResult>()
+        CancellationToken cancellationToken)
+    {
+        return await _context.Set<DayResult>()
             .OrderByDescending(d => d.Day)
             .ProjectTo<GetDayResultResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
+    }
 }

@@ -12,7 +12,7 @@ public class DayResult : IHasId<DateOnly>
 
     public DateOnly Id => Day;
 
-    public void GotAnswer(bool isCorrect)
+    public void Answer(bool isCorrect)
     {
         if (isCorrect)
         {

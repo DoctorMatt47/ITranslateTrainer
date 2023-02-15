@@ -7,8 +7,7 @@ public static class LinqExtension
     public static IEnumerable<T> ExceptBy<T, TKey>(
         this IEnumerable<T> enumerable,
         IEnumerable<T> except,
-        Func<T, TKey> field) =>
-        enumerable.ExceptBy(except.Select(field), field);
+        Func<T, TKey> field) => enumerable.ExceptBy(except.Select(field), field);
 
     public static IQueryable<T> Shuffle<T>(this IQueryable<T> collection)
     {
@@ -21,12 +20,8 @@ public static class LinqExtension
         return enumerable.OrderBy(_ => random.Next()).ToList();
     }
 
-    public static async Task<IEnumerable<TResponse>> SelectAsync<TEntity, TResponse>(
-        this IEnumerable<TEntity> enumerable,
-        Func<TEntity, Task<TResponse>> selectTask)
+    public static async Task<IEnumerable<TResponse>> WhenAllAsync<TResponse>(this IEnumerable<Task<TResponse>> tasks)
     {
-        var tasks = enumerable.Select(selectTask);
-
         var responses = new List<TResponse>();
         foreach (var task in tasks)
         {

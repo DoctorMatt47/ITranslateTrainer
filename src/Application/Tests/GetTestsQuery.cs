@@ -20,11 +20,12 @@ internal class GetTestsQueryHandler : IRequestHandler<GetTestsQuery, IEnumerable
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<GetTestResponse>>
-        Handle(GetTestsQuery request, CancellationToken cancellationToken) =>
-        await _context.Set<Test>()
+    public async Task<IEnumerable<GetTestResponse>> Handle(GetTestsQuery request, CancellationToken cancellationToken)
+    {
+        return await _context.Set<Test>()
             .Where(Test.IsAnswered)
             .OrderByDescending(t => t.AnswerTime)
             .ProjectTo<GetTestResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
+    }
 }

@@ -24,7 +24,7 @@ public class Test : IHasId<int>
 
     public int Id { get; protected set; }
 
-    public void GotAnswer()
+    public void Answer()
     {
         AnswerTime = DateTime.UtcNow;
     }

@@ -22,7 +22,7 @@ internal class GetTranslationsQueryHandler :
     }
 
     public async Task<IEnumerable<GetTranslationResponse>> Handle(
-        GetTranslationsQuery _,
+        GetTranslationsQuery query,
         CancellationToken cancellationToken)
     {
         return await _context.Set<Translation>()

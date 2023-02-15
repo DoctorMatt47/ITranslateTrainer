@@ -33,7 +33,9 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
     {
         var translations = (await _sheetService.ParseTranslations(request.SheetStream)).ToList();
 
-        var response = await translations.SelectAsync(t => TryGetOrCreateTranslation(t, cancellationToken));
+        var response = await translations
+            .Select(t => TryGetOrCreateTranslation(t, cancellationToken))
+            .WhenAllAsync();
 
         await _context.SaveChangesAsync();
 

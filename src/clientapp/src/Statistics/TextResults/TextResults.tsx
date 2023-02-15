@@ -29,7 +29,7 @@ const TextResults = () => {
 
   return (
     <>
-      <Display size={3} text="Test results" className="text-center mb-5"/>
+      <Display size={3} text="Text results" className="text-center mb-5"/>
 
       <div className="table-responsive">
         <Table className="translation-table align-middle">

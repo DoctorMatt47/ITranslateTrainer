@@ -59,7 +59,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
             .Concat(incorrect)
             .Shuffle()
             .ToList();
-        
+
         await _context.Set<Option>().AddRangeAsync(options, cancellationToken);
         await _context.SaveChangesAsync();
 

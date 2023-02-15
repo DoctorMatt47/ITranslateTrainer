@@ -13,6 +13,6 @@ public class DayResultsController : ControllerBase
     public DayResultsController(IMediator mediator) => _mediator = mediator;
 
     [HttpGet]
-    public Task<IEnumerable<GetDayResultResponse>> GetDayResults(CancellationToken cancellationToken) => 
+    public Task<IEnumerable<GetDayResultResponse>> GetDayResults(CancellationToken cancellationToken) =>
         _mediator.Send(new GetDayResultsQuery(), cancellationToken);
 }

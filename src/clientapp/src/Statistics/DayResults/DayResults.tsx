@@ -9,7 +9,8 @@ import DayResult from "./DayResult/DayResult";
 
 const DayResults = () => {
   const [dayResults, setDayResults] = useState<DayResultResponse[] | null>(null);
-  useEffect(() => {
+  useEffect(
+    () => {
       getDayResults()
         .then(r => setDayResults(r))
     },
