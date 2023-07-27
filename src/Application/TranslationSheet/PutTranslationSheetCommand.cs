@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Translations;
@@ -33,13 +32,15 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
     {
         var translations = (await _sheetService.ParseTranslations(request.SheetStream)).ToList();
 
-        var response = await translations
-            .Select(t => TryGetOrCreateTranslation(t, cancellationToken))
-            .WhenAllAsync();
+        var tasks = translations
+            .Select(async t => await TryGetOrCreateTranslation(t, cancellationToken))
+            .ToList();
+
+        foreach (var task in tasks) await task;
 
         await _context.SaveChangesAsync();
 
-        return response.Select(o => o is Translation t ? new IntIdResponse(t.Id) : o);
+        return tasks.Select(task => task.Result).Select(o => o is Translation t ? new IntIdResponse(t.Id) : o);
     }
 
     private async Task<object> TryGetOrCreateTranslation(

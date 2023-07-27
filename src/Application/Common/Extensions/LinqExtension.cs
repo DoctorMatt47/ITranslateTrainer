@@ -19,16 +19,4 @@ public static class LinqExtension
         var random = new Random();
         return enumerable.OrderBy(_ => random.Next()).ToList();
     }
-
-    public static async Task<IEnumerable<TResponse>> WhenAllAsync<TResponse>(this IEnumerable<Task<TResponse>> tasks)
-    {
-        var responses = new List<TResponse>();
-        foreach (var task in tasks)
-        {
-            var response = await task;
-            responses.Add(response);
-        }
-
-        return responses;
-    }
 }
