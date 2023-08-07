@@ -1,0 +1,31 @@
+﻿<script lang="ts">
+  import AppHeading from "../../lib/components/AppHeading.svelte";
+  import AppVariant from "../../lib/components/AppVariant.svelte";
+  import TranslationTable from "./TranslationTable.svelte";
+  import { getTranslations } from "../../lib/services/translation-service";
+  import { translationsStore } from "../../lib/stores";
+
+  let translationsPromise = getTranslations().then((translations) => {
+    translationsStore.set(translations);
+    return translations;
+  });
+
+</script>
+
+<AppHeading>Translations</AppHeading>
+
+<div class="grid grid-cols-2 gap-6">
+  <AppVariant>Import</AppVariant>
+  <AppVariant>Export</AppVariant>
+</div>
+
+{#await translationsPromise}
+  <div class="mx-auto">Loading...</div>
+
+{:then translations}
+  <TranslationTable {translations} />
+
+{:catch error}
+  <div class="mx-auto">{error.message}</div>
+
+{/await}
