@@ -1,11 +1,7 @@
 import Display from "common/components/Display/Display";
-import Option, {OptionType} from "./Option/Option";
-import {SyntheticEvent, useEffect, useState} from "react";
-import {
-  answerOnTest,
-  getTest,
-  TestResponse
-} from "common/services/test-service";
+import Option, { OptionType } from "./Option/Option";
+import { SyntheticEvent } from "react";
+import { TestResponse } from "common/services/test-service";
 
 export enum Result {
   Skipped,
@@ -19,18 +15,18 @@ interface QuizTestProps {
   setAnswer: (optionId : number) => void;
 }
 
-const Test = ({test, isChosen, setAnswer}: QuizTestProps) => {
+export default function Test({ test, isChosen, setAnswer }: QuizTestProps) {
   return (
     <>
-      <Display size={5} className="display-5 mb-4" text={test.string}/>
+      <Display size={5} className="display-5 mb-4" text={test.string} />
       <form className="options d-flex flex-column"
             onChange={optionChosen}>
         {test.options.map(o =>
           <Option className="mb-4"
-                  key={o.id}
-                  optionId={o.id}
+                  key={o.position}
+                  optionId={o.position}
                   text={o.string}
-                  type={optionType(o.isCorrect, o.isChosen)}/>)}
+                  type={optionType(o.isCorrect, o.isChosen)} />)}
       </form>
     </>
   );
@@ -52,5 +48,3 @@ const Test = ({test, isChosen, setAnswer}: QuizTestProps) => {
     return OptionType.Unknown;
   }
 };
-
-export default Test;

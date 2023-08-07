@@ -1,4 +1,4 @@
-import {TextResponse} from "../../../common/services/translation-service";
+import { TextResponse } from "../../../common/services/translation-service";
 
 interface TextResultProps {
   textResult: TextResponse;
@@ -7,7 +7,7 @@ interface TextResultProps {
 const TextResult = ({textResult}: TextResultProps) => {
   return (
     <tr className="translation-row text-center">
-      <td className="w-20">{textResult.id}</td>
+      <td className="w-20">{textResult.position}</td>
       <td className="w-20">{textResult.string}</td>
       <td className="w-20 text-success">{textResult.correctCount}</td>
       <td className="w-20 text-danger">{textResult.incorrectCount}</td>

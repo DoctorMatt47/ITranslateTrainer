@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Translations;
 using ITranslateTrainer.Application.TranslationSheet;
 using MediatR;
@@ -16,11 +15,11 @@ public class TranslationsController : ControllerBase
     public TranslationsController(IMediator mediator) => _mediator = mediator;
 
     [HttpGet]
-    public async Task<IEnumerable<GetTranslationResponse>> Get(CancellationToken cancellationToken) =>
+    public async Task<IEnumerable<TranslationResponse>> Get(CancellationToken cancellationToken) =>
         await _mediator.Send(new GetTranslationsQuery(), cancellationToken);
 
     [HttpPut]
-    public async Task<IntIdResponse> Put(PutTranslationCommand command, CancellationToken cancellationToken) =>
+    public async Task<TranslationResponse> Put(PutTranslationCommand command, CancellationToken cancellationToken) =>
         await _mediator.Send(command, cancellationToken);
 
     [HttpDelete("{id:int}")]

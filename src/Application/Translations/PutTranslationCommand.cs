@@ -1,5 +1,5 @@
-﻿using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Common.Responses;
+﻿using AutoMapper;
+using ITranslateTrainer.Application.Common.Interfaces;
 using MediatR;
 
 namespace ITranslateTrainer.Application.Translations;
@@ -9,20 +9,25 @@ public record PutTranslationCommand(
         string FirstLanguage,
         string SecondText,
         string SecondLanguage)
-    : IRequest<IntIdResponse>;
+    : IRequest<TranslationResponse>;
 
-internal class PutTranslationCommandHandler : IRequestHandler<PutTranslationCommand, IntIdResponse>
+internal class PutTranslationCommandHandler : IRequestHandler<PutTranslationCommand, TranslationResponse>
 {
     private readonly ITranslateDbContext _context;
+    private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public PutTranslationCommandHandler(IMediator mediator, ITranslateDbContext context)
+    public PutTranslationCommandHandler(
+        IMediator mediator,
+        ITranslateDbContext context,
+        IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
         _mediator = mediator;
     }
 
-    public async Task<IntIdResponse> Handle(PutTranslationCommand request, CancellationToken cancellationToken)
+    public async Task<TranslationResponse> Handle(PutTranslationCommand request, CancellationToken cancellationToken)
     {
         var (firstText, firstLanguage, secondText, secondLanguage) = request;
 
@@ -31,6 +36,6 @@ internal class PutTranslationCommandHandler : IRequestHandler<PutTranslationComm
 
         await _context.SaveChangesAsync();
 
-        return new IntIdResponse(translation.Id);
+        return _mapper.Map<TranslationResponse>(translation);
     }
 }

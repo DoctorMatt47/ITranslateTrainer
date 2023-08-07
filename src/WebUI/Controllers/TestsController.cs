@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ITranslateTrainer.WebUI.Controllers;
 
+public record AnswerOnTestBody(int OptionId);
+
 [ApiController]
 [Route("api/[controller]")]
 public class TestsController : ControllerBase
@@ -13,11 +15,11 @@ public class TestsController : ControllerBase
     public TestsController(IMediator mediator) => _mediator = mediator;
 
     [HttpGet]
-    public Task<IEnumerable<GetTestResponse>> GetTests(CancellationToken cancellationToken) =>
+    public Task<IEnumerable<TestResponse>> GetTests(CancellationToken cancellationToken) =>
         _mediator.Send(new GetTestsQuery(), cancellationToken);
 
     [HttpGet("{id:int}")]
-    public Task<GetTestResponse> GetTest(
+    public Task<TestResponse> GetTest(
         int id,
         CancellationToken cancellationToken) => _mediator.Send(new GetTestQuery(id), cancellationToken);
 
@@ -36,5 +38,3 @@ public class TestsController : ControllerBase
         return _mediator.Send(command, cancellationToken);
     }
 }
-
-public record AnswerOnTestBody(int OptionId);

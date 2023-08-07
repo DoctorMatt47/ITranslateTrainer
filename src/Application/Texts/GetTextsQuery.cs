@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Texts;
 
-public record GetTextsQuery : IRequest<IEnumerable<GetTextResponse>>;
+public record GetTextsQuery : IRequest<IEnumerable<TranslationTextResponse>>;
 
-internal class GetTextsQueryHandler : IRequestHandler<GetTextsQuery, IEnumerable<GetTextResponse>>
+internal class GetTextsQueryHandler : IRequestHandler<GetTextsQuery, IEnumerable<TranslationTextResponse>>
 {
     private readonly ITranslateDbContext _context;
     private readonly IMapper _mapper;
@@ -20,12 +20,14 @@ internal class GetTextsQueryHandler : IRequestHandler<GetTextsQuery, IEnumerable
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<GetTextResponse>> Handle(GetTextsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<TranslationTextResponse>> Handle(
+        GetTextsQuery request,
+        CancellationToken cancellationToken)
     {
-        return await _context.Set<Text>()
+        return await _context.Set<TranslationText>()
             .Where(t => t.CorrectCount + t.IncorrectCount != 0)
             .OrderByDescending(t => t.CorrectCount + t.IncorrectCount)
-            .ProjectTo<GetTextResponse>(_mapper.ConfigurationProvider)
+            .ProjectTo<TranslationTextResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
     }
 }

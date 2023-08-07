@@ -8,30 +8,30 @@ namespace ITranslateTrainer.Application.Texts;
 public record GetOrCreateText(
         string String,
         string Language)
-    : IRequest<Text>;
+    : IRequest<TranslationText>;
 
-internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, Text>
+internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, TranslationText>
 {
     private readonly ITranslateDbContext _context;
 
     public GetOrCreateTextHandler(ITranslateDbContext context) => _context = context;
 
-    public async Task<Text> Handle(GetOrCreateText request, CancellationToken cancellationToken)
+    public async Task<TranslationText> Handle(GetOrCreateText request, CancellationToken cancellationToken)
     {
         var (textString, language) = request;
 
-        var text = await FindInLocalOrInDb(_context.Set<Text>());
+        var text = await FindInLocalOrInDb(_context.Set<TranslationText>());
 
         if (text is not null) return text;
 
-        var newText = new Text(textString, language);
-        await _context.Set<Text>().AddAsync(newText, cancellationToken);
+        var newText = new TranslationText(textString, language);
+        await _context.Set<TranslationText>().AddAsync(newText, cancellationToken);
 
         return newText;
 
         // Tries to find in local, if not, requests database.
         // It is necessary for bulk addition to prevent duplicates.
-        async Task<Text?> FindInLocalOrInDb(DbSet<Text> texts)
+        async Task<TranslationText?> FindInLocalOrInDb(DbSet<TranslationText> texts)
         {
             var textsInLocal = texts.Local.FirstOrDefault(t =>
                 t.String == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant());

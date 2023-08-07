@@ -2,13 +2,13 @@
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Text : IHasId<int>
+public class TranslationText : IHasId<int>
 {
-    protected Text()
+    protected TranslationText()
     {
     }
 
-    public Text(string @string, string language)
+    public TranslationText(string @string, string language)
     {
         String = @string.ToLowerInvariant();
         Language = language.ToLowerInvariant();

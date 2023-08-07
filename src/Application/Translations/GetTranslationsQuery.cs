@@ -7,10 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Translations;
 
-public record GetTranslationsQuery : IRequest<IEnumerable<GetTranslationResponse>>;
+public record GetTranslationsQuery : IRequest<IEnumerable<TranslationResponse>>;
 
-internal class GetTranslationsQueryHandler :
-    IRequestHandler<GetTranslationsQuery, IEnumerable<GetTranslationResponse>>
+internal class GetTranslationsQueryHandler
+    : IRequestHandler<GetTranslationsQuery,
+        IEnumerable<TranslationResponse>>
 {
     private readonly ITranslateDbContext _context;
     private readonly IMapper _mapper;
@@ -21,14 +22,14 @@ internal class GetTranslationsQueryHandler :
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<GetTranslationResponse>> Handle(
+    public async Task<IEnumerable<TranslationResponse>> Handle(
         GetTranslationsQuery query,
         CancellationToken cancellationToken)
     {
         return await _context.Set<Translation>()
             .Include(t => t.First)
             .Include(t => t.Second)
-            .ProjectTo<GetTranslationResponse>(_mapper.ConfigurationProvider)
+            .ProjectTo<TranslationResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
     }
 }

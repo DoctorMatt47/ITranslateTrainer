@@ -1,4 +1,4 @@
-import {TranslationResponse} from "common/services/translation-service";
+import { TranslationResponse } from "common/services/translation-service";
 import "./TranslationRow.scss";
 
 interface TranslationRowProps {
@@ -6,7 +6,7 @@ interface TranslationRowProps {
   index: number;
 }
 
-const TranslationRow = ({translation, index}: TranslationRowProps) => {
+export default function TranslationRow({ translation, index }: TranslationRowProps) {
   return (
     <tr className="translation-row text-center">
       <th scope="row">{index}</th>
@@ -17,5 +17,3 @@ const TranslationRow = ({translation, index}: TranslationRowProps) => {
     </tr>
   );
 };
-
-export default TranslationRow;

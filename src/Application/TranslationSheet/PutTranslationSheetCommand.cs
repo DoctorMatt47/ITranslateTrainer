@@ -30,7 +30,7 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
         PutTranslationSheetCommand request,
         CancellationToken cancellationToken)
     {
-        var translations = (await _sheetService.ParseTranslations(request.SheetStream)).ToList();
+        var translations = await _sheetService.ParseTranslations(request.SheetStream);
 
         var tasks = translations
             .Select(async t => await TryGetOrCreateTranslation(t, cancellationToken))
@@ -48,6 +48,7 @@ public class PutTranslationSheetCommandHandler : IRequestHandler<PutTranslationS
         CancellationToken cancellationToken)
     {
         var (firstLanguage, secondLanguage, firstText, secondText) = translationResponse;
+
         try
         {
             var request = new GetOrCreateTranslation(firstText, firstLanguage, secondText, secondLanguage);

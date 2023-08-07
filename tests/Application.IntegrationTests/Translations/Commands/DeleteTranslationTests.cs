@@ -23,8 +23,8 @@ public class DeleteTranslationTests
     public async Task ShouldDeleteTranslation()
     {
         var translationToAdd = new Translation(
-            new Text("delete translation", "English"),
-            new Text("удаление перевода", "Russian"));
+            new TranslationText("delete translation", "English"),
+            new TranslationText("удаление перевода", "Russian"));
 
         await _context.Set<Translation>().AddAsync(translationToAdd);
         await _context.SaveChangesAsync();
@@ -34,10 +34,10 @@ public class DeleteTranslationTests
         var translation = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == translationToAdd.Id);
         Assert.Null(translation);
 
-        var first = await _context.Set<Text>().FirstOrDefaultAsync(t => t.Id == translationToAdd.FirstId);
+        var first = await _context.Set<TranslationText>().FirstOrDefaultAsync(t => t.Id == translationToAdd.FirstId);
         Assert.Null(first);
 
-        var second = await _context.Set<Text>().FirstOrDefaultAsync(t => t.Id == translationToAdd.SecondId);
+        var second = await _context.Set<TranslationText>().FirstOrDefaultAsync(t => t.Id == translationToAdd.SecondId);
         Assert.Null(second);
     }
 }

@@ -6,13 +6,11 @@ interface AppShellProps {
   children: React.ReactNode
 }
 
-const AppShell = ({children}: AppShellProps) => {
+export default function AppShell({ children }: AppShellProps) {
   return (
     <>
-      <Header/>
+      <Header />
       <Main>{children}</Main>
     </>
   );
 };
-
-export default AppShell;

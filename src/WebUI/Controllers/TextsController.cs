@@ -20,6 +20,6 @@ public class TextsController : ControllerBase
     }
 
     [HttpGet]
-    public Task<IEnumerable<GetTextResponse>> Get(CancellationToken cancellationToken) =>
+    public Task<IEnumerable<TranslationTextResponse>> Get(CancellationToken cancellationToken) =>
         _mediator.Send(new GetTextsQuery(), cancellationToken);
 }

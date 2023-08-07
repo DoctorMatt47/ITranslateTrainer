@@ -5,7 +5,10 @@ namespace ITranslateTrainer.Application.Texts;
 
 internal static class TextExtensions
 {
-    public static IQueryable<Text> GetRandomCanBeOption(this IQueryable<Text> texts, string language, int count)
+    public static IQueryable<TranslationText> GetRandomCanBeOption(
+        this IQueryable<TranslationText> texts,
+        string language,
+        int count)
     {
         return texts
             .Where(t => t.CanBeOption && t.Language == language.ToLowerInvariant())
@@ -13,7 +16,10 @@ internal static class TextExtensions
             .Take(count);
     }
 
-    public static IQueryable<Text> GetRandomCanBeTested(this IQueryable<Text> texts, string language, int count)
+    public static IQueryable<TranslationText> GetRandomCanBeTested(
+        this IQueryable<TranslationText> texts,
+        string language,
+        int count)
     {
         return texts
             .Where(t => t.CanBeTested && t.Language == language.ToLowerInvariant())

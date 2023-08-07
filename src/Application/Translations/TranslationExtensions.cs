@@ -7,8 +7,8 @@ internal static class TranslationExtensions
 {
     public static Task<Translation?> FindByTexts(
         this IQueryable<Translation> translations,
-        Text first,
-        Text second,
+        TranslationText first,
+        TranslationText second,
         CancellationToken cancellationToken)
     {
         return translations.FirstOrDefaultAsync(

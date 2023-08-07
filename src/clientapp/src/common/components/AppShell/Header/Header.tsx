@@ -1,9 +1,9 @@
 import React from "react";
-import "./Header.scss"
-import {Link} from "react-router-dom";
-import {Container, Navbar} from "react-bootstrap"
+import "./Header.scss";
+import { Link } from "react-router-dom";
+import { Container, Navbar } from "react-bootstrap";
 
-const Header = () => {
+export default function Header() {
   return (
     <Navbar bg="black-opacity-25" variant="dark" expand={false}>
       <Container>
@@ -12,7 +12,5 @@ const Header = () => {
         </Navbar.Brand>
       </Container>
     </Navbar>
-  )
+  );
 };
-
-export default Header

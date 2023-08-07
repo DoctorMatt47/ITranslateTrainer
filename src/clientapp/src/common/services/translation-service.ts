@@ -1,5 +1,4 @@
-import axios from 'axios';
-import {baseUrl} from 'common/utils/env';
+import { api } from "./api-service";
 
 export interface TranslationResponse {
   id: number;
@@ -17,14 +16,14 @@ export interface TextResponse {
   incorrectCount: number;
 }
 
-const apiTranslations = baseUrl + "/api/translations";
+const translations = "/translations";
 
-export const getTranslations = async (): Promise<TranslationResponse[]> => {
-  const response = await axios.get(apiTranslations);
+export async function getTranslations(): Promise<TranslationResponse[]> {
+  const response = await api.get(translations);
   return response.data;
-};
+}
 
-export const putSheet = async (file : FormData) => {
-  const response = await axios.put(apiTranslations + "/sheet", file);
+export async function importSheet(file: FormData) {
+  const response = await api.put(`${translations}/sheet`, file);
   return response.data;
 }

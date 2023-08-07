@@ -1,16 +1,10 @@
 import Display from "common/components/Display/Display";
-import {Col, Container, Row} from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import AppButton from "common/components/AppButton/AppButton";
 import "./TestSettings.scss";
-import React, {useState} from "react";
-import {
-  answerOnTest,
-  getTest,
-  putTest,
-  PutTestRequest,
-  TestResponse
-} from "../common/services/test-service";
-import {useForm} from "react-hook-form";
+import React, { useState } from "react";
+import { answerOnTest, getTest, putTest, PutTestRequest, TestResponse } from "../common/services/test-service";
+import { useForm } from "react-hook-form";
 import Test from "./Test/Test";
 
 interface QuizSettingsState {
@@ -19,37 +13,34 @@ interface QuizSettingsState {
   isChosen: boolean;
 }
 
-const QuizSettings = () => {
-  const {register, handleSubmit, watch} = useForm();
+export default function QuizSettings() {
+  const { register, handleSubmit, watch } = useForm();
   const [state, setState] = useState<QuizSettingsState>({
     test: null,
     testRequest: null,
     isChosen: false,
   });
 
-  if (state.test !== null)
+  if (state.test !== null) {
     return <Container className="test">
       <Row>
-        <Col lg={3}/>
-
+        <Col lg={3} />
         <Col lg sm className="text-center">
-
-          <Test test={state.test} setAnswer={setAnswer} isChosen={state.isChosen}/>
-
+          <Test test={state.test} setAnswer={setAnswer} isChosen={state.isChosen} />
           <Container className="p-0">
             <Row>
               <Col className="text-end">
                 <AppButton className="next-button" label="Next">
-                  <button onClick={next}/>
+                  <button onClick={next} />
                 </AppButton>
               </Col>
             </Row>
           </Container>
         </Col>
-
         <Col lg={3}/>
       </Row>
     </Container>;
+  }
 
   return (
     <>
@@ -117,9 +108,9 @@ const QuizSettings = () => {
   );
 
   async function setAnswer(optionId: number) {
-    await answerOnTest(state.test!.id, {optionId});
-    const response = await getTest(state.test!.id);
-    setState({...state, test: response, isChosen: true});
+    await answerOnTest(state.test!.position, { optionId });
+    const response = await getTest(state.test!.position);
+    setState({ ...state, test: response, isChosen: true });
   }
 
   async function start() {
@@ -137,5 +128,3 @@ const QuizSettings = () => {
     setState({...state, test: test, isChosen: false});
   }
 };
-
-export default QuizSettings;

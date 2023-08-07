@@ -1,5 +1,4 @@
-import {baseUrl} from "../utils/env";
-import axios from "axios";
+import { api } from "./api-service";
 
 export interface DayResultResponse {
   day: string;
@@ -7,9 +6,7 @@ export interface DayResultResponse {
   incorrectCount: number;
 }
 
-const apiDayResults = baseUrl + "/api/dayresults";
-
-export const getDayResults = async () : Promise<DayResultResponse[]> => {
-  const response = await axios.get(apiDayResults);
+export async function getDayResults(): Promise<DayResultResponse[]> {
+  const response = await api.get("/day-results");
   return response.data;
-};
+}

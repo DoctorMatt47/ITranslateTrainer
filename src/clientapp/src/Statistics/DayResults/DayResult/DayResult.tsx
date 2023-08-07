@@ -1,10 +1,10 @@
-import {DayResultResponse} from "../../../common/services/day-results-service";
+import { DayResultResponse } from "../../../common/services/day-results-service";
 
 interface DayResultProps {
   dayResult: DayResultResponse;
 }
 
-const DayResult = ({dayResult}: DayResultProps) => {
+export default function DayResult({ dayResult }: DayResultProps) {
   return (
     <tr className="translation-row text-center">
       <td className="w-20">{dayResult.day}</td>
@@ -14,7 +14,7 @@ const DayResult = ({dayResult}: DayResultProps) => {
     </tr>
   );
 
-  function correctPercent() : string {
+  function correctPercent(): string {
     const count = dayResult.correctCount + dayResult.incorrectCount;
     return `${round(dayResult.correctCount / count)}%`;
   }
@@ -23,5 +23,3 @@ const DayResult = ({dayResult}: DayResultProps) => {
     return Math.round((num + Number.EPSILON) * 100);
   }
 };
-
-export default DayResult;

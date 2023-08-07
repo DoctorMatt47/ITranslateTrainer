@@ -14,22 +14,14 @@ interface QuizOptionProps extends React.HTMLAttributes<HTMLLabelElement> {
   optionId: number;
 }
 
-const Option = (
-  {
-    type,
-    className,
-    optionId,
-    text,
-    ...labelProps
-  }: QuizOptionProps
-) => {
+export default function Option({ type, className, optionId, text, ...labelProps }: QuizOptionProps) {
   return (
     <label {...labelProps}
            className={["option", labelClassName(type), className].join(" ")}>
       <input className="visually-hidden"
              name="option"
              value={optionId}
-             type="radio"/>
+             type="radio" />
       {text}
     </label>
   );
@@ -47,5 +39,3 @@ const labelClassName = (type?: OptionType) => {
       return "incorrect-chosen";
   }
 };
-
-export default Option;

@@ -2,7 +2,7 @@
 
 namespace ITranslateTrainer.Application.Translations;
 
-public record GetTranslationResponse(
+public record TranslationResponse(
     int Id,
-    GetTextResponse First,
-    GetTextResponse Second);
+    TranslationTextResponse First,
+    TranslationTextResponse Second);

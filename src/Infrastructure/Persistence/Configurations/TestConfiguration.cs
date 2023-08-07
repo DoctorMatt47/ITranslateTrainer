@@ -9,9 +9,9 @@ public class TestConfiguration : IEntityTypeConfiguration<Test>
     public void Configure(EntityTypeBuilder<Test> builder)
     {
         builder.HasMany(t => t.Options).WithOne(o => o.Test);
-        builder.HasOne(t => t.Text);
+        builder.HasOne(t => t.TranslationText);
 
         builder.Navigation(t => t.Options).AutoInclude();
-        builder.Navigation(t => t.Text).AutoInclude();
+        builder.Navigation(t => t.TranslationText).AutoInclude();
     }
 }

@@ -8,15 +8,15 @@ public class Option : IHasId<int>
     {
     }
 
-    public Option(Text text, Test test, bool isCorrect)
+    public Option(TranslationText translationText, Test test, bool isCorrect)
     {
-        Text = text;
+        TranslationText = translationText;
         Test = test;
         IsCorrect = isCorrect;
     }
 
     public int TextId { get; protected set; }
-    public Text Text { get; protected set; } = null!;
+    public TranslationText TranslationText { get; protected set; } = null!;
 
     public int TestId { get; protected set; }
     public Test Test { get; protected set; } = null!;

@@ -21,7 +21,7 @@ internal class PatchTextCommandHandler : IRequestHandler<PatchTextCommand>
     {
         var (id, canBeOption, canBeTested) = request;
 
-        var text = await _context.Set<Text>().FindAsync(id);
+        var text = await _context.Set<TranslationText>().FindAsync(id);
 
         if (canBeOption is not null) text!.CanBeOption = (bool) canBeOption;
         if (canBeTested is not null) text!.CanBeTested = (bool) canBeTested;
@@ -47,7 +47,7 @@ internal class PatchTextCommandValidateBehaviour : IPipelineBehavior<PatchTextCo
 
         if (canBeOption is null && canBeTested is null) throw new BadRequestException("All values are null");
 
-        var textExist = await _context.Set<Text>().FindAsync(id);
+        var textExist = await _context.Set<TranslationText>().FindAsync(id);
         if (textExist is null) throw new BadRequestException($"There is no text with id = {id}");
 
         return await next.Invoke();

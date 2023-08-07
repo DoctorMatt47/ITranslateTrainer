@@ -15,7 +15,7 @@ public class Test : IHasId<int>
     public static Expression<Func<Test, bool>> IsNotAnswered => test => test.AnswerTime == null;
 
     public int TextId { get; protected set; }
-    public Text Text { get; protected set; } = null!;
+    public TranslationText TranslationText { get; protected set; } = null!;
 
     public int OptionCount { get; protected set; }
     public List<Option> Options { get; protected set; } = new();

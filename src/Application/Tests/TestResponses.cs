@@ -1,12 +1,12 @@
 ﻿namespace ITranslateTrainer.Application.Tests;
 
-public record GetTestResponse(
+public record TestResponse(
     int Id,
     string String,
     string AnswerTime,
-    IEnumerable<GetOptionResponse> Options);
+    IEnumerable<OptionResponse> Options);
 
-public record GetOptionResponse(
+public record OptionResponse(
     int Id,
     string String,
     bool IsChosen,

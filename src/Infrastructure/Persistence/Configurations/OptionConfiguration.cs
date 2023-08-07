@@ -9,8 +9,8 @@ public class OptionConfiguration : IEntityTypeConfiguration<Option>
     public void Configure(EntityTypeBuilder<Option> builder)
     {
         builder.HasOne(o => o.Test).WithMany(t => t.Options);
-        builder.HasOne(o => o.Text);
+        builder.HasOne(o => o.TranslationText);
 
-        builder.Navigation(t => t.Text).AutoInclude();
+        builder.Navigation(t => t.TranslationText).AutoInclude();
     }
 }

@@ -1,10 +1,7 @@
-import {baseUrl} from "../utils/env";
-import axios from "axios";
-import {TextResponse} from "./translation-service";
+import { TextResponse } from "./translation-service";
+import { api } from "./api-service";
 
-const apiTexts = baseUrl + "/api/texts";
-
-export const getTexts = async (): Promise<TextResponse[]> => {
-  const response = await axios.get(apiTexts);
+export async function getTexts(): Promise<TextResponse[]> {
+  const response = await api.get("/api/texts");
   return response.data;
-};
+}

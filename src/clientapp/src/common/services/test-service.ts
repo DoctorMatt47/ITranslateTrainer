@@ -1,5 +1,4 @@
-import {baseUrl} from "../utils/env";
-import axios from "axios";
+import { api } from "./api-service";
 
 export interface TestResponse {
   id: number;
@@ -25,26 +24,23 @@ export interface AnswerOnTestRequest {
   optionId: number;
 }
 
-const apiTests = baseUrl + "/api/tests";
+const tests = "/tests";
 
-export const getTests = async (): Promise<TestResponse[]> => {
-  const response = await axios.get(apiTests);
+export async function getTests(): Promise<TestResponse[]> {
+  const response = await api.get(tests);
   return response.data;
-};
+}
 
-export const getTest = async (id: number): Promise<TestResponse> => {
-  const response = await axios.get(apiTests + `/${id}`);
+export async function getTest(id: number): Promise<TestResponse> {
+  const response = await api.get(`${tests}/${id}`);
   return response.data;
-};
+}
 
-export const putTest = async (request: PutTestRequest): Promise<TestResponse> => {
-  const response = await axios.put(apiTests, request);
+export async function putTest(request: PutTestRequest): Promise<TestResponse> {
+  const response = await api.put(tests, request);
   return response.data;
-};
+}
 
-export const answerOnTest = async (
-  id: number,
-  request: AnswerOnTestRequest
-) => {
-  await axios.put(apiTests + `/${id}/answer`, request);
-};
+export async function answerOnTest(id: number, request: AnswerOnTestRequest) {
+  await api.put(`${tests}/${id}/answer`, request);
+}

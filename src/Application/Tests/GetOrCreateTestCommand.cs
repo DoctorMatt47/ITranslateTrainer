@@ -38,7 +38,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
 
         if (test is not null) return _mapper.Map<GetOrCreateTestResponse>(test);
 
-        var testedText = await _context.Set<Text>()
+        var testedText = await _context.Set<TranslationText>()
             .Where(t => t.CanBeTested && t.Language == from)
             .OrderBy(_ => EF.Functions.Random())
             .FirstAsync(cancellationToken);
@@ -50,7 +50,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
             .Select(text => new Option(text, test, true))
             .ToList();
 
-        var incorrect = await _context.Set<Text>()
+        var incorrect = await _context.Set<TranslationText>()
             .GetRandomCanBeOption(to, optionCount - correct.Count)
             .Select(text => new Option(text, test, false))
             .ToListAsync(cancellationToken);

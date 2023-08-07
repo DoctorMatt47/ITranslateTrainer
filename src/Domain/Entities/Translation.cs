@@ -4,7 +4,7 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class Translation : IHasId<int>
 {
-    public Translation(Text first, Text second)
+    public Translation(TranslationText first, TranslationText second)
     {
         First = first;
         Second = second;
@@ -19,8 +19,8 @@ public class Translation : IHasId<int>
     public int FirstId { get; protected set; }
     public int SecondId { get; protected set; }
 
-    public Text First { get; protected set; } = null!;
-    public Text Second { get; protected set; } = null!;
+    public TranslationText First { get; protected set; } = null!;
+    public TranslationText Second { get; protected set; } = null!;
 
     public int Id { get; protected set; }
 }

@@ -1,10 +1,6 @@
 ﻿namespace ITranslateTrainer.Application.Texts;
 
-public record GetTextResponse(
+public record TranslationTextResponse(
     int Id,
     string String,
-    string Language,
-    bool CanBeOption,
-    bool CanBeTested,
-    int CorrectCount,
-    int IncorrectCount);
+    string Language);

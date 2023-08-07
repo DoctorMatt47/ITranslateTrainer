@@ -3,6 +3,8 @@
   <component name="UserContentModel">
     <attachedFolders>
       <Path>src/clientapp</Path>
+      <Path>src/svelteapp</Path>
+      <Path>src/swelteapp</Path>
     </attachedFolders>
     <explicitIncludes>
       <Path>src/WebUI/wwwroot/css/styles.css</Path>

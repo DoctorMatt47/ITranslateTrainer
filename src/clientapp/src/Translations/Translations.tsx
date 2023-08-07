@@ -1,14 +1,15 @@
 import AppButton from "../common/components/AppButton/AppButton";
-import {Col, Container, Row} from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import TranslationTable from "./Table/TranslationTable";
 import Display from "../common/components/Display/Display";
-import {SyntheticEvent} from "react";
-import {putSheet} from "../common/services/translation-service";
+import React, { useState } from "react";
+import { importSheet } from "../common/services/translation-service";
 
-const Translations = () => {
+export default function Translations() {
+  const [refresh, setRefresh] = useState(false);
   return (
     <>
-      <Display size={3} text="Translations" className="text-center mb-5"/>
+      <Display size={3} text="Translations" className="text-center mb-5" />
 
       <Container fluid="lg" className="mb-5">
         <Row>
@@ -29,17 +30,15 @@ const Translations = () => {
         </Row>
       </Container>
 
-      <TranslationTable/>
-
+      <TranslationTable refresh={refresh} />
     </>
   );
 
   async function sheetChanged(event : any) {
-      const sheetFile = event.currentTarget.files[0];
-      const formData = new FormData();
-      formData.append("sheet", sheetFile);
-      await putSheet(formData)
+    const sheetFile = event.currentTarget.files[0];
+    const formData = new FormData();
+    formData.append("sheet", sheetFile);
+    await importSheet(formData);
+    setRefresh(!refresh);
   }
 };
-
-export default Translations;
