@@ -1,8 +1,8 @@
 ﻿<script lang="ts">
   import AppTextInput from "../../lib/components/AppTextInput.svelte";
-  import { translationsStore } from "../../lib/stores";
-  import type { PutTranslationRequest } from "../../lib/services/translation-service";
-  import { putTranslation } from "../../lib/services/translation-service";
+  import { translationsStore } from "$lib/stores";
+  import type { PutTranslationRequest } from "$lib/services/translation-service";
+  import { putTranslation } from "$lib/services/translation-service";
 
   let request: PutTranslationRequest = {
     firstText: "",
@@ -42,9 +42,3 @@
     </button>
   </td>
 </tr>
-
-<style>
-    .align-middle {
-        vertical-align: middle;
-    }
-</style>
