@@ -2,8 +2,8 @@
   import AppHeading from "../../lib/components/AppHeading.svelte";
   import AppVariant from "../../lib/components/AppVariant.svelte";
   import TranslationTable from "./TranslationTable.svelte";
-  import { getTranslations } from "../../lib/services/translation-service";
-  import { translationsStore } from "../../lib/stores";
+  import { getTranslations } from "$lib/services/translation-service";
+  import { translationsStore } from "$lib/stores";
 
   let translationsPromise = getTranslations().then((translations) => {
     translationsStore.set(translations);
@@ -22,8 +22,8 @@
 {#await translationsPromise}
   <div class="mx-auto">Loading...</div>
 
-{:then translations}
-  <TranslationTable {translations} />
+{:then _}
+  <TranslationTable />
 
 {:catch error}
   <div class="mx-auto">{error.message}</div>
