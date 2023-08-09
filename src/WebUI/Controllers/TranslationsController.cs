@@ -30,6 +30,8 @@ public class TranslationsController : ControllerBase
     }
 
     [HttpPut("sheet")]
-    public async Task<IEnumerable> PutSheet(IFormFile sheet, CancellationToken cancellationToken) =>
+    public async Task<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>> PutSheet(
+        IFormFile sheet,
+        CancellationToken cancellationToken) =>
         await _mediator.Send(new PutTranslationSheetCommand(sheet.OpenReadStream()), cancellationToken);
 }
