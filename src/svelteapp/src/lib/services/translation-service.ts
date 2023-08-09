@@ -26,7 +26,12 @@ export async function putTranslation(request: PutTranslationRequest): Promise<Tr
   return response.data;
 }
 
-export async function importSheet(file: FormData) {
-  const response = await api.put(`${translations}/sheet`, file);
+export async function importSheet(file: File): Promise<TranslationResponse[]> {
+  const formData = new FormData();
+  formData.append("sheet", file);
+
+  let config = { headers: { "Content-Type": "multipart/form-data" } };
+  const response = await api.put(`${translations}/sheet`, formData, config);
+
   return response.data;
 }

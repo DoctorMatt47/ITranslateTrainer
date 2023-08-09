@@ -15,7 +15,7 @@
       <i class="fa-solid fa-language"></i></svelte:fragment>
     ITranslateTrainer
     <svelte:fragment slot="trail">
-      <a href="menu"><i class="fa-solid fa-home"></i></a>
+      <a href="/menu"><i class="fa-solid fa-home"></i></a>
     </svelte:fragment>
   </AppBar>
 

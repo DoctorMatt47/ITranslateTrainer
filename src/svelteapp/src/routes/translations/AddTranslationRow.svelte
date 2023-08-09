@@ -1,5 +1,5 @@
 ﻿<script lang="ts">
-  import AppTextInput from "../../lib/components/AppTextInput.svelte";
+  import AppTextInput from "$lib/components/AppTextInput.svelte";
   import { translationsStore } from "$lib/stores";
   import type { PutTranslationRequest } from "$lib/services/translation-service";
   import { putTranslation } from "$lib/services/translation-service";
@@ -37,8 +37,6 @@
     <AppTextInput bind:value={request.secondText} placeholder="translation" />
   </td>
   <td class="text-center align-middle">
-    <button on:click={add}>
-      <i class="fa fa-plus-circle"></i>
-    </button>
+    <button on:click={add}><i class="fa fa-plus-circle"></i></button>
   </td>
 </tr>

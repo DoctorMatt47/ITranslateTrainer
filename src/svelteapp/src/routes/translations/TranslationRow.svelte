@@ -1,5 +1,5 @@
 ﻿<script lang="ts">
-  import type { TranslationResponse } from "../../lib/services/translation-service";
+  import type { TranslationResponse } from "$lib/services/translation-service";
 
   export let translation: TranslationResponse;
   export let rowIndex: number;
