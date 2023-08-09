@@ -17,7 +17,7 @@
 </script>
 
 <tr>
-  {#each rowValues(translation, rowIndex) as value, columnIndex }
+  {#each rowValues(translation, rowIndex) as value}
     <td class="text-center">{value}</td>
   {/each}
   <td class="text-center">
