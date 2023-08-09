@@ -3,6 +3,7 @@ using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Translations;
+using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using OneOf;
 
@@ -43,12 +44,14 @@ public class PutTranslationSheetCommandHandler
 
         foreach (var task in tasks) await task;
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
-        return tasks.Select(task => task.Result);
+        return tasks
+            .Select(task => task.Result)
+            .Select(result => result.MapT0(translation => _mapper.Map<TranslationResponse>(translation)));
     }
 
-    private async Task<OneOf<TranslationResponse, ErrorResponse>> TryGetOrCreateTranslation(
+    private async Task<OneOf<Translation, ErrorResponse>> TryGetOrCreateTranslation(
         ParseTranslationResponse translationResponse,
         CancellationToken cancellationToken)
     {
@@ -57,8 +60,7 @@ public class PutTranslationSheetCommandHandler
         try
         {
             var request = new GetOrCreateTranslation(firstText, firstLanguage, secondText, secondLanguage);
-            var translation = await _mediator.Send(request, cancellationToken);
-            return _mapper.Map<TranslationResponse>(translation);
+            return await _mediator.Send(request, cancellationToken);
         }
         catch (Exception e) when (e is BadRequestException or ArgumentException)
         {

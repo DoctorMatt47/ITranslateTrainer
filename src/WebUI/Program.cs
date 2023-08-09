@@ -1,6 +1,7 @@
 using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Infrastructure.Extensions;
 using ITranslateTrainer.WebUI.Extensions;
+using ITranslateTrainer.WebUI.JsonConverters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,8 @@ builder.Services
     .AddInfrastructure(connectionString)
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
-    .AddControllers();
+    .AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new OneOfJsonConverterFactory()));
 
 var app = builder.Build();
 

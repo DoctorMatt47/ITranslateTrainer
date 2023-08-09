@@ -12,13 +12,11 @@ public sealed class TranslateDbContext : DbContext, ITranslateDbContext
         Database.EnsureCreated();
     }
 
-    public DbSet<TranslationText> Texts { get; set; } = null!;
+    public DbSet<TranslationText> TranslationTexts { get; set; } = null!;
     public DbSet<Translation> Translations { get; set; } = null!;
     public DbSet<Test> Tests { get; set; } = null!;
     public DbSet<Option> Options { get; set; } = null!;
     public DbSet<DayResult> DayResults { get; set; } = null!;
-
-    public Task SaveChangesAsync() => base.SaveChangesAsync();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
