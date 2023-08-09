@@ -1,5 +1,5 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.WebUI.Responses;
+using ITranslateTrainer.Application.Common.Responses;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +21,6 @@ public class ErrorController : Controller
             _ => 500,
         };
 
-        return StatusCode(responseCode, new ErrorResponse(exception?.Message, exception?.StackTrace));
+        return StatusCode(responseCode, new ErrorResponse(exception?.Message!));
     }
 }
