@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Texts;
+using ITranslateTrainer.Application.TranslationTexts;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -61,7 +61,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
             .ToList();
 
         await _context.Set<Option>().AddRangeAsync(options, cancellationToken);
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map<GetOrCreateTestResponse>(test);
     }

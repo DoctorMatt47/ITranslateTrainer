@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using ITranslateTrainer.Domain.Entities;
 
-namespace ITranslateTrainer.Application.Texts;
+namespace ITranslateTrainer.Application.TranslationTexts;
 
-public class TextMappings : Profile
+public class TranslationTextMappings : Profile
 {
-    public TextMappings()
+    public TranslationTextMappings()
     {
         CreateMap<TranslationText, TranslationTextResponse>();
     }

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using ITranslateTrainer.Application.Texts;
 using ITranslateTrainer.Application.Translations;
+using ITranslateTrainer.Application.TranslationTexts;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

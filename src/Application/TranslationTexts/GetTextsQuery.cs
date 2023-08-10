@@ -5,7 +5,7 @@ using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.Texts;
+namespace ITranslateTrainer.Application.TranslationTexts;
 
 public record GetTextsQuery : IRequest<IEnumerable<TranslationTextResponse>>;
 

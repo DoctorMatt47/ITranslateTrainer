@@ -3,7 +3,7 @@ using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.Texts;
+namespace ITranslateTrainer.Application.TranslationTexts;
 
 internal record GetTranslationTextsByTextId(int TextId) : IRequest<IEnumerable<TranslationText>>;
 

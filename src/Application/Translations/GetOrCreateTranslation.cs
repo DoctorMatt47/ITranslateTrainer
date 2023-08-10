@@ -1,6 +1,6 @@
 ﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Texts;
+using ITranslateTrainer.Application.TranslationTexts;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 

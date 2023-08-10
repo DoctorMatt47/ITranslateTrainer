@@ -1,4 +1,4 @@
-﻿using ITranslateTrainer.Application.Texts;
+﻿using ITranslateTrainer.Application.TranslationTexts;
 
 namespace ITranslateTrainer.Application.Translations;
 

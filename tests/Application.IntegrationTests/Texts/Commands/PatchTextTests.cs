@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.Texts;
+using ITranslateTrainer.Application.TranslationTexts;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Xunit;

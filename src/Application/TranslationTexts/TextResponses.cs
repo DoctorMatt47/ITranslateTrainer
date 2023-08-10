@@ -1,4 +1,4 @@
-﻿namespace ITranslateTrainer.Application.Texts;
+﻿namespace ITranslateTrainer.Application.TranslationTexts;
 
 public record TranslationTextResponse(
     int Id,

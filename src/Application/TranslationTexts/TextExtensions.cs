@@ -1,7 +1,7 @@
 ﻿using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Domain.Entities;
 
-namespace ITranslateTrainer.Application.Texts;
+namespace ITranslateTrainer.Application.TranslationTexts;
 
 internal static class TextExtensions
 {

@@ -1,4 +1,4 @@
-﻿using ITranslateTrainer.Application.Texts;
+﻿using ITranslateTrainer.Application.TranslationTexts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
