@@ -1,4 +1,5 @@
-﻿using ITranslateTrainer.Application.Common.Exceptions;
+﻿using AutoMapper;
+using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
@@ -9,20 +10,28 @@ namespace ITranslateTrainer.Application.Tests;
 public record AnswerOnTestCommand(
         int Id,
         int OptionId)
-    : IRequest;
+    : IRequest<TestResponse>;
 
-internal class AnswerOnTestCommandHandler : IRequestHandler<AnswerOnTestCommand>
+internal class AnswerOnTestCommandHandler : IRequestHandler<AnswerOnTestCommand, TestResponse>
 {
     private readonly ITranslateDbContext _dbContext;
+    private readonly IMapper _mapper;
 
-    public AnswerOnTestCommandHandler(ITranslateDbContext dbContext) => _dbContext = dbContext;
+    public AnswerOnTestCommandHandler(ITranslateDbContext dbContext, IMapper mapper)
+    {
+        _dbContext = dbContext;
+        _mapper = mapper;
+    }
 
-    public async Task<Unit> Handle(AnswerOnTestCommand request, CancellationToken cancellationToken)
+    public async Task<TestResponse> Handle(AnswerOnTestCommand request, CancellationToken cancellationToken)
     {
         var test = await _dbContext.Set<Test>().FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
         if (test is null) throw new NotFoundException($"There is no test with id: {request.Id}");
 
-        if (Test.IsAnswered.Compile().Invoke(test)) return Unit.Value;
+        if (Test.IsAnswered.Compile().Invoke(test))
+        {
+            return _mapper.Map<TestResponse>(test);
+        }
 
         var option = test.Options.FirstOrDefault(o => o.Id == request.OptionId);
         if (option is null) throw new NotFoundException($"There is no option with id: {request.OptionId}");
@@ -38,6 +47,7 @@ internal class AnswerOnTestCommandHandler : IRequestHandler<AnswerOnTestCommand>
         test.TranslationText.Answer(option.IsCorrect);
 
         await _dbContext.SaveChangesAsync();
-        return Unit.Value;
+
+        return _mapper.Map<TestResponse>(test);
     }
 }

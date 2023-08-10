@@ -29,7 +29,7 @@ public class TestsController : ControllerBase
         CancellationToken cancellationToken) => _mediator.Send(command, cancellationToken);
 
     [HttpPut("{id:int}/Answer")]
-    public Task AnswerOnTest(
+    public Task<TestResponse> AnswerOnTest(
         int id,
         AnswerOnTestBody body,
         CancellationToken cancellationToken)
