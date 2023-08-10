@@ -25,7 +25,7 @@
   <div class="mx-auto">Loading...</div>
 
 {:then translations}
-  <TranslationTable {translations}>
+  <TranslationTable translations={$translationsStore}>
     <AddTranslationRow />
   </TranslationTable>
 

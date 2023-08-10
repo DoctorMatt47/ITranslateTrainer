@@ -6,9 +6,9 @@ import type { PutTestRequest, TestResponse } from "./services/test-service";
 export const translationsStore: Writable<TranslationResponse[]> = writable([]);
 
 export const testSettingsStore: Writable<PutTestRequest> = writable({
-  from: "English",
-  to: "Russian",
+  from: "english",
+  to: "russian",
   optionCount: 10,
 });
 
-export const testStore: Writable<TestResponse | null> = writable(null);
+export const testStore: Writable<TestResponse | null> = writable(null!);

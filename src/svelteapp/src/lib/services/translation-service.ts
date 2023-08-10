@@ -1,3 +1,4 @@
+import type { ErrorResponse } from "./api-service";
 import { api } from "./api-service";
 import type { TextResponse } from "./text-service";
 
@@ -26,7 +27,7 @@ export async function putTranslation(request: PutTranslationRequest): Promise<Tr
   return response.data;
 }
 
-export async function importSheet(file: File): Promise<TranslationResponse[]> {
+export async function importSheet(file: File): Promise<Array<TranslationResponse | ErrorResponse>> {
   const formData = new FormData();
   formData.append("sheet", file);
 

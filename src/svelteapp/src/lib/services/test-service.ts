@@ -10,8 +10,8 @@ export interface TestResponse {
 export interface OptionResponse {
   id: number;
   string: string;
-  isChosen: boolean;
-  isCorrect: boolean;
+  isChosen?: boolean;
+  isCorrect?: boolean;
 }
 
 export interface PutTestRequest {
@@ -41,6 +41,7 @@ export async function putTest(request: PutTestRequest): Promise<TestResponse> {
   return response.data;
 }
 
-export async function answerOnTest(id: number, request: AnswerOnTestRequest) {
-  await api.put(`${tests}/${id}/answer`, request);
+export async function answerOnTest(id: number, request: AnswerOnTestRequest): Promise<TestResponse> {
+  const response = await api.put(`${tests}/${id}/answer`, request);
+  return response.data;
 }

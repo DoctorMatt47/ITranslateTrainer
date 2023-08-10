@@ -18,8 +18,9 @@
   async function start() {
     testSettingsStore.set(settings);
     const test = await putTest(settings);
+    console.log(test);
     testStore.set(test);
-    await goto("/test");
+    await goto("/quiz");
   }
 
 </script>
