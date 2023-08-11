@@ -13,13 +13,11 @@
 
   async function add() {
     const addedTranslation = await putTranslation(request);
-
     translationsStore.update((translations) => {
       translations.push(addedTranslation);
       return translations;
     });
   }
-
 </script>
 
 <tr>

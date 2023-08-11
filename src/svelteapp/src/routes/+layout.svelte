@@ -18,7 +18,6 @@
       <a href="/menu"><i class="fa-solid fa-home"></i></a>
     </svelte:fragment>
   </AppBar>
-
   <div class="container mx-auto mt-8">
     <AppCard>
       <div class="flex flex-col gap-y-6">
@@ -26,5 +25,4 @@
       </div>
     </AppCard>
   </div>
-
 </AppShell>

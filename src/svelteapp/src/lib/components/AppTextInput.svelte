@@ -6,6 +6,6 @@
 
 <input {...$$restProps}
        bind:value
-       class="input text-center p-1 dark:bg-black/0 placeholder:text-surface-600 {className}"
+       class="input text-center p-1 variant-ghost-surface placeholder:text-surface-600 {className}"
        type="text"
 />

@@ -8,7 +8,6 @@
 
 <div class="table-container">
   <table class="table dark:bg-black/0">
-
     <thead>
     <tr class="bg-surface-500/50">
       {#each heads as head}
@@ -16,16 +15,12 @@
       {/each}
     </tr>
     </thead>
-
     <tbody class="table-body">
-
     <slot />
-
     {#each translations as translation, rowIndex (translation.id)}
       <TranslationRow {translation} {rowIndex} />
     {/each}
     </tbody>
-
   </table>
 </div>
 

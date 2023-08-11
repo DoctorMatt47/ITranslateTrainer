@@ -4,7 +4,6 @@
 </script>
 
 <AppHeading>Menu</AppHeading>
-
 <div class="w-1/2 mx-auto flex flex-col gap-6">
   <a href="translations">
     <AppVariant>Translations</AppVariant>

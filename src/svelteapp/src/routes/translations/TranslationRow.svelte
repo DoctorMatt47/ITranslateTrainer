@@ -13,7 +13,6 @@
       translation.second.string,
     ];
   }
-
 </script>
 
 <tr>

@@ -5,7 +5,6 @@
   onMount(async () => {
     await goto("/menu");
   });
-
 </script>
 
 <slot />

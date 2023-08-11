@@ -18,7 +18,6 @@
       return translations;
     });
   }
-
 </script>
 
 <label class="import">

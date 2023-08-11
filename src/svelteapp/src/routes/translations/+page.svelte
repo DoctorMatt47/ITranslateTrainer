@@ -11,25 +11,19 @@
     translationsStore.set(translations);
     return translations;
   });
-
 </script>
 
 <AppHeading>Translations</AppHeading>
-
 <div class="grid grid-cols-2 gap-6">
   <ImportTranslationSheet />
   <AppVariant>Export</AppVariant>
 </div>
-
 {#await translationsPromise}
   <div class="mx-auto">Loading...</div>
-
 {:then translations}
   <TranslationTable translations={$translationsStore}>
     <AddTranslationRow />
   </TranslationTable>
-
 {:catch error}
   <div class="mx-auto">{error.message}</div>
-
 {/await}
