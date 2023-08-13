@@ -29,9 +29,9 @@ public class PutTranslationTests
         var addedTranslation = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == idDto.Id);
 
         Assert.NotNull(addedTranslation);
-        Assert.Equal("get", addedTranslation!.First.String);
+        Assert.Equal("get", addedTranslation!.First.Text);
         Assert.Equal("english", addedTranslation.First.Language);
-        Assert.Equal("получить", addedTranslation.Second.String);
+        Assert.Equal("получить", addedTranslation.Second.Text);
         Assert.Equal("russian", addedTranslation.Second.Language);
     }
 

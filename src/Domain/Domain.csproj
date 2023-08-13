@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.10"/>
-        <PackageReference Include="StronglyTypedId" Version="1.0.0-beta06" PrivateAssets="all" ExcludeAssets="runtime"/>
     </ItemGroup>
 
 </Project>

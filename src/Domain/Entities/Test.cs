@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using ITranslateTrainer.Domain.Interfaces;
+using ITranslateTrainer.Domain.Abstractions;
 
 namespace ITranslateTrainer.Domain.Entities;
 

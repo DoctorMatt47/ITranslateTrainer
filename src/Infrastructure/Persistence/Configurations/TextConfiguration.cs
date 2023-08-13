@@ -8,7 +8,7 @@ public class TextConfiguration : IEntityTypeConfiguration<TranslationText>
 {
     public void Configure(EntityTypeBuilder<TranslationText> builder)
     {
-        builder.Property(t => t.String).IsRequired();
+        builder.Property(t => t.Text).IsRequired();
         builder.Property(t => t.Language).IsRequired();
     }
 }

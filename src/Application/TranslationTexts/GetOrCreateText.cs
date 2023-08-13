@@ -34,12 +34,12 @@ internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, Transla
         async Task<TranslationText?> FindInLocalOrInDb(DbSet<TranslationText> texts)
         {
             var textsInLocal = texts.Local.FirstOrDefault(t =>
-                t.String == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant());
+                t.Text == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant());
 
             if (textsInLocal is not null) return textsInLocal;
 
             return await texts.FirstOrDefaultAsync(
-                t => t.String == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant(),
+                t => t.Text == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant(),
                 cancellationToken);
         }
     }
