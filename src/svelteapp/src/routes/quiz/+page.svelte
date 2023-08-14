@@ -31,7 +31,6 @@
     const test = await putTest($testSettingsStore);
     testStore.set(test);
   }
-
 </script>
 
 {#if $testStore}

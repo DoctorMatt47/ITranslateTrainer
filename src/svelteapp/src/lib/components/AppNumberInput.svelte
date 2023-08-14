@@ -1,7 +1,6 @@
 ﻿<script lang="ts">
   export let value: number;
   export let className = "";
-
 </script>
 
 <input {...$$restProps}

@@ -5,15 +5,10 @@
   import type { PutTestRequest } from "$lib/services/test-service";
   import { putTest } from "$lib/services/test-service";
   import { testSettingsStore, testStore } from "$lib/stores";
-  import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import AppSubmitButton from "$lib/components/AppSubmitButton.svelte";
 
   const settings: PutTestRequest = $testSettingsStore;
-
-  onMount(() => {
-    console.log(settings);
-  });
 
   async function start() {
     testSettingsStore.set(settings);
