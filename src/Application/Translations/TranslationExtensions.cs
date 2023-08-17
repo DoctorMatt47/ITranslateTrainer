@@ -7,12 +7,13 @@ internal static class TranslationExtensions
 {
     public static Task<Translation?> FindByTexts(
         this IQueryable<Translation> translations,
-        TranslationText first,
-        TranslationText second,
+        TranslationText originalText,
+        TranslationText translationText,
         CancellationToken cancellationToken)
     {
         return translations.FirstOrDefaultAsync(
-            t => (t.First == first && t.Second == second) || (t.First == second && t.Second == first),
+            t => (t.OriginText == originalText && t.TranslationText == translationText)
+                || (t.OriginText == translationText && t.TranslationText == originalText),
             cancellationToken);
     }
 }

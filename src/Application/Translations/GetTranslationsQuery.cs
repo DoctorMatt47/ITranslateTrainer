@@ -27,8 +27,8 @@ internal class GetTranslationsQueryHandler
         CancellationToken cancellationToken)
     {
         return await _context.Set<Translation>()
-            .Include(t => t.First)
-            .Include(t => t.Second)
+            .Include(t => t.OriginText)
+            .Include(t => t.TranslationText)
             .ProjectTo<TranslationResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
     }

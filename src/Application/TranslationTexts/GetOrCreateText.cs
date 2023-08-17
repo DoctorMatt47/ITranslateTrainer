@@ -18,13 +18,18 @@ internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, Transla
 
     public async Task<TranslationText> Handle(GetOrCreateText request, CancellationToken cancellationToken)
     {
-        var (textString, language) = request;
+        var (text, language) = request;
 
-        var text = await FindInLocalOrInDb(_context.Set<TranslationText>());
+        var translationText = await FindInLocalOrInDb(_context.Set<TranslationText>());
 
-        if (text is not null) return text;
+        if (translationText is not null) return translationText;
 
-        var newText = new TranslationText(textString, language);
+        var newText = new TranslationText
+        {
+            Text = text,
+            Language = language,
+        };
+
         await _context.Set<TranslationText>().AddAsync(newText, cancellationToken);
 
         return newText;
@@ -34,12 +39,12 @@ internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, Transla
         async Task<TranslationText?> FindInLocalOrInDb(DbSet<TranslationText> texts)
         {
             var textsInLocal = texts.Local.FirstOrDefault(t =>
-                t.Text == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant());
+                t.Text == text.ToLowerInvariant() && t.Language == language.ToLowerInvariant());
 
             if (textsInLocal is not null) return textsInLocal;
 
             return await texts.FirstOrDefaultAsync(
-                t => t.Text == textString.ToLowerInvariant() && t.Language == language.ToLowerInvariant(),
+                t => t.Text == text.ToLowerInvariant() && t.Language == language.ToLowerInvariant(),
                 cancellationToken);
         }
     }

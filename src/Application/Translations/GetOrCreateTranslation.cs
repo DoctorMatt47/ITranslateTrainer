@@ -38,7 +38,12 @@ internal class GetOrCreateTranslationHandler : IRequestHandler<GetOrCreateTransl
 
         if (translation is not null) return translation;
 
-        var translationToAdd = new Translation(firstText, secondText);
+        var translationToAdd = new Translation
+        {
+            OriginText = firstText,
+            TranslationText = secondText,
+        };
+
         await _context.Set<Translation>().AddAsync(translationToAdd, cancellationToken);
 
         return translationToAdd;

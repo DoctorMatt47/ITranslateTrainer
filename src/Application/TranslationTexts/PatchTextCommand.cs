@@ -26,7 +26,7 @@ internal class PatchTextCommandHandler : IRequestHandler<PatchTextCommand>
         if (canBeOption is not null) text!.CanBeOption = (bool) canBeOption;
         if (canBeTested is not null) text!.CanBeTested = (bool) canBeTested;
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }

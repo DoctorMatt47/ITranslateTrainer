@@ -23,20 +23,27 @@ internal class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslati
     public async Task<Unit> Handle(DeleteTranslationCommand request, CancellationToken cancellationToken)
     {
         var translationToDelete = await _context.Set<Translation>()
-            .Include(t => t.First).Include(t => t.Second)
+            .Include(t => t.OriginText)
+            .Include(t => t.TranslationText)
             .FirstAsync(t => t.Id == request.Id, cancellationToken);
 
         _context.Set<Translation>().Remove(translationToDelete);
 
-        var firstRequest = new GetTranslationTextsByTextId(translationToDelete.FirstId);
+        var firstRequest = new GetTranslationTextsById(translationToDelete.OriginTextId);
         var firstTextTranslations = await _mediator.Send(firstRequest, cancellationToken);
-        if (firstTextTranslations.Count() <= 1) _context.Set<TranslationText>().Remove(translationToDelete.First);
+        if (firstTextTranslations.Count() <= 1)
+        {
+            _context.Set<TranslationText>().Remove(translationToDelete.OriginText);
+        }
 
-        var secondRequest = new GetTranslationTextsByTextId(translationToDelete.SecondId);
+        var secondRequest = new GetTranslationTextsById(translationToDelete.TranslationTextId);
         var secondTextTranslations = await _mediator.Send(secondRequest, cancellationToken);
-        if (secondTextTranslations.Count() <= 1) _context.Set<TranslationText>().Remove(translationToDelete.Second);
+        if (secondTextTranslations.Count() <= 1)
+        {
+            _context.Set<TranslationText>().Remove(translationToDelete.TranslationText);
+        }
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }

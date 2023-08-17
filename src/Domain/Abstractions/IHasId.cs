@@ -1,6 +1,6 @@
 ﻿namespace ITranslateTrainer.Domain.Abstractions;
 
-public interface IHasId<out T> where T : IEquatable<T>
+public interface IHasId<out T>
 {
     T Id { get; }
 }

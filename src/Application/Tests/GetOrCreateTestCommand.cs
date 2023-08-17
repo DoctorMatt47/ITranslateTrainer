@@ -46,7 +46,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
         test = new Test(testedText.Id, optionCount);
         await _context.Set<Test>().AddAsync(test, cancellationToken);
 
-        var correct = (await _mediator.Send(new GetTranslationTextsByTextId(testedText.Id), cancellationToken))
+        var correct = (await _mediator.Send(new GetTranslationTextsById(testedText.Id), cancellationToken))
             .Select(text => new Option(text, test, true))
             .ToList();
 
