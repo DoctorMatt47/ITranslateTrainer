@@ -1,10 +1,12 @@
-﻿using ITranslateTrainer.Domain.Abstractions;
+﻿// ReSharper disable RedundantDefaultMemberInitializer
+
+using ITranslateTrainer.Domain.Abstractions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
 public class TranslationText : HasId<int>
 {
-    public required string Text { get; init; } = null!;
+    public required string Text { get; init; }
     public required string Language { get; init; }
 
     public int TranslationId { get; private init; } = 0;

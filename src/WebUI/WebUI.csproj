@@ -10,22 +10,26 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj"/>
+        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <_ContentIncludedByDefault Remove="wwwroot\quiz\quiz.html"/>
-        <_ContentIncludedByDefault Remove="wwwroot\quiz\quiz.js"/>
-        <_ContentIncludedByDefault Remove="wwwroot\quiz-settings\quiz-settings.css"/>
-        <_ContentIncludedByDefault Remove="wwwroot\quiz-settings\quiz-settings.html"/>
-        <_ContentIncludedByDefault Remove="wwwroot\quiz-settings\quiz-settings.js"/>
-        <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.css"/>
-        <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.html"/>
-        <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.js"/>
+        <_ContentIncludedByDefault Remove="wwwroot\quiz\quiz.html" />
+        <_ContentIncludedByDefault Remove="wwwroot\quiz\quiz.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\quiz-settings\quiz-settings.css" />
+        <_ContentIncludedByDefault Remove="wwwroot\quiz-settings\quiz-settings.html" />
+        <_ContentIncludedByDefault Remove="wwwroot\quiz-settings\quiz-settings.js" />
+        <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.css" />
+        <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.html" />
+        <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\" />
     </ItemGroup>
 
 

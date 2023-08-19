@@ -1,4 +1,6 @@
-﻿using ITranslateTrainer.Domain.Abstractions;
+﻿// ReSharper disable RedundantDefaultMemberInitializer
+
+using ITranslateTrainer.Domain.Abstractions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
