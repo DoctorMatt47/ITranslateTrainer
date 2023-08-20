@@ -29,7 +29,7 @@ internal record GetTestQueryHandler : IRequestHandler<GetTestQuery, TestResponse
             .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
 
         if (test is null) throw new NotFoundException($"There is no test with id: {request.Id}");
-        if (!Test.IsAnswered.Compile().Invoke(test))
+        if (!Test.IsAnsweredExpression.Compile().Invoke(test))
         {
             throw new BadRequestException("You don't have permission to get not answered test");
         }

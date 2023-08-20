@@ -25,28 +25,16 @@ internal class AnswerOnTestCommandHandler : IRequestHandler<AnswerOnTestCommand,
 
     public async Task<TestResponse> Handle(AnswerOnTestCommand request, CancellationToken cancellationToken)
     {
-        var test = await _dbContext.Set<Test>().FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
-        if (test is null) throw new NotFoundException($"There is no test with id: {request.Id}");
+        var test = await _dbContext.Set<Test>().FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken)
+            ?? throw new NotFoundException($"There is no test with id: {request.Id}");
 
-        if (Test.IsAnswered.Compile().Invoke(test))
+        if (Test.IsAnswered(test))
         {
             return _mapper.Map<TestResponse>(test);
         }
-
-        var option = test.Options.FirstOrDefault(o => o.Id == request.OptionId);
-        if (option is null) throw new NotFoundException($"There is no option with id: {request.OptionId}");
-
-        var dateNow = DateOnly.FromDateTime(DateTime.UtcNow);
-
-        var dayResult = await _dbContext.Set<DayResult>().FindAsync(dateNow)
-            ?? _dbContext.Set<DayResult>().Add(new DayResult(dateNow)).Entity;
-
-        option.Choose();
-        test.Answer();
-        dayResult.Answer(option.IsCorrect);
-        test.TranslationText.Answer(option.IsCorrect);
-
-        await _dbContext.SaveChangesAsync();
+        
+        test.Answer(request.OptionId);
+        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return _mapper.Map<TestResponse>(test);
     }

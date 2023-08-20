@@ -1,31 +1,39 @@
-﻿using System.Linq.Expressions;
+﻿// ReSharper disable RedundantDefaultMemberInitializer
+
+using System.Linq.Expressions;
 using ITranslateTrainer.Domain.Abstractions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Test : IHasId<int>
+public class Test : HasId<int>
 {
-    public Test(int translationTextId, int optionCount)
+    private readonly List<Option> _options = new();
+
+    public static Expression<Func<Test, bool>> IsAnsweredExpression => test => test.AnswerTime != null;
+    public static Func<Test, bool> IsAnswered { get; } = IsAnsweredExpression.Compile();
+
+    public required TranslationText TranslationText { get; init; } = null!;
+
+    public DateTime? AnswerTime { get; private set; }
+
+    public int TranslationTextId { get; private init; } = 0;
+    public int OptionCount { get; private init; } = 0;
+    
+    public required IEnumerable<Option> Options
     {
-        TranslationTextId = translationTextId;
-        OptionCount = optionCount;
+        get => _options.AsReadOnly();
+        init
+        {
+            var list = value.ToList();
+            OptionCount = list.Count;
+            _options.AddRange(list);
+        }
     }
 
-    public static Expression<Func<Test, bool>> IsAnswered => test => test.AnswerTime != null;
-    public static Expression<Func<Test, bool>> IsNotAnswered => test => test.AnswerTime == null;
-
-    public int TranslationTextId { get; protected set; }
-    public TranslationText TranslationText { get; protected set; } = null!;
-
-    public int OptionCount { get; protected set; }
-    public List<Option> Options { get; protected set; } = new();
-
-    public DateTime? AnswerTime { get; protected set; }
-
-    public int Id { get; protected set; }
-
-    public void Answer()
+    public void Answer(int optionId)
     {
+        var option = _options.First(o => o.Id == optionId);
+        option.Choose();
         AnswerTime = DateTime.UtcNow;
     }
 }

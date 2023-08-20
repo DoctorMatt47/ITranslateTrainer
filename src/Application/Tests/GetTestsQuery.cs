@@ -23,7 +23,7 @@ internal class GetTestsQueryHandler : IRequestHandler<GetTestsQuery, IEnumerable
     public async Task<IEnumerable<TestResponse>> Handle(GetTestsQuery request, CancellationToken cancellationToken)
     {
         return await _context.Set<Test>()
-            .Where(Test.IsAnswered)
+            .Where(Test.IsAnsweredExpression)
             .OrderByDescending(t => t.AnswerTime)
             .ProjectTo<TestResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken);
