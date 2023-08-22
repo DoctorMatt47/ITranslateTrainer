@@ -18,7 +18,7 @@ public class Test : HasId<int>
 
     public int TranslationTextId { get; private init; } = 0;
     public int OptionCount { get; private init; } = 0;
-    
+
     public required IEnumerable<Option> Options
     {
         get => _options.AsReadOnly();
@@ -33,7 +33,7 @@ public class Test : HasId<int>
     public void Answer(int optionId)
     {
         var option = _options.First(o => o.Id == optionId);
-        option.Choose();
+        option.IsChosen = true;
         AnswerTime = DateTime.UtcNow;
     }
 }

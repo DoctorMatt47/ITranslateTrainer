@@ -41,7 +41,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
         {
             return _mapper.Map<GetOrCreateTestResponse>(test);
         }
-        
+
         test = await CreateTest(from, to, optionCount, cancellationToken);
         await _context.Set<Test>().AddAsync(test, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
@@ -57,7 +57,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
     {
         var translationText = await _context.Set<TranslationText>()
             .Where(t => t.Language == from)
-            .OrderBy(_ => EF.Functions.Random())
+            .Shuffle()
             .FirstAsync(cancellationToken);
 
         var correct = (await _mediator.Send(new GetTranslationTextsById(translationText.Id), cancellationToken))
@@ -81,7 +81,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
             .Concat(incorrect)
             .Shuffle()
             .ToList();
-        
+
         return new Test
         {
             TranslationText = translationText,

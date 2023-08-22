@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Domain.Entities;
+using Mapster;
 
 namespace ITranslateTrainer.Application.Tests;
 
@@ -21,4 +22,13 @@ public class TestMappings : Profile
         CreateMap<Option, OptionResponse>()
             .MapRecordMember(r => r.String, t => t.TranslationText.Text);
     }
+}
+
+[Mapper]
+public interface ITestMapper
+{
+    public GetOrCreateTestResponse MapToGetOrCreateTestResponse(Test test);
+    public GetOrCreateOptionResponse MapToGetOrCreateOptionResponse(Option option);
+    public TestResponse MapToTestResponse(Test test);
+    public OptionResponse MapToOptionResponse(Option option);
 }

@@ -11,18 +11,7 @@ internal static class TextExtensions
         int count)
     {
         return texts
-            .Where(t => t.CanBeOption && t.Language == language.ToLowerInvariant())
-            .Shuffle()
-            .Take(count);
-    }
-
-    public static IQueryable<TranslationText> GetRandomCanBeTested(
-        this IQueryable<TranslationText> texts,
-        string language,
-        int count)
-    {
-        return texts
-            .Where(t => t.CanBeTested && t.Language == language.ToLowerInvariant())
+            .Where(t => t.Language == language.ToLowerInvariant())
             .Shuffle()
             .Take(count);
     }

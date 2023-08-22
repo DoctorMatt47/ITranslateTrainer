@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using ITranslateTrainer.Application.Translations;
-using ITranslateTrainer.Application.TranslationTexts;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,10 +12,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddMediatR(Assembly.GetExecutingAssembly());
-
-        services.AddScoped(
-            typeof(IPipelineBehavior<PatchTextCommand, Unit>),
-            typeof(PatchTextCommandValidateBehaviour));
 
         services.AddScoped(
             typeof(IPipelineBehavior<GetOrCreateTranslation, Translation>),

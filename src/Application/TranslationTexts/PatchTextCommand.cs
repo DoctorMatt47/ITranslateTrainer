@@ -7,8 +7,7 @@ namespace ITranslateTrainer.Application.TranslationTexts;
 
 public record PatchTextCommand(
         int Id,
-        bool? CanBeOption,
-        bool? CanBeTested)
+        string Text)
     : IRequest;
 
 internal class PatchTextCommandHandler : IRequestHandler<PatchTextCommand>
@@ -19,37 +18,11 @@ internal class PatchTextCommandHandler : IRequestHandler<PatchTextCommand>
 
     public async Task<Unit> Handle(PatchTextCommand request, CancellationToken cancellationToken)
     {
-        var (id, canBeOption, canBeTested) = request;
+        var text = await _context.Set<TranslationText>().FindAsync(request.Id)
+            ?? throw new BadRequestException($"There is no text with id = {request.Id}");
 
-        var text = await _context.Set<TranslationText>().FindAsync(id);
-
-        if (canBeOption is not null) text!.CanBeOption = (bool) canBeOption;
-        if (canBeTested is not null) text!.CanBeTested = (bool) canBeTested;
-
+        text.Text = request.Text;
         await _context.SaveChangesAsync(cancellationToken);
-
         return Unit.Value;
-    }
-}
-
-internal class PatchTextCommandValidateBehaviour : IPipelineBehavior<PatchTextCommand>
-{
-    private readonly ITranslateDbContext _context;
-
-    public PatchTextCommandValidateBehaviour(ITranslateDbContext context) => _context = context;
-
-    public async Task<Unit> Handle(
-        PatchTextCommand request,
-        CancellationToken cancellationToken,
-        RequestHandlerDelegate<Unit> next)
-    {
-        var (id, canBeOption, canBeTested) = request;
-
-        if (canBeOption is null && canBeTested is null) throw new BadRequestException("All values are null");
-
-        var textExist = await _context.Set<TranslationText>().FindAsync(id);
-        if (textExist is null) throw new BadRequestException($"There is no text with id = {id}");
-
-        return await next.Invoke();
     }
 }

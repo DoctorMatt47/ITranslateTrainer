@@ -1,4 +1,6 @@
-﻿using ITranslateTrainer.Domain.Abstractions;
+﻿// ReSharper disable RedundantDefaultMemberInitializer
+
+using ITranslateTrainer.Domain.Abstractions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
@@ -7,14 +9,9 @@ public class Option : HasId<int>
     public required TranslationText TranslationText { get; init; }
     public required bool IsCorrect { get; init; }
 
-    public bool IsChosen { get; protected set; }
+    public bool IsChosen { get; internal set; }
 
     public int TranslationTextId { get; protected set; }
     public int TestId { get; private set; } = 0;
     public Test Test { get; private set; } = null!;
-
-    internal void Choose()
-    {
-        IsChosen = true;
-    }
 }
