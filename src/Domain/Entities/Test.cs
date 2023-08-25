@@ -12,11 +12,11 @@ public class Test : HasId<int>
     public static Expression<Func<Test, bool>> IsAnsweredExpression => test => test.AnswerTime != null;
     public static Func<Test, bool> IsAnswered { get; } = IsAnsweredExpression.Compile();
 
-    public required TranslationText TranslationText { get; init; } = null!;
+    public required Text Text { get; init; } = null!;
 
     public DateTime? AnswerTime { get; private set; }
 
-    public int TranslationTextId { get; private init; } = 0;
+    public int TextId { get; private init; } = 0;
     public int OptionCount { get; private init; } = 0;
 
     public required IEnumerable<Option> Options

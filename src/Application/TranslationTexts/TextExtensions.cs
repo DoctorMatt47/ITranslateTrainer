@@ -5,8 +5,8 @@ namespace ITranslateTrainer.Application.TranslationTexts;
 
 internal static class TextExtensions
 {
-    public static IQueryable<TranslationText> GetRandomCanBeOption(
-        this IQueryable<TranslationText> texts,
+    public static IQueryable<Text> GetRandomCanBeOption(
+        this IQueryable<Text> texts,
         string language,
         int count)
     {

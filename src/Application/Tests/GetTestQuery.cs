@@ -23,9 +23,9 @@ internal record GetTestQueryHandler : IRequestHandler<GetTestQuery, TestResponse
     public async Task<TestResponse> Handle(GetTestQuery request, CancellationToken cancellationToken)
     {
         var test = await _context.Set<Test>()
-            .Include(t => t.TranslationText)
+            .Include(t => t.Text)
             .Include(t => t.Options)
-            .ThenInclude(t => t.TranslationText)
+            .ThenInclude(t => t.Text)
             .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken);
 
         if (test is null) throw new NotFoundException($"There is no test with id: {request.Id}");

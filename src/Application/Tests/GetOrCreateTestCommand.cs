@@ -55,7 +55,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
         int optionCount,
         CancellationToken cancellationToken)
     {
-        var translationText = await _context.Set<TranslationText>()
+        var translationText = await _context.Set<Text>()
             .Where(t => t.Language == from)
             .Shuffle()
             .FirstAsync(cancellationToken);
@@ -63,16 +63,16 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
         var correct = (await _mediator.Send(new GetTranslationTextsById(translationText.Id), cancellationToken))
             .Select(text => new Option
             {
-                TranslationText = text,
+                Text = text,
                 IsCorrect = true,
             })
             .ToList();
 
-        var incorrect = await _context.Set<TranslationText>()
+        var incorrect = await _context.Set<Text>()
             .GetRandomCanBeOption(to, optionCount - correct.Count)
             .Select(text => new Option
             {
-                TranslationText = text,
+                Text = text,
                 IsCorrect = false,
             })
             .ToListAsync(cancellationToken);
@@ -84,7 +84,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
 
         return new Test
         {
-            TranslationText = translationText,
+            Text = translationText,
             Options = options,
         };
     }

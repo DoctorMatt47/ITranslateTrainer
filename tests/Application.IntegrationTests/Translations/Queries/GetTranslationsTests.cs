@@ -32,7 +32,7 @@ public class GetTranslationsTests
 
     private async Task InitDb()
     {
-        var texts = new List<TranslationText>
+        var texts = new List<Text>
         {
             new("One", "English"),
             new("Two", "English"),
@@ -46,7 +46,7 @@ public class GetTranslationsTests
             new(texts[1], texts[3]),
         };
 
-        await _context.Set<TranslationText>().AddRangeAsync(texts);
+        await _context.Set<Text>().AddRangeAsync(texts);
         await _context.Set<Translation>().AddRangeAsync(translations);
         await _context.SaveChangesAsync();
     }

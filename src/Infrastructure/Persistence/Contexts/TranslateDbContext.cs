@@ -12,7 +12,7 @@ public sealed class TranslateDbContext : DbContext, ITranslateDbContext
         Database.EnsureCreated();
     }
 
-    public DbSet<TranslationText> TranslationTexts { get; set; } = null!;
+    public DbSet<Text> TranslationTexts { get; set; } = null!;
     public DbSet<Translation> Translations { get; set; } = null!;
     public DbSet<Test> Tests { get; set; } = null!;
     public DbSet<Option> Options { get; set; } = null!;

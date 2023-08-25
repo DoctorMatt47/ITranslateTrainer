@@ -33,14 +33,14 @@ internal class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslati
         var firstTextTranslations = await _mediator.Send(firstRequest, cancellationToken);
         if (firstTextTranslations.Count() <= 1)
         {
-            _context.Set<TranslationText>().Remove(translationToDelete.OriginText);
+            _context.Set<Text>().Remove(translationToDelete.OriginText);
         }
 
         var secondRequest = new GetTranslationTextsById(translationToDelete.TranslationTextId);
         var secondTextTranslations = await _mediator.Send(secondRequest, cancellationToken);
         if (secondTextTranslations.Count() <= 1)
         {
-            _context.Set<TranslationText>().Remove(translationToDelete.TranslationText);
+            _context.Set<Text>().Remove(translationToDelete.TranslationText);
         }
 
         await _context.SaveChangesAsync(cancellationToken);

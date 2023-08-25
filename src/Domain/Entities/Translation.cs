@@ -6,8 +6,8 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class Translation : HasId<int>
 {
-    public required TranslationText OriginText { get; init; } = null!;
-    public required TranslationText TranslationText { get; init; } = null!;
+    public required Text OriginText { get; init; } = null!;
+    public required Text TranslationText { get; init; } = null!;
 
     public bool CanBeOption { get; set; } = true;
 

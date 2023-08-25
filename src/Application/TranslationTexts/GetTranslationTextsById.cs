@@ -5,16 +5,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.TranslationTexts;
 
-internal record GetTranslationTextsById(int Id) : IRequest<IEnumerable<TranslationText>>;
+internal record GetTranslationTextsById(int Id) : IRequest<IEnumerable<Text>>;
 
 internal class GetTranslationTextsByIdHandler :
-    IRequestHandler<GetTranslationTextsById, IEnumerable<TranslationText>>
+    IRequestHandler<GetTranslationTextsById, IEnumerable<Text>>
 {
     private readonly ITranslateDbContext _context;
 
     public GetTranslationTextsByIdHandler(ITranslateDbContext context) => _context = context;
 
-    public async Task<IEnumerable<TranslationText>> Handle(
+    public async Task<IEnumerable<Text>> Handle(
         GetTranslationTextsById request,
         CancellationToken cancellationToken)
     {

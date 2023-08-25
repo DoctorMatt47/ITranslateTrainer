@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ITranslateTrainer.Infrastructure.Persistence.Configurations;
 
-public class TextConfiguration : IEntityTypeConfiguration<TranslationText>
+public class TextConfiguration : IEntityTypeConfiguration<Text>
 {
-    public void Configure(EntityTypeBuilder<TranslationText> builder)
+    public void Configure(EntityTypeBuilder<Text> builder)
     {
-        builder.Property(t => t.Text).IsRequired();
+        builder.Property(t => t.Value).IsRequired();
         builder.Property(t => t.Language).IsRequired();
     }
 }

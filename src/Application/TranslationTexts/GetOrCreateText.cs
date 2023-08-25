@@ -8,43 +8,43 @@ namespace ITranslateTrainer.Application.TranslationTexts;
 public record GetOrCreateText(
         string String,
         string Language)
-    : IRequest<TranslationText>;
+    : IRequest<Text>;
 
-internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, TranslationText>
+internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, Text>
 {
     private readonly ITranslateDbContext _context;
 
     public GetOrCreateTextHandler(ITranslateDbContext context) => _context = context;
 
-    public async Task<TranslationText> Handle(GetOrCreateText request, CancellationToken cancellationToken)
+    public async Task<Text> Handle(GetOrCreateText request, CancellationToken cancellationToken)
     {
         var (text, language) = request;
 
-        var translationText = await FindInLocalOrInDb(_context.Set<TranslationText>());
+        var translationText = await FindInLocalOrInDb(_context.Set<Text>());
 
         if (translationText is not null) return translationText;
 
-        var newText = new TranslationText
+        var newText = new Text
         {
-            Text = text,
+            Value = text,
             Language = language,
         };
 
-        await _context.Set<TranslationText>().AddAsync(newText, cancellationToken);
+        await _context.Set<Text>().AddAsync(newText, cancellationToken);
 
         return newText;
 
         // Tries to find in local, if not, requests database.
         // It is necessary for bulk addition to prevent duplicates.
-        async Task<TranslationText?> FindInLocalOrInDb(DbSet<TranslationText> texts)
+        async Task<Text?> FindInLocalOrInDb(DbSet<Text> texts)
         {
             var textsInLocal = texts.Local.FirstOrDefault(t =>
-                t.Text == text.ToLowerInvariant() && t.Language == language.ToLowerInvariant());
+                t.Value == text.ToLowerInvariant() && t.Language == language.ToLowerInvariant());
 
             if (textsInLocal is not null) return textsInLocal;
 
             return await texts.FirstOrDefaultAsync(
-                t => t.Text == text.ToLowerInvariant() && t.Language == language.ToLowerInvariant(),
+                t => t.Value == text.ToLowerInvariant() && t.Language == language.ToLowerInvariant(),
                 cancellationToken);
         }
     }

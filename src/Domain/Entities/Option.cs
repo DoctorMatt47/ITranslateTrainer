@@ -6,7 +6,7 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class Option : HasId<int>
 {
-    public required TranslationText TranslationText { get; init; }
+    public required Text Text { get; init; }
     public required bool IsCorrect { get; init; }
 
     public bool IsChosen { get; internal set; }

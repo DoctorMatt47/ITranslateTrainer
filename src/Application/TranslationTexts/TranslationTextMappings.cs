@@ -7,6 +7,6 @@ public class TranslationTextMappings : Profile
 {
     public TranslationTextMappings()
     {
-        CreateMap<TranslationText, TranslationTextResponse>();
+        CreateMap<Text, TextResponse>();
     }
 }
