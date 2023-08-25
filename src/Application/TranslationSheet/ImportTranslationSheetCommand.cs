@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ITranslateTrainer.Application.Common.Exceptions;
+﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Translations;
@@ -9,31 +8,28 @@ using OneOf;
 
 namespace ITranslateTrainer.Application.TranslationSheet;
 
-public record PutTranslationSheetCommand(Stream SheetStream)
+public record ImportTranslationSheetCommand(Stream SheetStream)
     : IRequest<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>>;
 
-public class PutTranslationSheetCommandHandler
-    : IRequestHandler<PutTranslationSheetCommand, IEnumerable<OneOf<TranslationResponse, ErrorResponse>>>
+public class ImportTranslationSheetCommandHandler
+    : IRequestHandler<ImportTranslationSheetCommand, IEnumerable<OneOf<TranslationResponse, ErrorResponse>>>
 {
     private readonly ITranslateDbContext _context;
-    private readonly IMapper _mapper;
     private readonly IMediator _mediator;
     private readonly ITranslationSheetService _sheetService;
 
-    public PutTranslationSheetCommandHandler(
+    public ImportTranslationSheetCommandHandler(
         IMediator mediator,
         ITranslationSheetService sheetService,
-        ITranslateDbContext context,
-        IMapper mapper)
+        ITranslateDbContext context)
     {
         _context = context;
-        _mapper = mapper;
         _mediator = mediator;
         _sheetService = sheetService;
     }
 
     public async Task<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>> Handle(
-        PutTranslationSheetCommand request,
+        ImportTranslationSheetCommand request,
         CancellationToken cancellationToken)
     {
         var translations = await _sheetService.ParseTranslations(request.SheetStream);
@@ -42,13 +38,16 @@ public class PutTranslationSheetCommandHandler
             .Select(async t => await TryGetOrCreateTranslation(t, cancellationToken))
             .ToList();
 
-        foreach (var task in tasks) await task;
+        foreach (var task in tasks)
+        {
+            await task;
+        }
 
         await _context.SaveChangesAsync(cancellationToken);
 
         return tasks
             .Select(task => task.Result)
-            .Select(result => result.MapT0(translation => _mapper.Map<TranslationResponse>(translation)));
+            .Select(result => result.MapT0(translation => translation.ToResponse()));
     }
 
     private async Task<OneOf<Translation, ErrorResponse>> TryGetOrCreateTranslation(

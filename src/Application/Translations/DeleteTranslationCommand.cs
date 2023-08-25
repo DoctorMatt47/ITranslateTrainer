@@ -1,6 +1,4 @@
-﻿using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.TranslationTexts;
+﻿using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,15 +27,13 @@ internal class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslati
 
         _context.Set<Translation>().Remove(translationToDelete);
 
-        var firstRequest = new GetTranslationTextsById(translationToDelete.OriginTextId);
-        var firstTextTranslations = await _mediator.Send(firstRequest, cancellationToken);
+        var firstTextTranslations = translationToDelete.OriginText.TranslationTexts;
         if (firstTextTranslations.Count() <= 1)
         {
             _context.Set<Text>().Remove(translationToDelete.OriginText);
         }
 
-        var secondRequest = new GetTranslationTextsById(translationToDelete.TranslationTextId);
-        var secondTextTranslations = await _mediator.Send(secondRequest, cancellationToken);
+        var secondTextTranslations = translationToDelete.TranslationText.TranslationTexts;
         if (secondTextTranslations.Count() <= 1)
         {
             _context.Set<Text>().Remove(translationToDelete.TranslationText);
@@ -46,23 +42,5 @@ internal class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslati
         await _context.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
-    }
-}
-
-public class DeleteTranslationCommandValidateBehaviour : IPipelineBehavior<DeleteTranslationCommand>
-{
-    private readonly ITranslateDbContext _context;
-
-    public DeleteTranslationCommandValidateBehaviour(ITranslateDbContext context) => _context = context;
-
-    public async Task<Unit> Handle(
-        DeleteTranslationCommand request,
-        CancellationToken cancellationToken,
-        RequestHandlerDelegate<Unit> next)
-    {
-        var isExist = await _context.Set<Translation>().AnyAsync(t => t.Id == request.Id, cancellationToken);
-        if (!isExist) throw new BadRequestException($"There is no translation with id = {request.Id}");
-
-        return await next.Invoke();
     }
 }

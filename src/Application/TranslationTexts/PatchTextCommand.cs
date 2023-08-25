@@ -18,11 +18,12 @@ internal class PatchTextCommandHandler : IRequestHandler<PatchTextCommand>
 
     public async Task<Unit> Handle(PatchTextCommand request, CancellationToken cancellationToken)
     {
-        var text = await _context.Set<Text>().FindAsync(request.Id)
+        var text = await _context.Set<Text>().FindAsync(new object?[] {request.Id}, cancellationToken)
             ?? throw new BadRequestException($"There is no text with id = {request.Id}");
 
         text.Value = request.Text;
         await _context.SaveChangesAsync(cancellationToken);
+
         return Unit.Value;
     }
 }

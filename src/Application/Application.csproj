@@ -13,21 +13,12 @@
         <ProjectReference Include="../Domain/Domain.csproj" />
     </ItemGroup>
 
-    <PropertyGroup>
-        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-    </PropertyGroup>
-
     <ItemGroup>
         <PackageReference Include="MediatR" Version="10.0.1" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
         <PackageReference Include="OneOf" Version="3.0.255" />
         <PackageReference Include="Riok.Mapperly" Version="3.1.0"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Include="obj\Debug\net7.0\generated\Riok.Mapperly\Riok.Mapperly.MapperGenerator\TranslationMapper.g.cs"/>
-        <Compile Include="obj\Release\net7.0\generated\Riok.Mapperly\Riok.Mapperly.MapperGenerator\TranslationMapper.g.cs"/>
     </ItemGroup>
 
 </Project>

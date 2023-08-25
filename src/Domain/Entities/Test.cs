@@ -10,7 +10,7 @@ public class Test : HasId<int>
     private readonly List<Option> _options = new();
 
     public static Expression<Func<Test, bool>> IsAnsweredExpression => test => test.AnswerTime != null;
-    public static Func<Test, bool> IsAnswered { get; } = IsAnsweredExpression.Compile();
+    public static Func<Test, bool> IsAnsweredFunc { get; } = IsAnsweredExpression.Compile();
 
     public required Text Text { get; init; } = null!;
 
@@ -18,6 +18,8 @@ public class Test : HasId<int>
 
     public int TextId { get; private init; } = 0;
     public int OptionCount { get; private init; } = 0;
+
+    public bool IsAnswered => IsAnsweredFunc(this);
 
     public required IEnumerable<Option> Options
     {

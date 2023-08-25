@@ -18,8 +18,4 @@ public class TextsController : ControllerBase
         await _mediator.Send(command, cancellationToken);
         return NoContent();
     }
-
-    [HttpGet]
-    public Task<IEnumerable<TextResponse>> Get(CancellationToken cancellationToken) =>
-        _mediator.Send(new GetTextsQuery(), cancellationToken);
 }

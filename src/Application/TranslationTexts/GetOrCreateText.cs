@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ITranslateTrainer.Application.TranslationTexts;
 
 public record GetOrCreateText(
-        string String,
+        string Text,
         string Language)
     : IRequest<Text>;
 
@@ -18,33 +18,31 @@ internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, Text>
 
     public async Task<Text> Handle(GetOrCreateText request, CancellationToken cancellationToken)
     {
-        var (text, language) = request;
+        var text = await FindInLocalOrInDb(_context.Set<Text>());
 
-        var translationText = await FindInLocalOrInDb(_context.Set<Text>());
+        if (text is not null) return text;
 
-        if (translationText is not null) return translationText;
-
-        var newText = new Text
+        text = new Text
         {
-            Value = text,
-            Language = language,
+            Value = request.Text,
+            Language = request.Language,
         };
 
-        await _context.Set<Text>().AddAsync(newText, cancellationToken);
+        await _context.Set<Text>().AddAsync(text, cancellationToken);
 
-        return newText;
+        return text;
 
         // Tries to find in local, if not, requests database.
         // It is necessary for bulk addition to prevent duplicates.
         async Task<Text?> FindInLocalOrInDb(DbSet<Text> texts)
         {
             var textsInLocal = texts.Local.FirstOrDefault(t =>
-                t.Value == text.ToLowerInvariant() && t.Language == language.ToLowerInvariant());
+                t.Value == request.Text.ToLowerInvariant() && t.Language == request.Language.ToLowerInvariant());
 
             if (textsInLocal is not null) return textsInLocal;
 
             return await texts.FirstOrDefaultAsync(
-                t => t.Value == text.ToLowerInvariant() && t.Language == language.ToLowerInvariant(),
+                t => t.Value == request.Text.ToLowerInvariant() && t.Language == request.Language.ToLowerInvariant(),
                 cancellationToken);
         }
     }

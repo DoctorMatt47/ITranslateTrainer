@@ -24,7 +24,7 @@ public class TestsController : ControllerBase
         CancellationToken cancellationToken) => _mediator.Send(new GetTestQuery(id), cancellationToken);
 
     [HttpPut]
-    public Task<GetOrCreateTestResponse> CreateTest(
+    public Task<TestResponse> CreateTest(
         GetOrCreateTestCommand command,
         CancellationToken cancellationToken) => _mediator.Send(command, cancellationToken);
 

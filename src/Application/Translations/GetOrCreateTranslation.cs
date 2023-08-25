@@ -1,5 +1,4 @@
-﻿using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Common.Interfaces;
+﻿using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.TranslationTexts;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
@@ -47,24 +46,5 @@ internal class GetOrCreateTranslationHandler : IRequestHandler<GetOrCreateTransl
         await _context.Set<Translation>().AddAsync(translationToAdd, cancellationToken);
 
         return translationToAdd;
-    }
-}
-
-internal record GetOrCreateTranslationRequestValidateBehaviour :
-    IPipelineBehavior<GetOrCreateTranslation, Translation>
-{
-    public async Task<Translation> Handle(
-        GetOrCreateTranslation request,
-        CancellationToken cancellationToken,
-        RequestHandlerDelegate<Translation> next)
-    {
-        var (_, firstLanguage, _, secondLanguage) = request;
-
-        if (string.Equals(firstLanguage, secondLanguage, StringComparison.InvariantCultureIgnoreCase))
-        {
-            throw new BadRequestException("Languages are the same");
-        }
-
-        return await next.Invoke();
     }
 }

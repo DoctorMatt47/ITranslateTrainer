@@ -4,6 +4,7 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\Docto\.nuget\packages\stronglytypedid\1.0.0-beta06\lib\netstandard2.0\StronglyTypedIds.Attributes.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Program Files\dotnet\shared\Microsoft.NETCore.App\7.0.0\System.Private.CoreLib.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Docto\.nuget\packages\riok.mapperly\3.1.0\lib\netstandard2.0\Riok.Mapperly.Abstractions.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dac5eab6_002D8d15_002D4124_002D8fb5_002Dce4ef1242e23/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateTranslationTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;

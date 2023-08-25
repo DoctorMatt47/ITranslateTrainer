@@ -16,7 +16,6 @@ public sealed class TranslateDbContext : DbContext, ITranslateDbContext
     public DbSet<Translation> Translations { get; set; } = null!;
     public DbSet<Test> Tests { get; set; } = null!;
     public DbSet<Option> Options { get; set; } = null!;
-    public DbSet<DayResult> DayResults { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

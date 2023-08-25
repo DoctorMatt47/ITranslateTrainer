@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ITranslateTrainer.Application.Common.Extensions;
+﻿using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.TranslationTexts;
 using ITranslateTrainer.Domain.Entities;
@@ -12,22 +11,18 @@ public record GetOrCreateTestCommand(
         string From,
         string To,
         int OptionCount)
-    : IRequest<GetOrCreateTestResponse>;
+    : IRequest<TestResponse>;
 
-internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand, GetOrCreateTestResponse>
+internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand, TestResponse>
 {
     private readonly ITranslateDbContext _context;
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
 
-    public CreateTestCommandHandler(ITranslateDbContext context, IMediator mediator, IMapper mapper)
+    public CreateTestCommandHandler(ITranslateDbContext context)
     {
         _context = context;
-        _mediator = mediator;
-        _mapper = mapper;
     }
 
-    public async Task<GetOrCreateTestResponse> Handle(
+    public async Task<TestResponse> Handle(
         GetOrCreateTestCommand request,
         CancellationToken cancellationToken)
     {
@@ -37,16 +32,16 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
             .Where(Is.Not(Test.IsAnsweredExpression))
             .FirstOrDefaultAsync(t => t.OptionCount == optionCount, cancellationToken);
 
-        if (test is null)
+        if (test is not null)
         {
-            return _mapper.Map<GetOrCreateTestResponse>(test);
+            return test.ToResponse();
         }
 
         test = await CreateTest(from, to, optionCount, cancellationToken);
         await _context.Set<Test>().AddAsync(test, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<GetOrCreateTestResponse>(test);
+        return test.ToResponse();
     }
 
     private async Task<Test> CreateTest(
@@ -55,13 +50,13 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
         int optionCount,
         CancellationToken cancellationToken)
     {
-        var translationText = await _context.Set<Text>()
+        var text = await _context.Set<Text>()
             .Where(t => t.Language == from)
             .Shuffle()
             .FirstAsync(cancellationToken);
 
-        var correct = (await _mediator.Send(new GetTranslationTextsById(translationText.Id), cancellationToken))
-            .Select(text => new Option
+        var correct = text.TranslationTexts
+            .Select(static text => new Option
             {
                 Text = text,
                 IsCorrect = true,
@@ -70,7 +65,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
 
         var incorrect = await _context.Set<Text>()
             .GetRandomCanBeOption(to, optionCount - correct.Count)
-            .Select(text => new Option
+            .Select(static text => new Option
             {
                 Text = text,
                 IsCorrect = false,
@@ -84,7 +79,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
 
         return new Test
         {
-            Text = translationText,
+            Text = text,
             Options = options,
         };
     }

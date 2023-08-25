@@ -11,7 +11,7 @@ public class Option : HasId<int>
 
     public bool IsChosen { get; internal set; }
 
-    public int TranslationTextId { get; protected set; }
+    public int TranslationTextId { get; private set; } = 0;
     public int TestId { get; private set; } = 0;
     public Test Test { get; private set; } = null!;
 }

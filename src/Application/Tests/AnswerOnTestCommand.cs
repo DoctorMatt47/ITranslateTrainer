@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ITranslateTrainer.Application.Common.Exceptions;
+﻿using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
@@ -15,12 +14,10 @@ public record AnswerOnTestCommand(
 internal class AnswerOnTestCommandHandler : IRequestHandler<AnswerOnTestCommand, TestResponse>
 {
     private readonly ITranslateDbContext _dbContext;
-    private readonly IMapper _mapper;
 
-    public AnswerOnTestCommandHandler(ITranslateDbContext dbContext, IMapper mapper)
+    public AnswerOnTestCommandHandler(ITranslateDbContext dbContext)
     {
         _dbContext = dbContext;
-        _mapper = mapper;
     }
 
     public async Task<TestResponse> Handle(AnswerOnTestCommand request, CancellationToken cancellationToken)
@@ -28,14 +25,14 @@ internal class AnswerOnTestCommandHandler : IRequestHandler<AnswerOnTestCommand,
         var test = await _dbContext.Set<Test>().FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken)
             ?? throw new NotFoundException($"There is no test with id: {request.Id}");
 
-        if (Test.IsAnswered(test))
+        if (Test.IsAnsweredFunc(test))
         {
-            return _mapper.Map<TestResponse>(test);
+            return test.ToResponse();
         }
-        
+
         test.Answer(request.OptionId);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<TestResponse>(test);
+        return test.ToResponse();
     }
 }

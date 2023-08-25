@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using ITranslateTrainer.Application.Common.Interfaces;
+﻿using ITranslateTrainer.Application.Common.Interfaces;
 using MediatR;
 
 namespace ITranslateTrainer.Application.Translations;
@@ -14,16 +13,13 @@ public record PutTranslationCommand(
 internal class PutTranslationCommandHandler : IRequestHandler<PutTranslationCommand, TranslationResponse>
 {
     private readonly ITranslateDbContext _context;
-    private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
     public PutTranslationCommandHandler(
         IMediator mediator,
-        ITranslateDbContext context,
-        IMapper mapper)
+        ITranslateDbContext context)
     {
         _context = context;
-        _mapper = mapper;
         _mediator = mediator;
     }
 
@@ -34,8 +30,8 @@ internal class PutTranslationCommandHandler : IRequestHandler<PutTranslationComm
         var getOrCreate = new GetOrCreateTranslation(firstText, firstLanguage, secondText, secondLanguage);
         var translation = await _mediator.Send(getOrCreate, cancellationToken);
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<TranslationResponse>(translation);
+        return translation.ToResponse();
     }
 }

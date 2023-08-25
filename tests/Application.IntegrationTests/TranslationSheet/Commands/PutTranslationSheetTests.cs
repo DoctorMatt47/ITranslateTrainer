@@ -19,7 +19,7 @@ public class PutTranslationSheetTests
     public async Task ShouldCallParseTranslationsMethod()
     {
         var stream = Stream.Null;
-        var command = new PutTranslationSheetCommand(stream);
+        var command = new ImportTranslationSheetCommand(stream);
 
         await _mediator.Send(command);
 
