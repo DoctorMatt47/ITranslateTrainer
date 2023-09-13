@@ -55,7 +55,7 @@ internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand
             .Shuffle()
             .FirstAsync(cancellationToken);
 
-        var correct = text.TranslationTexts
+        var correct = text.GetTranslationTexts()
             .Select(static text => new Option
             {
                 Text = text,

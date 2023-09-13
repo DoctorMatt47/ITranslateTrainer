@@ -18,7 +18,7 @@ internal class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslati
         _mediator = mediator;
     }
 
-    public async Task<Unit> Handle(DeleteTranslationCommand request, CancellationToken cancellationToken)
+    public async Task Handle(DeleteTranslationCommand request, CancellationToken cancellationToken)
     {
         var translationToDelete = await _context.Set<Translation>()
             .Include(t => t.OriginText)
@@ -27,20 +27,18 @@ internal class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslati
 
         _context.Set<Translation>().Remove(translationToDelete);
 
-        var firstTextTranslations = translationToDelete.OriginText.TranslationTexts;
+        var firstTextTranslations = translationToDelete.OriginText.GetTranslationTexts();
         if (firstTextTranslations.Count() <= 1)
         {
             _context.Set<Text>().Remove(translationToDelete.OriginText);
         }
 
-        var secondTextTranslations = translationToDelete.TranslationText.TranslationTexts;
+        var secondTextTranslations = translationToDelete.TranslationText.GetTranslationTexts();
         if (secondTextTranslations.Count() <= 1)
         {
             _context.Set<Text>().Remove(translationToDelete.TranslationText);
         }
 
         await _context.SaveChangesAsync(cancellationToken);
-
-        return Unit.Value;
     }
 }
