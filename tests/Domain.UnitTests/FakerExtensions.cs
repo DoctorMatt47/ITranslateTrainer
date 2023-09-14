@@ -1,6 +1,6 @@
 ﻿using ITranslateTrainer.Domain.Entities;
 
-namespace Domain.UnitTests;
+namespace ITranslateTrainer.Domain.UnitTests;
 
 public static class FakerExtensions
 {

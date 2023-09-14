@@ -1,4 +1,4 @@
-﻿namespace Domain.UnitTests.Entities;
+﻿namespace ITranslateTrainer.Domain.UnitTests.Entities;
 
 public class UserTests
 {
