@@ -6,9 +6,8 @@
 
         <IsPackable>false</IsPackable>
 
-        <AssemblyName>ITranslateTrainer.Application.IntegrationTests</AssemblyName>
-
-        <RootNamespace>ITranslateTrainer.Application.IntegrationTests</RootNamespace>
+        <AssemblyName>ITranslateTrainer.Tests.Application.Integration</AssemblyName>
+        <RootNamespace>ITranslateTrainer.Tests.Application.Integration</RootNamespace>
 
         <LangVersion>default</LangVersion>
     </PropertyGroup>

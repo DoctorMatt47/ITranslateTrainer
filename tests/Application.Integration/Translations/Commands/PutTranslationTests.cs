@@ -27,8 +27,10 @@ public class PutTranslationTests
     {
         var command = new Faker<PutTranslationCommand>().Generate();
 
-        var idDto = await _mediator.Send(command);
-        var addedTranslation = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == idDto.Id);
+        var translationResponse = await _mediator.Send(command);
+
+        var addedTranslation =
+            await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == translationResponse.Id);
 
         Assert.NotNull(addedTranslation);
         Assert.Equal(command.FirstText, addedTranslation!.OriginText.Value);
