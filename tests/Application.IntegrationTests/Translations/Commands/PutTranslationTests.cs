@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Bogus;
 using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Translations;
@@ -12,6 +13,7 @@ namespace ITranslateTrainer.Application.IntegrationTests.Translations.Commands;
 public class PutTranslationTests
 {
     private readonly ITranslateDbContext _context;
+    private readonly Faker _faker = new();
     private readonly IMediator _mediator;
 
     public PutTranslationTests(IMediator mediator, ITranslateDbContext context)
@@ -23,16 +25,16 @@ public class PutTranslationTests
     [Fact]
     public async Task ShouldCreateTranslation()
     {
-        var command = new PutTranslationCommand("get", "English", "получить", "Russian");
+        var command = new Faker<PutTranslationCommand>().Generate();
 
         var idDto = await _mediator.Send(command);
         var addedTranslation = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == idDto.Id);
 
         Assert.NotNull(addedTranslation);
-        Assert.Equal("get", addedTranslation!.First.Text);
-        Assert.Equal("english", addedTranslation.First.Language);
-        Assert.Equal("получить", addedTranslation.Second.Text);
-        Assert.Equal("russian", addedTranslation.Second.Language);
+        Assert.Equal(command.FirstText, addedTranslation!.OriginText.Value);
+        Assert.Equal(command.FirstLanguage, addedTranslation.OriginText.Language);
+        Assert.Equal(command.SecondText, addedTranslation.TranslationText.Value);
+        Assert.Equal(command.SecondLanguage, addedTranslation.TranslationText.Language);
     }
 
     [Fact]
@@ -48,7 +50,7 @@ public class PutTranslationTests
         var translation1 = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == idDto1.Id);
         var translation2 = await _context.Set<Translation>().FirstOrDefaultAsync(t => t.Id == idDto2.Id);
 
-        Assert.Same(translation1?.First, translation2?.First);
+        Assert.Same(translation1?.OriginText, translation2?.OriginText);
     }
 
     [Fact]
