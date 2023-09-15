@@ -5,7 +5,7 @@ using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.TranslationSheet;
 using Moq;
 
-namespace ITranslateTrainer.Application.IntegrationTests.Common.Mocks;
+namespace ITranslateTrainer.Tests.Application.Integration.Common.Mocks;
 
 public static class TranslationSheetServiceMock
 {

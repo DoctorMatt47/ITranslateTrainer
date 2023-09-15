@@ -3,7 +3,7 @@ using ITranslateTrainer.Application.Common.Interfaces;
 using MediatR;
 using Xunit;
 
-namespace ITranslateTrainer.Application.IntegrationTests.Tests.Commands;
+namespace ITranslateTrainer.Tests.Application.Integration.Tests.Commands;
 
 public class CreateTestCommandTests
 {

@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using ITranslateTrainer.Application.IntegrationTests.Common.Mocks;
 using ITranslateTrainer.Application.TranslationSheet;
+using ITranslateTrainer.Tests.Application.Integration.Common.Mocks;
 using MediatR;
 using Moq;
 using Xunit;
 
-namespace ITranslateTrainer.Application.IntegrationTests.TranslationSheet.Commands;
+namespace ITranslateTrainer.Tests.Application.Integration.TranslationSheet.Commands;
 
 public class PutTranslationSheetTests
 {

@@ -6,9 +6,9 @@
 
         <IsPackable>false</IsPackable>
 
-        <AssemblyName>ITranslateTrainer.Infrastructure.UnitTests</AssemblyName>
+        <AssemblyName>ITranslateTrainer.Tests.Infrastructure.Unit</AssemblyName>
 
-        <RootNamespace>ITranslateTrainer.Infrastructure.UnitTests</RootNamespace>
+        <RootNamespace>ITranslateTrainer.Tests.Infrastructure.Unit</RootNamespace>
 
         <LangVersion>default</LangVersion>
     </PropertyGroup>

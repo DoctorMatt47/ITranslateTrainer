@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using ITranslateTrainer.Infrastructure.Services;
 using Xunit;
 
-namespace ITranslateTrainer.Infrastructure.UnitTests.Services;
+namespace ITranslateTrainer.Tests.Infrastructure.Unit.Services;
 
 public class TranslationSheetServiceTests
 {

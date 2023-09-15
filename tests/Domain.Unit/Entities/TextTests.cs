@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using ITranslateTrainer.Domain.Entities;
 
-namespace ITranslateTrainer.Domain.UnitTests.Entities;
+namespace ITranslateTrainer.Tests.Domain.Unit.Entities;
 
 public class TextTests
 {
