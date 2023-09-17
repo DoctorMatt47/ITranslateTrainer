@@ -1,4 +1,6 @@
-﻿namespace ITranslateTrainer.Tests.Domain.Unit.Entities;
+﻿using ITranslateTrainer.Tests.Domain.Unit.Builders;
+
+namespace ITranslateTrainer.Tests.Domain.Unit.Entities;
 
 public class UserTests
 {
@@ -8,8 +10,8 @@ public class UserTests
     public void AddTranslation_ShouldAddTranslation()
     {
         // Arrange
-        var user = _faker.User();
-        var translation = _faker.Translation();
+        var user = new UserBuilder().Build();
+        var translation = new TranslationBuilder().Build();
 
         // Act
         user.AddTranslation(translation);

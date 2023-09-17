@@ -28,12 +28,14 @@ internal class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslati
         _context.Set<Translation>().Remove(translationToDelete);
 
         var firstTextTranslations = translationToDelete.OriginText.GetTranslationTexts();
+
         if (firstTextTranslations.Count() <= 1)
         {
             _context.Set<Text>().Remove(translationToDelete.OriginText);
         }
 
         var secondTextTranslations = translationToDelete.TranslationText.GetTranslationTexts();
+
         if (secondTextTranslations.Count() <= 1)
         {
             _context.Set<Text>().Remove(translationToDelete.TranslationText);

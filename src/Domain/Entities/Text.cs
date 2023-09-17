@@ -15,14 +15,8 @@ public class Text : HasId<int>
 
     public IEnumerable<Text> GetTranslationTexts()
     {
-        var firstTexts = _translations
-            .Where(t => t.OriginTextId == Id)
-            .Select(t => t.TranslationText);
-
-        var secondTexts = _translations
-            .Where(t => t.TranslationTextId == Id)
-            .Select(t => t.OriginText);
-
-        return firstTexts.Concat(secondTexts);
+        return _translations
+            .SelectMany(t => new[] {t.OriginText, t.TranslationText})
+            .Where(t => t.Id != Id);
     }
 }
