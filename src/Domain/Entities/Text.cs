@@ -1,4 +1,4 @@
-﻿// ReSharper disable RedundantDefaultMemberInitializer
+﻿// ReSharper disable UnusedMember.Local
 
 using ITranslateTrainer.Domain.Abstractions;
 
@@ -6,12 +6,16 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class Text : HasId<int>
 {
-    private readonly List<Translation> _translations = new();
+    private List<Translation> _translations = new();
 
     public required string Value { get; set; }
     public required string Language { get; init; }
 
-    public IEnumerable<Translation> Translations => _translations.AsReadOnly();
+    public IEnumerable<Translation> Translations
+    {
+        get => _translations.AsReadOnly();
+        private set => _translations = value.ToList();
+    }
 
     public IEnumerable<Text> GetTranslationTexts()
     {
