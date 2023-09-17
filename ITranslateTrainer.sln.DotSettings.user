@@ -7,7 +7,16 @@
   &lt;Assembly Path="C:\Users\Docto\.nuget\packages\riok.mapperly\3.1.0\lib\netstandard2.0\Riok.Mapperly.Abstractions.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\Docto\.nuget\packages\bogus\34.0.2\lib\net6.0\Bogus.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dac5eab6_002D8d15_002D4124_002D8fb5_002Dce4ef1242e23/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CreateTranslationTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Docto\AppData\Local\JetBrains\Rider2023.2\resharper-host\temp\Rider\vAny\CoverageData\_ITranslateTrainer.-2056387076\Snapshot\snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=55826c59_002De707_002D4c28_002Da06c_002Deacd51782d42/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Answer_HasOptions_OptionWithPassedIdIsChosen(optionCount: 10)" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;Project Location="D:\Projects\ITranslateTrainer\tests\Domain.Unit" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;Domain.Unit&amp;gt;" /&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::FE5DB6DC-7458-44FE-82A6-0DA3203F6507::net7.0::ITranslateTrainer.Tests.Infrastructure.Unit.Services.TranslationSheetServiceTests.ShouldReturn233TranslationsFromSheet&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+  &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dac5eab6_002D8d15_002D4124_002D8fb5_002Dce4ef1242e23/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CreateTranslationTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Solution /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>
