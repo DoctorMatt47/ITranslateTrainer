@@ -1,6 +1,4 @@
-﻿// ReSharper disable AccessToModifiedClosure
-
-using ITranslateTrainer.Tests.Domain.Unit.Builders;
+﻿using ITranslateTrainer.Domain.Entities;
 
 namespace ITranslateTrainer.Tests.Domain.Unit.Entities;
 
@@ -9,26 +7,78 @@ public class TextTests
     private readonly Faker _faker = new();
 
     [Fact]
-    public void TranslationTexts_ShouldReturnAllTranslationTexts()
+    public void GetTranslationTexts_NoTranslations_ReturnsEmpty()
     {
         // Arrange
-        var textBuilder = new TextBuilder();
+        var text = new Faker<Text>()
+            .RuleFor(t => t.Id, faker => faker.Random.Int())
+            .RuleFor(t => t.Translations, _ => new List<Translation>())
+            .Generate();
 
-        var text = textBuilder.Build();
+        // Act
+        var translationTexts = text.GetTranslationTexts();
 
-        var translationsCount = _faker.Random.Int(0, 100);
-        var translations = _faker.Make(translationsCount, () => new TranslationBuilder().WithText(text).Build());
+        // Assert
+        translationTexts.Should().BeEmpty();
+    }
 
-        text = textBuilder.WithTranslations(translations).Build();
+    [Theory]
+    [InlineData(10)]
+    [InlineData(100)]
+    [InlineData(1000)]
+    public void GetTranslationTexts_TranslationsWithOriginTextEqualsSut_HaveSameCount(int translationCount)
+    {
+        // Arrange
+        var textId = _faker.Random.Int();
+        var translations = MakeTranslationsWithOriginTextId(translationCount, textId);
+
+        var text = new Faker<Text>()
+            .RuleFor(t => t.Id, _ => textId)
+            .RuleFor(t => t.Translations, _ => translations)
+            .Generate();
 
         // Act
         var translationTexts = text.GetTranslationTexts().ToList();
 
         // Assert
-        var assertTexts = translations
-            .SelectMany(t => new[] {t.TranslationText, t.OriginText})
-            .Where(t => t.Id != text.Id);
+        translationTexts.Should().HaveCount(translationCount);
+    }
 
-        translationTexts.Should().Equal(assertTexts);
+    [Theory]
+    [InlineData(10)]
+    [InlineData(100)]
+    [InlineData(1000)]
+    public void GetTranslationTexts_TranslationsWithTranslationTextEqualsSut_HaveSameCount(int translationCount)
+    {
+        // Arrange
+        var textId = _faker.Random.Int();
+        var translations = MakeTranslationsWithTranslationTextId(translationCount, textId);
+
+        var text = new Faker<Text>()
+            .RuleFor(t => t.Id, _ => textId)
+            .RuleFor(t => t.Translations, _ => translations)
+            .Generate();
+
+        // Act
+        var translationTexts = text.GetTranslationTexts().ToList();
+
+        // Assert
+        translationTexts.Should().HaveCount(translationCount);
+    }
+
+    private static List<Translation> MakeTranslationsWithOriginTextId(int count, int textId)
+    {
+        return new Faker<Translation>()
+            .RuleFor(t => t.OriginText, _ => new Faker<Text>().RuleFor(t => t.Id, _ => textId).Generate())
+            .RuleFor(t => t.TranslationText, _ => new Faker<Text>().Generate())
+            .Generate(count);
+    }
+
+    private static List<Translation> MakeTranslationsWithTranslationTextId(int count, int textId)
+    {
+        return new Faker<Translation>()
+            .RuleFor(t => t.OriginText, _ => new Faker<Text>().Generate())
+            .RuleFor(t => t.TranslationText, _ => new Faker<Text>().RuleFor(t => t.Id, _ => textId).Generate())
+            .Generate(count);
     }
 }

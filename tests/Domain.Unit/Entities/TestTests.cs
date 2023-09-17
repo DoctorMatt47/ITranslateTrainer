@@ -1,4 +1,4 @@
-﻿using ITranslateTrainer.Tests.Domain.Unit.Builders;
+﻿using ITranslateTrainer.Domain.Entities;
 
 namespace ITranslateTrainer.Tests.Domain.Unit.Entities;
 
@@ -6,11 +6,21 @@ public class TestTests
 {
     private readonly Faker _faker = new();
 
-    [Fact]
-    public void Answer_ShouldSetOptionChosen()
+    [Theory]
+    [InlineData(1)]
+    [InlineData(10)]
+    [InlineData(100)]
+    public void Answer_HasOptions_OptionWithPassedIdIsChosen(int optionCount)
     {
         // Arrange
-        var test = new TestBuilder().Build();
+        var options = new Faker<Option>()
+            .RuleFor(o => o.Id, faker => faker.Random.Int())
+            .Generate(optionCount);
+
+        var test = new Faker<Test>()
+            .RuleFor(t => t.Options, _ => options)
+            .Generate();
+
         var randomOption = _faker.PickRandom(test.Options);
 
         // Act
@@ -20,11 +30,20 @@ public class TestTests
         randomOption.IsChosen.Should().BeTrue();
     }
 
-    [Fact]
-    public void Answer_ShouldSetAnswerTime()
+    [Theory]
+    [InlineData(1)]
+    [InlineData(10)]
+    [InlineData(100)]
+    public void Answer_ShouldSetAnswerTime(int optionCount)
     {
         // Arrange
-        var test = new TestBuilder().Build();
+        var options = new Faker<Option>()
+            .RuleFor(o => o.Id, faker => faker.Random.Int())
+            .Generate(optionCount);
+
+        var test = new Faker<Test>()
+            .RuleFor(t => t.Options, _ => options)
+            .Generate();
 
         // Act
         var beforeAnswer = DateTime.UtcNow;
