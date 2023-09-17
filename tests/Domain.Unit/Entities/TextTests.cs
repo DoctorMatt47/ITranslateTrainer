@@ -1,5 +1,6 @@
-﻿using System.Reflection;
-using ITranslateTrainer.Domain.Entities;
+﻿// ReSharper disable AccessToModifiedClosure
+
+using ITranslateTrainer.Tests.Domain.Unit.Builders;
 
 namespace ITranslateTrainer.Tests.Domain.Unit.Entities;
 
@@ -11,17 +12,23 @@ public class TextTests
     public void TranslationTexts_ShouldReturnAllTranslationTexts()
     {
         // Arrange
-        var text = _faker.Text();
-        var translationCount = _faker.Random.Number(10, 100);
-        var translations = _faker.Make(translationCount, () => _faker.Translation());
+        var textBuilder = new TextBuilder();
 
-        var translationsField = typeof(Text).GetField("_translations", BindingFlags.NonPublic | BindingFlags.Instance)!;
-        translationsField.SetValue(text, translations);
+        var text = textBuilder.Build();
+
+        var translationsCount = _faker.Random.Int(0, 100);
+        var translations = _faker.Make(translationsCount, () => new TranslationBuilder().WithText(text).Build());
+
+        text = textBuilder.WithTranslations(translations).Build();
 
         // Act
         var translationTexts = text.GetTranslationTexts().ToList();
 
         // Assert
-        translationTexts.Should().HaveCount(translationCount * 2);
+        var assertTexts = translations
+            .SelectMany(t => new[] {t.TranslationText, t.OriginText})
+            .Where(t => t.Id != text.Id);
+
+        translationTexts.Should().Equal(assertTexts);
     }
 }

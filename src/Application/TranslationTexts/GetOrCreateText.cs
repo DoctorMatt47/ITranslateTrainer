@@ -36,8 +36,8 @@ internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, Text>
         // It is necessary for bulk addition to prevent duplicates.
         async Task<Text?> FindInLocalOrInDb(DbSet<Text> texts)
         {
-            var textsInLocal = texts.Local.FirstOrDefault(t =>
-                t.Value == request.Text.ToLowerInvariant() && t.Language == request.Language.ToLowerInvariant());
+            var textsInLocal = texts.Local.FirstOrDefault(
+                t => t.Value == request.Text.ToLowerInvariant() && t.Language == request.Language.ToLowerInvariant());
 
             if (textsInLocal is not null) return textsInLocal;
 
