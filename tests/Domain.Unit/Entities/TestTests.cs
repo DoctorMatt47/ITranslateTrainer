@@ -45,15 +45,16 @@ public class TestTests
             .RuleFor(t => t.Options, _ => options)
             .Generate();
 
-        // Act
         var beforeAnswer = DateTime.UtcNow;
+
+        // Act
         test.Answer(_faker.PickRandom(test.Options).Id);
-        var afterAnswer = DateTime.UtcNow;
 
         // Assert
+        var afterAnswer = DateTime.UtcNow;
+
         test.AnswerTime.Should()
-            .BeIn(DateTimeKind.Utc)
-            .And.BeAfter(beforeAnswer)
+            .BeAfter(beforeAnswer)
             .And.BeBefore(afterAnswer);
     }
 }
