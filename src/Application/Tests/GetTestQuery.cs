@@ -17,7 +17,7 @@ public class GetTestQueryHandler(ITranslateDbContext context) : IRequestHandler<
                 .Include(t => t.Options)
                 .ThenInclude(t => t.Text)
                 .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken)
-            ?? throw new NotFoundException($"There is no test with id: {request.Id}");
+            ?? throw NotFoundException.DoesNotExist(nameof(Test), request.Id);
 
         if (!test.IsAnswered) throw new BadRequestException("You don't have permission to get not answered test");
 
