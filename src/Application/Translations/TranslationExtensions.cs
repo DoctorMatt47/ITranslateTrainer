@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Translations;
 
-internal static class TranslationExtensions
+public static class TranslationExtensions
 {
     public static Task<Translation?> FindByTexts(
         this IQueryable<Translation> translations,

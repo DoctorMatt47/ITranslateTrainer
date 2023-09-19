@@ -7,7 +7,7 @@ namespace ITranslateTrainer.Application.Translations;
 
 public record DeleteTranslationCommand(int Id) : IRequest;
 
-internal class DeleteTranslationCommandHandler(ITranslateDbContext context) : IRequestHandler<DeleteTranslationCommand>
+public class DeleteTranslationCommandHandler(ITranslateDbContext context) : IRequestHandler<DeleteTranslationCommand>
 {
     public async Task Handle(DeleteTranslationCommand request, CancellationToken cancellationToken)
     {

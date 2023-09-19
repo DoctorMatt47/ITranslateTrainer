@@ -10,7 +10,7 @@ public record GetOrCreateText(
         string Language)
     : IRequest<Text>;
 
-internal class GetOrCreateTextHandler(ITranslateDbContext context) : IRequestHandler<GetOrCreateText, Text>
+public class GetOrCreateTextHandler(ITranslateDbContext context) : IRequestHandler<GetOrCreateText, Text>
 {
     public async Task<Text> Handle(GetOrCreateText request, CancellationToken cancellationToken)
     {

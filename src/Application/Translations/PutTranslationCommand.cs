@@ -10,7 +10,7 @@ public record PutTranslationCommand(
         string SecondLanguage)
     : IRequest<TranslationResponse>;
 
-internal class PutTranslationCommandHandler(
+public class PutTranslationCommandHandler(
         ISender mediator,
         ITranslateDbContext context)
     : IRequestHandler<PutTranslationCommand, TranslationResponse>

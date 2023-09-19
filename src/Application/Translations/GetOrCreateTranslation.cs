@@ -5,14 +5,14 @@ using MediatR;
 
 namespace ITranslateTrainer.Application.Translations;
 
-internal record GetOrCreateTranslation(
+public record GetOrCreateTranslation(
         string OriginText,
         string OriginLanguage,
         string TranslationText,
         string TranslationLanguage)
     : IRequest<Translation>;
 
-internal class GetOrCreateTranslationHandler(
+public class GetOrCreateTranslationHandler(
         ITranslateDbContext context,
         ISender mediator)
     : IRequestHandler<GetOrCreateTranslation, Translation>

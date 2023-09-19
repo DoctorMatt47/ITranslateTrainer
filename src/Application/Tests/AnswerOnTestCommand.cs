@@ -11,8 +11,8 @@ public record AnswerOnTestCommand(
         int OptionId)
     : IRequest<TestResponse>;
 
-internal class AnswerOnTestCommandHandler
-    (ITranslateDbContext dbContext) : IRequestHandler<AnswerOnTestCommand, TestResponse>
+public class AnswerOnTestCommandHandler(ITranslateDbContext dbContext)
+    : IRequestHandler<AnswerOnTestCommand, TestResponse>
 {
     public async Task<TestResponse> Handle(AnswerOnTestCommand request, CancellationToken cancellationToken)
     {
