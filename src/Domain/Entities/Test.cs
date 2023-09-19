@@ -5,7 +5,7 @@ using ITranslateTrainer.Domain.Abstractions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Test : HasId<int>
+public class Test : Entity<int>
 {
     private readonly List<Option> _options = new();
 

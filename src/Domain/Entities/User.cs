@@ -2,7 +2,7 @@
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class User : HasId<int>
+public class User : Entity<int>
 {
     private readonly List<Translation> _translations = new();
 

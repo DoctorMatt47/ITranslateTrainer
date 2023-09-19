@@ -4,7 +4,7 @@ using ITranslateTrainer.Domain.Abstractions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Translation : HasId<int>
+public class Translation : Entity<int>
 {
     public required Text OriginText { get; init; }
     public required Text TranslationText { get; init; }
