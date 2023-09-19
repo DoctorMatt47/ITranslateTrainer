@@ -1,8 +1,8 @@
-﻿using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Common.Interfaces;
+﻿using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Common.Responses;
 using ITranslateTrainer.Application.Translations;
 using ITranslateTrainer.Domain.Entities;
+using ITranslateTrainer.Domain.Exceptions;
 using MediatR;
 using OneOf;
 
