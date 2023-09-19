@@ -1,4 +1,9 @@
-﻿namespace ITranslateTrainer.WebUI.Controllers;
+﻿using ITranslateTrainer.Application.Common.Responses;
+using ITranslateTrainer.Domain.Exceptions;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+
+namespace ITranslateTrainer.WebUI.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 public class ErrorController : Controller
