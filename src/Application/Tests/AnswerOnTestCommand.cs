@@ -1,6 +1,6 @@
-﻿using ITranslateTrainer.Application.Common.Exceptions;
-using ITranslateTrainer.Application.Common.Interfaces;
+﻿using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
+using ITranslateTrainer.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,20 +15,14 @@ internal class AnswerOnTestCommandHandler : IRequestHandler<AnswerOnTestCommand,
 {
     private readonly ITranslateDbContext _dbContext;
 
-    public AnswerOnTestCommandHandler(ITranslateDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    public AnswerOnTestCommandHandler(ITranslateDbContext dbContext) => _dbContext = dbContext;
 
     public async Task<TestResponse> Handle(AnswerOnTestCommand request, CancellationToken cancellationToken)
     {
         var test = await _dbContext.Set<Test>().FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken)
-            ?? throw new NotFoundException($"There is no test with id: {request.Id}");
+            ?? throw NotFoundException.DoesNotExist(nameof(Test), request.Id);
 
-        if (Test.IsAnsweredFunc(test))
-        {
-            return test.ToResponse();
-        }
+        if (test.IsAnswered) return test.ToResponse();
 
         test.Answer(request.OptionId);
         await _dbContext.SaveChangesAsync(cancellationToken);
