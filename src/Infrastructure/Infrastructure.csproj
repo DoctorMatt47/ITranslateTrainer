@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <AssemblyName>ITranslateTrainer.Infrastructure</AssemblyName>
         <RootNamespace>ITranslateTrainer.Infrastructure</RootNamespace>
-        <LangVersion>default</LangVersion>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

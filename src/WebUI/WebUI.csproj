@@ -7,7 +7,7 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
         <AssemblyName>ITranslateTrainer.WebUI</AssemblyName>
         <RootNamespace>ITranslateTrainer.WebUI</RootNamespace>
-        <LangVersion>default</LangVersion>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

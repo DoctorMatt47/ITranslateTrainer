@@ -10,7 +10,7 @@
 
         <RootNamespace>ITranslateTrainer.Tests.Infrastructure.Unit</RootNamespace>
 
-        <LangVersion>default</LangVersion>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

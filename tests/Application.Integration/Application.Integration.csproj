@@ -9,7 +9,7 @@
         <AssemblyName>ITranslateTrainer.Tests.Application.Integration</AssemblyName>
         <RootNamespace>ITranslateTrainer.Tests.Application.Integration</RootNamespace>
 
-        <LangVersion>default</LangVersion>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
