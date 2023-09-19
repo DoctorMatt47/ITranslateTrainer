@@ -8,15 +8,11 @@ namespace ITranslateTrainer.Application.Tests;
 
 public record GetTestQuery(int Id) : IRequest<TestResponse>;
 
-internal record GetTestQueryHandler : IRequestHandler<GetTestQuery, TestResponse>
+internal class GetTestQueryHandler(ITranslateDbContext context) : IRequestHandler<GetTestQuery, TestResponse>
 {
-    private readonly ITranslateDbContext _context;
-
-    public GetTestQueryHandler(ITranslateDbContext context) => _context = context;
-
     public async Task<TestResponse> Handle(GetTestQuery request, CancellationToken cancellationToken)
     {
-        var test = await _context.Set<Test>()
+        var test = await context.Set<Test>()
                 .Include(t => t.Text)
                 .Include(t => t.Options)
                 .ThenInclude(t => t.Text)

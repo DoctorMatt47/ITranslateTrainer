@@ -11,28 +11,17 @@ namespace ITranslateTrainer.Application.TranslationSheet;
 public record ImportTranslationSheetCommand(Stream SheetStream)
     : IRequest<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>>;
 
-public class ImportTranslationSheetCommandHandler
-    : IRequestHandler<ImportTranslationSheetCommand, IEnumerable<OneOf<TranslationResponse, ErrorResponse>>>
-{
-    private readonly ITranslateDbContext _context;
-    private readonly IMediator _mediator;
-    private readonly ITranslationSheetService _sheetService;
-
-    public ImportTranslationSheetCommandHandler(
-        IMediator mediator,
+public class ImportTranslationSheetCommandHandler(
+        ISender mediator,
         ITranslationSheetService sheetService,
         ITranslateDbContext context)
-    {
-        _context = context;
-        _mediator = mediator;
-        _sheetService = sheetService;
-    }
-
+    : IRequestHandler<ImportTranslationSheetCommand, IEnumerable<OneOf<TranslationResponse, ErrorResponse>>>
+{
     public async Task<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>> Handle(
         ImportTranslationSheetCommand request,
         CancellationToken cancellationToken)
     {
-        var translations = await _sheetService.ParseTranslations(request.SheetStream);
+        var translations = await sheetService.ParseTranslations(request.SheetStream);
 
         var tasks = translations
             .Select(async t => await TryGetOrCreateTranslation(t, cancellationToken))
@@ -43,7 +32,7 @@ public class ImportTranslationSheetCommandHandler
             await task;
         }
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
 
         return tasks
             .Select(task => task.Result)
@@ -59,7 +48,7 @@ public class ImportTranslationSheetCommandHandler
         try
         {
             var request = new GetOrCreateTranslation(firstText, firstLanguage, secondText, secondLanguage);
-            return await _mediator.Send(request, cancellationToken);
+            return await mediator.Send(request, cancellationToken);
         }
         catch (Exception e) when (e is BadRequestException or ArgumentException)
         {

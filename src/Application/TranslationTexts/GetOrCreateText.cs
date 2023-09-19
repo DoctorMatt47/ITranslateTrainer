@@ -10,15 +10,11 @@ public record GetOrCreateText(
         string Language)
     : IRequest<Text>;
 
-internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, Text>
+internal class GetOrCreateTextHandler(ITranslateDbContext context) : IRequestHandler<GetOrCreateText, Text>
 {
-    private readonly ITranslateDbContext _context;
-
-    public GetOrCreateTextHandler(ITranslateDbContext context) => _context = context;
-
     public async Task<Text> Handle(GetOrCreateText request, CancellationToken cancellationToken)
     {
-        var text = await FindInLocalOrInDb(_context.Set<Text>());
+        var text = await FindInLocalOrInDb(context.Set<Text>());
 
         if (text is not null) return text;
 
@@ -28,7 +24,7 @@ internal class GetOrCreateTextHandler : IRequestHandler<GetOrCreateText, Text>
             Language = request.Language,
         };
 
-        await _context.Set<Text>().AddAsync(text, cancellationToken);
+        await context.Set<Text>().AddAsync(text, cancellationToken);
 
         return text;
 

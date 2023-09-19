@@ -7,18 +7,12 @@ namespace ITranslateTrainer.Application.Tests;
 
 public record GetTestsQuery : IRequest<IEnumerable<TestResponse>>;
 
-internal class GetTestsQueryHandler : IRequestHandler<GetTestsQuery, IEnumerable<TestResponse>>
+internal class GetTestsQueryHandler(ITranslateDbContext context)
+    : IRequestHandler<GetTestsQuery, IEnumerable<TestResponse>>
 {
-    private readonly ITranslateDbContext _context;
-
-    public GetTestsQueryHandler(ITranslateDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<IEnumerable<TestResponse>> Handle(GetTestsQuery request, CancellationToken cancellationToken)
     {
-        return await _context.Set<Test>()
+        return await context.Set<Test>()
             .Where(Test.IsAnsweredExpression)
             .OrderByDescending(t => t.AnswerTime)
             .ProjectToResponse()

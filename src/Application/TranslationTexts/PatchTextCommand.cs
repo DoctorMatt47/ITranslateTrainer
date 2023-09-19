@@ -10,18 +10,14 @@ public record PatchTextCommand(
         string Text)
     : IRequest;
 
-internal class PatchTextCommandHandler : IRequestHandler<PatchTextCommand>
+internal class PatchTextCommandHandler(ITranslateDbContext context) : IRequestHandler<PatchTextCommand>
 {
-    private readonly ITranslateDbContext _context;
-
-    public PatchTextCommandHandler(ITranslateDbContext context) => _context = context;
-
     public async Task Handle(PatchTextCommand request, CancellationToken cancellationToken)
     {
-        var text = await _context.Set<Text>().FindAsync(new object?[] {request.Id}, cancellationToken)
+        var text = await context.Set<Text>().FindAsync(new object?[] {request.Id}, cancellationToken)
             ?? throw new BadRequestException($"There is no text with id = {request.Id}");
 
         text.Value = request.Text;
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }
