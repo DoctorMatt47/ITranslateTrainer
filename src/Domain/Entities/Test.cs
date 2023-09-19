@@ -2,6 +2,7 @@
 
 using System.Linq.Expressions;
 using ITranslateTrainer.Domain.Abstractions;
+using ITranslateTrainer.Domain.Exceptions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
@@ -14,7 +15,7 @@ public class Test : Entity<int>
 
     public required Text Text { get; init; }
 
-    public DateTime? AnswerTime { get; private set; }
+    public DateTimeOffset? AnswerTime { get; private set; }
 
     public int TextId { get; private init; }
     public int OptionCount { get; private init; }
@@ -34,8 +35,9 @@ public class Test : Entity<int>
 
     public void Answer(int optionId)
     {
-        var option = _options.First(o => o.Id == optionId);
+        var option = _options.FirstOrDefault(o => o.Id == optionId);
+        if (option is null) throw NotFoundException.DoesNotExist(nameof(Option), optionId);
         option.IsChosen = true;
-        AnswerTime = DateTime.UtcNow;
+        AnswerTime = DateTimeOffset.UtcNow;
     }
 }
