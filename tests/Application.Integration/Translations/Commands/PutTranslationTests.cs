@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Bogus;
-using ITranslateTrainer.Application.Common.Exceptions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Application.Translations;
 using ITranslateTrainer.Domain.Entities;
+using ITranslateTrainer.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
