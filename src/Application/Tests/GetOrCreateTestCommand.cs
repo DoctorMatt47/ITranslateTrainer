@@ -67,7 +67,7 @@ public class CreateTestCommandHandler(ITranslateDbContext context)
         var incorrectOptionCount = _request.OptionCount - correctOptions.Count;
 
         var incorrectOptions = await context.Set<Text>()
-            .Where(t => t.Language == _request.ToLanguage.ToLowerInvariant())
+            .Where(t => t.Language == _request.ToLanguage)
             .Shuffle()
             .Take(incorrectOptionCount)
             .Select(t => new Option
