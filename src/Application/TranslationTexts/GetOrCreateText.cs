@@ -33,12 +33,14 @@ public class GetOrCreateTextHandler(ITranslateDbContext context) : IRequestHandl
         async Task<Text?> FindInLocalOrInDb(DbSet<Text> texts)
         {
             var textsInLocal = texts.Local.FirstOrDefault(
-                t => t.Value == request.Text.ToLowerInvariant() && t.Language == request.Language.ToLowerInvariant());
+                t => t.Value.Equals(request.Text, StringComparison.InvariantCultureIgnoreCase)
+                    && t.Language.Equals(request.Language, StringComparison.InvariantCultureIgnoreCase));
 
             if (textsInLocal is not null) return textsInLocal;
 
             return await texts.FirstOrDefaultAsync(
-                t => t.Value == request.Text.ToLowerInvariant() && t.Language == request.Language.ToLowerInvariant(),
+                t => t.Value.Equals(request.Text, StringComparison.InvariantCultureIgnoreCase)
+                    && t.Language.Equals(request.Language, StringComparison.InvariantCultureIgnoreCase),
                 cancellationToken);
         }
     }
