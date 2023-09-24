@@ -1,4 +1,4 @@
-﻿namespace ITranslateTrainer.WebUI.Extensions;
+﻿namespace ITranslateTrainer.WebApi.Extensions;
 
 public static class ApplicationBuilderExtensions
 {

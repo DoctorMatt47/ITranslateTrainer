@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ITranslateTrainer.WebUI.Controllers;
+namespace ITranslateTrainer.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
