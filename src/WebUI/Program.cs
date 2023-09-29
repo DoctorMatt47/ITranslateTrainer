@@ -19,11 +19,7 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger().UseSwaggerUI().UseFileServerWithoutCaching();
-}
-else
-{
-    app.UseFileServer();
+    app.UseSwagger().UseSwaggerUI();
 }
 
 app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());

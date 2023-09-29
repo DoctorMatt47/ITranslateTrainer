@@ -29,9 +29,5 @@
         <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.js" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="wwwroot\" />
-    </ItemGroup>
-
 
 </Project>
