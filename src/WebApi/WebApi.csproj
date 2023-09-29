@@ -5,8 +5,8 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <AssemblyName>ITranslateTrainer.WebUI</AssemblyName>
-        <RootNamespace>ITranslateTrainer.WebUI</RootNamespace>
+        <AssemblyName>ITranslateTrainer.WebApi</AssemblyName>
+        <RootNamespace>ITranslateTrainer.WebApi</RootNamespace>
         <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
@@ -28,6 +28,5 @@
         <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.html" />
         <_ContentIncludedByDefault Remove="wwwroot\translation-table\translation-table.js" />
     </ItemGroup>
-
 
 </Project>

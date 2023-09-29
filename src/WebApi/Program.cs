@@ -1,7 +1,7 @@
 using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Infrastructure.Extensions;
-using ITranslateTrainer.WebUI.Extensions;
-using ITranslateTrainer.WebUI.JsonConverters;
+using ITranslateTrainer.WebApi.Extensions;
+using ITranslateTrainer.WebApi.JsonConverters;
 
 var builder = WebApplication.CreateBuilder(args);
 

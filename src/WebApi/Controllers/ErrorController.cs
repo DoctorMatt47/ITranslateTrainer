@@ -3,7 +3,7 @@ using ITranslateTrainer.Domain.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ITranslateTrainer.WebUI.Controllers;
+namespace ITranslateTrainer.WebApi.Controllers;
 
 [ApiExplorerSettings(IgnoreApi = true)]
 public class ErrorController : Controller

@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 using OneOf;
 
-namespace ITranslateTrainer.WebUI.JsonConverters;
+namespace ITranslateTrainer.WebApi.JsonConverters;
 
 public class OneOfJsonConverterFactory : JsonConverterFactory
 {
