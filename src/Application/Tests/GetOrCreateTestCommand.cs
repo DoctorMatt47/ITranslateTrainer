@@ -9,8 +9,7 @@ namespace ITranslateTrainer.Application.Tests;
 public record GetOrCreateTestCommand(
         string FromLanguage,
         string ToLanguage,
-        int OptionCount)
-    : IRequest<TestResponse>;
+        int OptionCount) : IRequest<TestResponse>;
 
 public class CreateTestCommandHandler(ITranslateDbContext context)
     : IRequestHandler<GetOrCreateTestCommand, TestResponse>

@@ -7,11 +7,10 @@ using Microsoft.EntityFrameworkCore;
 namespace ITranslateTrainer.Application.Tests;
 
 public record AnswerOnTestCommand(
-        int Id,
-        int OptionId)
-    : IRequest<TestResponse>;
+    int Id,
+    int OptionId) : IRequest<TestResponse>;
 
-public class AnswerOnTestCommandHandler(ITranslateDbContext dbContext)
+public class AnswerOnTestCommandHandler(ITranslateDbContext dbContext) 
     : IRequestHandler<AnswerOnTestCommand, TestResponse>
 {
     public async Task<TestResponse> Handle(AnswerOnTestCommand request, CancellationToken cancellationToken)

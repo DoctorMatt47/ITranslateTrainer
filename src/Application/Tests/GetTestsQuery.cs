@@ -7,7 +7,7 @@ namespace ITranslateTrainer.Application.Tests;
 
 public record GetTestsQuery : IRequest<IEnumerable<TestResponse>>;
 
-public class GetTestsQueryHandler(ITranslateDbContext context)
+public class GetTestsQueryHandler(ITranslateDbContext context) 
     : IRequestHandler<GetTestsQuery, IEnumerable<TestResponse>>
 {
     public async Task<IEnumerable<TestResponse>> Handle(GetTestsQuery request, CancellationToken cancellationToken)

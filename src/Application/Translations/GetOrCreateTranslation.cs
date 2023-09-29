@@ -6,16 +6,14 @@ using MediatR;
 namespace ITranslateTrainer.Application.Translations;
 
 public record GetOrCreateTranslation(
-        string OriginText,
-        string OriginLanguage,
-        string TranslationText,
-        string TranslationLanguage)
-    : IRequest<Translation>;
+    string OriginText,
+    string OriginLanguage,
+    string TranslationText,
+    string TranslationLanguage) : IRequest<Translation>;
 
 public class GetOrCreateTranslationHandler(
-        ITranslateDbContext context,
-        ISender mediator)
-    : IRequestHandler<GetOrCreateTranslation, Translation>
+    ITranslateDbContext context,
+    ISender mediator) : IRequestHandler<GetOrCreateTranslation, Translation>
 {
     public async Task<Translation> Handle(GetOrCreateTranslation request, CancellationToken cancellationToken)
     {
