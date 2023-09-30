@@ -3,7 +3,7 @@ using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 
-namespace ITranslateTrainer.Application.TranslationTexts;
+namespace ITranslateTrainer.Application.Texts;
 
 public record PatchTextCommand(
         int Id,

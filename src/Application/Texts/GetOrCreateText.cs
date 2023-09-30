@@ -3,7 +3,7 @@ using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITranslateTrainer.Application.TranslationTexts;
+namespace ITranslateTrainer.Application.Texts;
 
 public record GetOrCreateText(
         string Text,

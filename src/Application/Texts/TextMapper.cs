@@ -1,7 +1,7 @@
 ﻿using ITranslateTrainer.Domain.Entities;
 using Riok.Mapperly.Abstractions;
 
-namespace ITranslateTrainer.Application.TranslationTexts;
+namespace ITranslateTrainer.Application.Texts;
 
 [Mapper]
 public static partial class TextMapper
