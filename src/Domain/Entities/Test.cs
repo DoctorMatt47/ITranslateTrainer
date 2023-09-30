@@ -6,7 +6,7 @@ using ITranslateTrainer.Domain.Exceptions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Test : Entity<int>
+public class Test : EntityBase<int>
 {
     private readonly List<Option> _options = new();
 

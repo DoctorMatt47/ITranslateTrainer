@@ -4,7 +4,7 @@ using ITranslateTrainer.Domain.Abstractions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Option : Entity<int>
+public class Option : EntityBase<int>
 {
     public required Text Text { get; init; }
     public required bool IsCorrect { get; init; }
