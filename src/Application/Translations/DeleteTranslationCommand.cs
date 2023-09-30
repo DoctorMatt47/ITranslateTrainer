@@ -1,4 +1,5 @@
-﻿using ITranslateTrainer.Application.Common.Interfaces;
+﻿using ITranslateTrainer.Application.Common.Extensions;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ public class DeleteTranslationCommandHandler(ITranslateDbContext context) : IReq
         var translationToDelete = await context.Set<Translation>()
             .Include(t => t.OriginText)
             .Include(t => t.TranslationText)
-            .FirstAsync(t => t.Id == request.Id, cancellationToken);
+            .FirstByIdOrThrowAsync(request.Id, cancellationToken);
 
         context.Set<Translation>().Remove(translationToDelete);
 

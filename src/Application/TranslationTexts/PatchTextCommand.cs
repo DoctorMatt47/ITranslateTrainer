@@ -1,6 +1,6 @@
-﻿using ITranslateTrainer.Application.Common.Interfaces;
+﻿using ITranslateTrainer.Application.Common.Extensions;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
-using ITranslateTrainer.Domain.Exceptions;
 using MediatR;
 
 namespace ITranslateTrainer.Application.TranslationTexts;
@@ -14,9 +14,7 @@ public class PatchTextCommandHandler(ITranslateDbContext context) : IRequestHand
 {
     public async Task Handle(PatchTextCommand request, CancellationToken cancellationToken)
     {
-        var text = await context.Set<Text>().FindAsync(new object?[] {request.Id}, cancellationToken)
-            ?? throw new BadRequestException($"There is no text with id = {request.Id}");
-
+        var text = await context.Set<Text>().FindOrThrowAsync(request.Id, cancellationToken);
         text.Value = request.Text;
         await context.SaveChangesAsync(cancellationToken);
     }

@@ -4,16 +4,14 @@ using MediatR;
 namespace ITranslateTrainer.Application.Translations;
 
 public record PutTranslationCommand(
-        string FirstText,
-        string FirstLanguage,
-        string SecondText,
-        string SecondLanguage)
-    : IRequest<TranslationResponse>;
+    string FirstText,
+    string FirstLanguage,
+    string SecondText,
+    string SecondLanguage) : IRequest<TranslationResponse>;
 
 public class PutTranslationCommandHandler(
-        ISender mediator,
-        ITranslateDbContext context)
-    : IRequestHandler<PutTranslationCommand, TranslationResponse>
+    ISender mediator,
+    ITranslateDbContext context) : IRequestHandler<PutTranslationCommand, TranslationResponse>
 {
     public async Task<TranslationResponse> Handle(PutTranslationCommand request, CancellationToken cancellationToken)
     {
