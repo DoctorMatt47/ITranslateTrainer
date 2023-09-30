@@ -10,7 +10,7 @@ public record GetOrCreateText(
         string Language)
     : IRequest<Text>;
 
-public class GetOrCreateTextHandler(ITranslateDbContext context) : IRequestHandler<GetOrCreateText, Text>
+public class GetOrCreateTextHandler(IAppDbContext context) : IRequestHandler<GetOrCreateText, Text>
 {
     public async Task<Text> Handle(GetOrCreateText request, CancellationToken cancellationToken)
     {
@@ -31,7 +31,7 @@ public class GetOrCreateTextHandler(ITranslateDbContext context) : IRequestHandl
         // Tries to find in local, if not, requests database.
         // It is necessary for bulk addition to prevent duplicates.
 
-        async Task<Text?> FindInLocalOrInDb(ITranslateDbContext translateDbContext)
+        async Task<Text?> FindInLocalOrInDb(IAppDbContext translateDbContext)
         {
             var textsInLocal = translateDbContext.Set<Text>().Local.FirstOrDefault(
                 t => t.Value.Equals(request.Text, StringComparison.InvariantCultureIgnoreCase)

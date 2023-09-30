@@ -10,7 +10,7 @@ public record PatchTextCommand(
         string Text)
     : IRequest;
 
-public class PatchTextCommandHandler(ITranslateDbContext context) : IRequestHandler<PatchTextCommand>
+public class PatchTextCommandHandler(IAppDbContext context) : IRequestHandler<PatchTextCommand>
 {
     public async Task Handle(PatchTextCommand request, CancellationToken cancellationToken)
     {

@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Infrastructure.Persistence.Contexts;
 
-public sealed class TranslateDbContext : DbContext, ITranslateDbContext
+public sealed class AppDbContext : DbContext, IAppDbContext
 {
-    public TranslateDbContext(DbContextOptions options) : base(options)
+    public AppDbContext(DbContextOptions options) : base(options)
     {
         Database.EnsureCreated();
     }

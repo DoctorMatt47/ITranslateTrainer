@@ -13,7 +13,7 @@ public record GetOrCreateTestCommand(
         int OptionCount)
     : IRequest<TestResponse>;
 
-public class CreateTestCommandHandler(ITranslateDbContext context)
+public class CreateTestCommandHandler(IAppDbContext context)
     : IRequestHandler<GetOrCreateTestCommand, TestResponse>
 {
     private GetOrCreateTestCommand _request = null!;

@@ -14,7 +14,7 @@ public record ImportTranslationSheetCommand(Stream SheetStream)
 public class ImportTranslationSheetCommandHandler(
         ISender mediator,
         ITranslationSheetService sheetService,
-        ITranslateDbContext context)
+        IAppDbContext context)
     : IRequestHandler<ImportTranslationSheetCommand, IEnumerable<OneOf<TranslationResponse, ErrorResponse>>>
 {
     public async Task<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>> Handle(

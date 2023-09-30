@@ -11,7 +11,7 @@ public record PutTranslationCommand(
 
 public class PutTranslationCommandHandler(
     ISender mediator,
-    ITranslateDbContext context) : IRequestHandler<PutTranslationCommand, TranslationResponse>
+    IAppDbContext context) : IRequestHandler<PutTranslationCommand, TranslationResponse>
 {
     public async Task<TranslationResponse> Handle(PutTranslationCommand request, CancellationToken cancellationToken)
     {
