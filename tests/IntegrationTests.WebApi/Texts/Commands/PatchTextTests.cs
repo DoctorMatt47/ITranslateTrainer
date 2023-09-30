@@ -5,7 +5,7 @@ using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Xunit;
 
-namespace ITranslateTrainer.Tests.Application.Integration.Texts.Commands;
+namespace ITranslateTrainer.IntegrationTests.Application.Texts.Commands;
 
 public class PatchTextTests
 {

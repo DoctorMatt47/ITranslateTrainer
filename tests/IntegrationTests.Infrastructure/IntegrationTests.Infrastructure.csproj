@@ -6,19 +6,15 @@
 
         <IsPackable>false</IsPackable>
 
-        <AssemblyName>ITranslateTrainer.Tests.Application.Integration</AssemblyName>
-        <RootNamespace>ITranslateTrainer.Tests.Application.Integration</RootNamespace>
+        <AssemblyName>ITranslateTrainer.UnitTests.Infrastructure</AssemblyName>
+        <RootNamespace>ITranslateTrainer.UnitTests.Infrastructure</RootNamespace>
 
         <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Bogus" Version="34.0.2"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.11"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0"/>
-        <PackageReference Include="Moq" Version="4.17.2"/>
         <PackageReference Include="xunit" Version="2.4.1"/>
-        <PackageReference Include="Xunit.DependencyInjection" Version="8.5.0"/>
         <PackageReference Include="coverlet.collector" Version="3.1.2">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -26,8 +22,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Application\Application.csproj"/>
         <ProjectReference Include="..\..\src\Infrastructure\Infrastructure.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="Assets\TestTranslationSheet.xlsx" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 
 </Project>

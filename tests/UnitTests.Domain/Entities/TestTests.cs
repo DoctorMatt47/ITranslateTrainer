@@ -1,6 +1,6 @@
 ﻿using ITranslateTrainer.Domain.Entities;
 
-namespace ITranslateTrainer.Tests.Domain.Unit.Entities;
+namespace ITranslateTrainer.UnitTests.Domain.Entities;
 
 public class TestTests
 {

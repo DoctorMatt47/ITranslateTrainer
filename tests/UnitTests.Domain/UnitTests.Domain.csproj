@@ -7,9 +7,8 @@
 
         <IsPackable>false</IsPackable>
 
-        <AssemblyName>ITranslateTrainer.Tests.Domain.Unit</AssemblyName>
-
-        <RootNamespace>ITranslateTrainer.Tests.Domain.Unit</RootNamespace>
+        <AssemblyName>ITranslateTrainer.UnitTests.Domain</AssemblyName>
+        <RootNamespace>ITranslateTrainer.UnitTests.Domain</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

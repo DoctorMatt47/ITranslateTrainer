@@ -6,7 +6,7 @@ using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Xunit;
 
-namespace ITranslateTrainer.Tests.Application.Integration.Translations.Queries;
+namespace ITranslateTrainer.IntegrationTests.Application.Translations.Queries;
 
 public class GetTranslationsTests
 {
