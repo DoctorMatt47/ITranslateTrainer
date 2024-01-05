@@ -14,7 +14,7 @@ public record ImportTranslationSheetCommand(Stream SheetStream)
 public class ImportTranslationSheetCommandHandler(
         ISender mediator,
         ITranslationSheetService sheetService,
-        ITranslateDbContext context)
+        IAppDbContext context)
     : IRequestHandler<ImportTranslationSheetCommand, IEnumerable<OneOf<TranslationResponse, ErrorResponse>>>
 {
     public async Task<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>> Handle(
@@ -27,10 +27,7 @@ public class ImportTranslationSheetCommandHandler(
             .Select(async t => await TryGetOrCreateTranslation(t, cancellationToken))
             .ToList();
 
-        foreach (var task in tasks)
-        {
-            await task;
-        }
+        foreach (var task in tasks) await task;
 
         await context.SaveChangesAsync(cancellationToken);
 

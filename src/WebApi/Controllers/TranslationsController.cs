@@ -9,30 +9,28 @@ namespace ITranslateTrainer.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TranslationsController : ControllerBase
+public class TranslationsController(ISender mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
-    public TranslationsController(IMediator mediator) => _mediator = mediator;
-
     [HttpGet]
     public async Task<IEnumerable<TranslationResponse>> Get(CancellationToken cancellationToken) =>
-        await _mediator.Send(new GetTranslationsQuery(), cancellationToken);
+        await mediator.Send(new GetTranslationsQuery(), cancellationToken);
 
     [HttpPut]
     public async Task<TranslationResponse> Put(PutTranslationCommand command, CancellationToken cancellationToken) =>
-        await _mediator.Send(command, cancellationToken);
+        await mediator.Send(command, cancellationToken);
 
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new DeleteTranslationCommand(id), cancellationToken);
+        await mediator.Send(new DeleteTranslationCommand(id), cancellationToken);
         return NoContent();
     }
 
     [HttpPut("sheet")]
     public async Task<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>> PutSheet(
         IFormFile sheet,
-        CancellationToken cancellationToken) =>
-        await _mediator.Send(new ImportTranslationSheetCommand(sheet.OpenReadStream()), cancellationToken);
+        CancellationToken cancellationToken)
+    {
+        return await mediator.Send(new ImportTranslationSheetCommand(sheet.OpenReadStream()), cancellationToken);
+    }
 }

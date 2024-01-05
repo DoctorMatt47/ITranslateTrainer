@@ -1,6 +1,7 @@
 ﻿using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
+using ITranslateTrainer.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ public record GetOrCreateTestCommand(
         string ToLanguage,
         int OptionCount) : IRequest<TestResponse>;
 
-public class CreateTestCommandHandler(ITranslateDbContext context)
+public class CreateTestCommandHandler(IAppDbContext context)
     : IRequestHandler<GetOrCreateTestCommand, TestResponse>
 {
     private GetOrCreateTestCommand _request = null!;
@@ -42,7 +43,9 @@ public class CreateTestCommandHandler(ITranslateDbContext context)
         var text = await context.Set<Text>()
             .Where(t => t.Language == _request.FromLanguage)
             .Shuffle()
-            .FirstAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (text is null) throw new NotFoundException("There is not any text in this language");
 
         var options = await CreateRandomOptions(text, cancellationToken);
 

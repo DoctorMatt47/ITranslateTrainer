@@ -7,7 +7,7 @@ namespace ITranslateTrainer.Application.Translations;
 
 public record GetTranslationsQuery : IRequest<IEnumerable<TranslationResponse>>;
 
-public class GetTranslationsQueryHandler(ITranslateDbContext context)
+public class GetTranslationsQueryHandler(IAppDbContext context)
     : IRequestHandler<GetTranslationsQuery, IEnumerable<TranslationResponse>>
 {
     public async Task<IEnumerable<TranslationResponse>> Handle(

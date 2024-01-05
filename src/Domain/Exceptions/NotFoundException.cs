@@ -8,9 +8,10 @@ public class NotFoundException : AppException
     {
     }
 
-    public static NotFoundException DoesNotExist(
-        string entityName,
+    public static NotFoundException DoesNotExist<TEntity>(
         object propertyValue,
-        [CallerArgumentExpression(nameof(propertyValue))] string propertyName = null!) =>
-        new($"There is no {entityName} with {propertyName} '{propertyValue}'");
+        [CallerArgumentExpression(nameof(propertyValue))] string propertyName = null!)
+    {
+        return new NotFoundException($"There is no {nameof(TEntity)} with {propertyName} '{propertyValue}'");
+    }
 }

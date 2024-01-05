@@ -83,8 +83,8 @@ fsharp_max_value_binding_width = 120
 # ReSharper properties
 resharper_align_multiline_binary_expressions_chain = false
 resharper_autodetect_indent_settings = true
-resharper_braces_for_for = required
-resharper_braces_for_foreach = required
+resharper_braces_for_for = required_for_multiline_statement
+resharper_braces_for_foreach = required_for_multiline_statement
 resharper_braces_for_ifelse = required_for_multiline_statement
 resharper_braces_for_while = required
 resharper_braces_redundant = false

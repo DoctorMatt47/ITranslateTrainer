@@ -1,5 +1,5 @@
 ﻿using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.TranslationTexts;
+using ITranslateTrainer.Application.Texts;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 
@@ -12,7 +12,7 @@ public record GetOrCreateTranslation(
     string TranslationLanguage) : IRequest<Translation>;
 
 public class GetOrCreateTranslationHandler(
-    ITranslateDbContext context,
+    IAppDbContext context,
     ISender mediator) : IRequestHandler<GetOrCreateTranslation, Translation>
 {
     public async Task<Translation> Handle(GetOrCreateTranslation request, CancellationToken cancellationToken)

@@ -1,4 +1,5 @@
-﻿using ITranslateTrainer.Application.Common.Interfaces;
+﻿using ITranslateTrainer.Application.Common.Extensions;
+using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -7,14 +8,14 @@ namespace ITranslateTrainer.Application.Translations;
 
 public record DeleteTranslationCommand(int Id) : IRequest;
 
-public class DeleteTranslationCommandHandler(ITranslateDbContext context) : IRequestHandler<DeleteTranslationCommand>
+public class DeleteTranslationCommandHandler(IAppDbContext context) : IRequestHandler<DeleteTranslationCommand>
 {
     public async Task Handle(DeleteTranslationCommand request, CancellationToken cancellationToken)
     {
         var translationToDelete = await context.Set<Translation>()
             .Include(t => t.OriginText)
             .Include(t => t.TranslationText)
-            .FirstAsync(t => t.Id == request.Id, cancellationToken);
+            .FirstByIdOrThrowAsync(request.Id, cancellationToken);
 
         context.Set<Translation>().Remove(translationToDelete);
 
