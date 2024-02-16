@@ -8,6 +8,10 @@ indent_size = 4
 
 # ReSharper inspection severities
 resharper_arrange_method_or_operator_body_highlighting = none
+resharper_arrange_object_creation_when_type_not_evident_highlighting = suggestion
+
+# ReSharper properties
+resharper_object_creation_when_type_not_evident = target_typed
 
 [{*.har,*.jsb2,*.jsb3,*.json,.babelrc,.eslintrc,.prettierrc,.stylelintrc,bowerrc,jest.config}]
 indent_style = space

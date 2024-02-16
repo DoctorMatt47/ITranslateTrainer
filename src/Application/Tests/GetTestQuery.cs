@@ -19,7 +19,10 @@ public class GetTestQueryHandler(IAppDbContext context) : IRequestHandler<GetTes
             .ThenInclude(t => t.Text)
             .FirstByIdOrThrowAsync(request.Id, cancellationToken);
 
-        if (!test.IsAnswered) throw new BadRequestException("You don't have permission to get not answered test");
+        if (!test.IsAnswered)
+        {
+            throw new BadRequestException(message: "You don't have permission to get not answered test");
+        }
 
         return test.ToResponse();
     }

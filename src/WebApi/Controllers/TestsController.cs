@@ -7,14 +7,14 @@ namespace ITranslateTrainer.WebApi.Controllers;
 public record AnswerOnTestBody(int OptionId);
 
 [ApiController]
-[Route("api/[controller]")]
+[Route(template: "api/[controller]")]
 public class TestsController(ISender mediator) : ControllerBase
 {
     [HttpGet]
     public Task<IEnumerable<TestResponse>> GetTests(CancellationToken cancellationToken) =>
         mediator.Send(new GetTestsQuery(), cancellationToken);
 
-    [HttpGet("{id:int}")]
+    [HttpGet(template: "{id:int}")]
     public Task<TestResponse> GetTest(
         int id,
         CancellationToken cancellationToken) => mediator.Send(new GetTestQuery(id), cancellationToken);
@@ -24,7 +24,7 @@ public class TestsController(ISender mediator) : ControllerBase
         GetOrCreateTestCommand command,
         CancellationToken cancellationToken) => mediator.Send(command, cancellationToken);
 
-    [HttpPut("{id:int}/Answer")]
+    [HttpPut(template: "{id:int}/Answer")]
     public Task<TestResponse> AnswerOnTest(
         int id,
         AnswerOnTestBody body,

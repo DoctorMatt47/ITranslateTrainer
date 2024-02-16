@@ -5,11 +5,9 @@ using MediatR;
 
 namespace ITranslateTrainer.Application.Tests;
 
-public record AnswerOnTestCommand(
-    int Id,
-    int OptionId) : IRequest<TestResponse>;
+public record AnswerOnTestCommand(int Id, int OptionId) : IRequest<TestResponse>;
 
-public class AnswerOnTestCommandHandler(IAppDbContext dbContext) 
+public class AnswerOnTestCommandHandler(IAppDbContext dbContext)
     : IRequestHandler<AnswerOnTestCommand, TestResponse>
 {
     public async Task<TestResponse> Handle(AnswerOnTestCommand request, CancellationToken cancellationToken)

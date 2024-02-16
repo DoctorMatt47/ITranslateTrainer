@@ -13,8 +13,8 @@ public class TranslationSheetServiceTests
     [Fact]
     public async Task ShouldReturn233TranslationsFromSheet()
     {
-        var sheetStream = File.OpenRead("Assets/TestTranslationSheet.xlsx");
+        var sheetStream = File.OpenRead(path: "Assets/TestTranslationSheet.xlsx");
         var response = await TranslationSheetService.ParseTranslations(sheetStream);
-        Assert.Equal(233, response.Count());
+        Assert.Equal(expected: 233, response.Count());
     }
 }

@@ -12,9 +12,9 @@ public record ImportTranslationSheetCommand(Stream SheetStream)
     : IRequest<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>>;
 
 public class ImportTranslationSheetCommandHandler(
-        ISender mediator,
-        ITranslationSheetService sheetService,
-        IAppDbContext context)
+    ISender mediator,
+    ITranslationSheetService sheetService,
+    IAppDbContext context)
     : IRequestHandler<ImportTranslationSheetCommand, IEnumerable<OneOf<TranslationResponse, ErrorResponse>>>
 {
     public async Task<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>> Handle(

@@ -12,10 +12,10 @@ public static class TranslationExtensions
         CancellationToken cancellationToken)
     {
         return translations.FirstOrDefaultAsync(
-            t => t.OriginText == originalText
-                && t.TranslationText == text
-                || t.OriginText == text
-                && t.TranslationText == originalText,
+            t => (t.OriginText == originalText
+                    && t.TranslationText == text)
+                || (t.OriginText == text
+                    && t.TranslationText == originalText),
             cancellationToken);
     }
 }

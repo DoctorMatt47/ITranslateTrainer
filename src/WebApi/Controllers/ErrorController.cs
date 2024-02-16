@@ -8,7 +8,7 @@ namespace ITranslateTrainer.WebApi.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class ErrorController : Controller
 {
-    [Route("/error")]
+    [Route(template: "/error")]
     public ActionResult<object> HandleError()
     {
         var exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;

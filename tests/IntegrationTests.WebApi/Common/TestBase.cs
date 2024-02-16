@@ -15,7 +15,7 @@ public abstract class TestBase : IAsyncDisposable
     protected TestBase()
     {
         _dbContainer.StartAsync().GetAwaiter().GetResult();
-        Factory = new TestApplicationFactory(_dbContainer.GetConnectionString());
+        Factory = new(_dbContainer.GetConnectionString());
         Client = Factory.CreateClient();
     }
 

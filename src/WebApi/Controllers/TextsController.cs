@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ITranslateTrainer.WebApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route(template: "api/[controller]")]
 public class TextsController(ISender mediator) : ControllerBase
 {
     [HttpPatch]

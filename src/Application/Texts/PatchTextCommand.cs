@@ -6,8 +6,8 @@ using MediatR;
 namespace ITranslateTrainer.Application.Texts;
 
 public record PatchTextCommand(
-        int Id,
-        string Text)
+    int Id,
+    string Text)
     : IRequest;
 
 public class PatchTextCommandHandler(IAppDbContext context) : IRequestHandler<PatchTextCommand>

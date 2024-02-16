@@ -19,7 +19,7 @@ public class TextsControllerTests : IAsyncLifetime
     {
         await _dbContainer.StartAsync();
         var connectionString = _dbContainer.GetConnectionString();
-        Factory = new TestApplicationFactory(connectionString);
+        Factory = new(connectionString);
         _scope = Factory.Services.CreateAsyncScope();
         _dbContext = _scope.ServiceProvider.GetRequiredService<IAppDbContext>();
     }
@@ -35,7 +35,7 @@ public class TextsControllerTests : IAsyncLifetime
     public async Task Patch_WithValidRequest_ReturnsNoContent()
     {
         // Arrange
-        _dbContext.Set<Text>().Add(new Text
+        _dbContext.Set<Text>().Add(new()
         {
             Value = "Test",
             Language = "English",
@@ -54,7 +54,7 @@ public class TextsControllerTests : IAsyncLifetime
     public async Task Patch_WithValidRequest_ReturnsNoContent2()
     {
         // Arrange
-        _dbContext.Set<Text>().Add(new Text
+        _dbContext.Set<Text>().Add(new()
         {
             Value = "Test",
             Language = "English",

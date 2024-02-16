@@ -8,7 +8,7 @@ using OneOf;
 namespace ITranslateTrainer.WebApi.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route(template: "api/[controller]")]
 public class TranslationsController(ISender mediator) : ControllerBase
 {
     [HttpGet]
@@ -19,14 +19,14 @@ public class TranslationsController(ISender mediator) : ControllerBase
     public async Task<TranslationResponse> Put(PutTranslationCommand command, CancellationToken cancellationToken) =>
         await mediator.Send(command, cancellationToken);
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete(template: "{id:int}")]
     public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         await mediator.Send(new DeleteTranslationCommand(id), cancellationToken);
         return NoContent();
     }
 
-    [HttpPut("sheet")]
+    [HttpPut(template: "sheet")]
     public async Task<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>> PutSheet(
         IFormFile sheet,
         CancellationToken cancellationToken)
