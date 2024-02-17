@@ -24,7 +24,7 @@ public class TestTests
         var randomOption = _faker.PickRandom(test.Options);
 
         // Act
-        test.Answer(randomOption.Id);
+        test.SetAnswer(randomOption.Id);
 
         // Assert
         randomOption.IsChosen.Should().BeTrue();
@@ -48,7 +48,7 @@ public class TestTests
         var beforeAnswer = DateTime.UtcNow;
 
         // Act
-        test.Answer(_faker.PickRandom(test.Options).Id);
+        test.SetAnswer(_faker.PickRandom(test.Options).Id);
 
         // Assert
         var afterAnswer = DateTime.UtcNow;

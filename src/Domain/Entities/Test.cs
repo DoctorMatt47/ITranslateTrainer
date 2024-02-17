@@ -30,7 +30,7 @@ public class Test : EntityBase<int>
     public static Expression<Func<Test, bool>> IsAnsweredExpression => test => test.AnswerTime != null;
     public static Func<Test, bool> IsAnsweredFunc { get; } = IsAnsweredExpression.Compile();
 
-    public void Answer(int optionId)
+    public void SetAnswer(int optionId)
     {
         var option = _options.FirstOrDefault(o => o.Id == optionId);
         if (option is null) throw NotFoundException.DoesNotExist<Option>(optionId);

@@ -16,7 +16,7 @@ public class AnswerOnTestCommandHandler(IAppDbContext dbContext)
 
         if (test.IsAnswered) return test.ToResponse();
 
-        test.Answer(request.OptionId);
+        test.SetAnswer(request.OptionId);
         await dbContext.SaveChangesAsync(cancellationToken);
 
         return test.ToResponse();

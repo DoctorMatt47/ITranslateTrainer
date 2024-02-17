@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
 using ITranslateTrainer.IntegrationTests.Application.Common;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,17 +11,14 @@ namespace ITranslateTrainer.IntegrationTests.Application;
 public class TextsControllerTests(TestApplicationFixture app) : IClassFixture<TestApplicationFixture>
 {
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder().Build();
-    private IAppDbContext _dbContext;
     private AsyncServiceScope _scope;
-    private TestApplicationFactory Factory;
+    private TestApplicationFactory Factory = null!;
 
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
-        var connectionString = _dbContainer.GetConnectionString();
-        Factory = new(connectionString);
+        Factory = new TestApplicationFactory();
         _scope = Factory.Services.CreateAsyncScope();
-        _dbContext = _scope.ServiceProvider.GetRequiredService<IAppDbContext>();
     }
 
     public async Task DisposeAsync()
