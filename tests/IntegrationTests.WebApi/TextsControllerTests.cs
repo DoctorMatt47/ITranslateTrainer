@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Net;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
@@ -8,7 +9,7 @@ using Testcontainers.PostgreSql;
 
 namespace ITranslateTrainer.IntegrationTests.Application;
 
-public class TextsControllerTests : IAsyncLifetime
+public class TextsControllerTests(TestApplicationFixture app) : IClassFixture<TestApplicationFixture>
 {
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder().Build();
     private IAppDbContext _dbContext;
@@ -32,40 +33,38 @@ public class TextsControllerTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Patch_WithValidRequest_ReturnsNoContent()
+    public async Task Patch_WithNoTextId_ReturnsNotFound()
     {
         // Arrange
-        _dbContext.Set<Text>().Add(new()
-        {
-            Value = "Test",
-            Language = "English",
-        });
-
-        await _dbContext.SaveChangesAsync();
+        var id = new Faker().Random.Int();
 
         // Act
-        // var response = await Client.PatchAsync("api/texts", );
+        var request = new {Text = new Faker().Random.Utf16String()};
+        var response = await app.Client.PatchAsync($"api/texts/{id}", JsonContent.Create(request));
 
         // Assert
-        _dbContext.Set<Text>().First().Value.Should().Be("Test");
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
     [Fact]
-    public async Task Patch_WithValidRequest_ReturnsNoContent2()
+    public async Task Patch_WithValidRequest_UpdatesTextValueInDb()
     {
         // Arrange
-        _dbContext.Set<Text>().Add(new()
-        {
-            Value = "Test",
-            Language = "English",
-        });
+        var text = new Faker<Text>()
+            .RuleFor(t => t.Value, f => f.Random.Utf16String())
+            .RuleFor(t => t.Language, f => f.Random.Utf16String())
+            .Generate();
 
-        await _dbContext.SaveChangesAsync();
+        await app.CreateEntity(text);
 
         // Act
-        // var response = await Client.PatchAsync("api/texts", );
+        var request = new {Text = new Faker().Random.Utf16String()};
+        var response = await app.Client.PatchAsync($"api/texts/{text.Id}", JsonContent.Create(request));
 
         // Assert
-        _dbContext.Set<Text>().First().Value.Should().Be("Test");
+        var patchedText = await app.FindEntity<Text>(text.Id);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        patchedText!.Value.Should().Be(request.Text);
     }
 }

@@ -10,6 +10,6 @@ public class NotFoundException : AppException
         object propertyValue,
         [CallerArgumentExpression(nameof(propertyValue))] string propertyName = null!)
     {
-        return new($"There is no {nameof(TEntity)} with {propertyName} '{propertyValue}'");
+        return new NotFoundException($"There is no {nameof(TEntity)} with {propertyName} '{propertyValue}'");
     }
 }

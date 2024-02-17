@@ -8,7 +8,7 @@ namespace ITranslateTrainer.WebApi.Controllers;
 [Route(template: "api/[controller]")]
 public class TextsController(ISender mediator) : ControllerBase
 {
-    [HttpPatch]
+    [HttpPatch("{id}")]
     public async Task<ActionResult> Patch(PatchTextCommand command, CancellationToken cancellationToken)
     {
         await mediator.Send(command, cancellationToken);

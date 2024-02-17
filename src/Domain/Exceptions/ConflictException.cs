@@ -10,6 +10,6 @@ public class ConflictException : AppException
         object propertyValue,
         [CallerArgumentExpression(nameof(propertyValue))] string propertyName = null!)
     {
-        return new($"There is already a {nameof(TEntity)} with {propertyName} '{propertyValue}'");
+        return new ConflictException($"There is already a {nameof(TEntity)} with {propertyName} '{propertyValue}'");
     }
 }

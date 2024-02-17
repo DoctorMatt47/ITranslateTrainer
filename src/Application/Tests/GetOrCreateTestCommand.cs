@@ -45,7 +45,7 @@ public class CreateTestCommandHandler(IAppDbContext context) : IRequestHandler<G
 
         var options = await CreateRandomOptions(text, cancellationToken);
 
-        return new()
+        return new Test
         {
             Text = text,
             Options = options,

@@ -24,7 +24,7 @@ public static class QueryableThrowExtensions
         object id,
         CancellationToken cancellationToken) where TEntity : class
     {
-        var entity = await set.FindAsync(new[] {id}, cancellationToken);
+        var entity = await set.FindAsync([id], cancellationToken);
         if (entity is null) throw NotFoundException.DoesNotExist<TEntity>(id);
         return entity;
     }

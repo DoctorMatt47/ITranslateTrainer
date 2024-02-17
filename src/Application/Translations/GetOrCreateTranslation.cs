@@ -11,9 +11,8 @@ public record GetOrCreateTranslation(
     string TranslationText,
     string TranslationLanguage) : IRequest<Translation>;
 
-public class GetOrCreateTranslationHandler(
-    IAppDbContext context,
-    ISender mediator) : IRequestHandler<GetOrCreateTranslation, Translation>
+public class GetOrCreateTranslationHandler(IAppDbContext context, ISender mediator)
+    : IRequestHandler<GetOrCreateTranslation, Translation>
 {
     public async Task<Translation> Handle(GetOrCreateTranslation request, CancellationToken cancellationToken)
     {

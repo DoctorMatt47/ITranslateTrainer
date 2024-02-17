@@ -4,7 +4,7 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class User : EntityBase<int>
 {
-    private readonly List<Translation> _translations = new();
+    private readonly List<Translation> _translations = [];
 
     public required string Login { get; init; }
     public required byte[] PasswordSalt { get; init; }

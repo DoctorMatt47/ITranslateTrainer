@@ -6,7 +6,7 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class Text : EntityBase<int>
 {
-    private List<Translation> _translations = new();
+    private List<Translation> _translations = null!;
 
     public required string Value { get; set; }
     public required string Language { get; init; }

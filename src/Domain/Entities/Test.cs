@@ -8,7 +8,7 @@ namespace ITranslateTrainer.Domain.Entities;
 
 public class Test : EntityBase<int>
 {
-    private readonly List<Option> _options = new();
+    private readonly List<Option> _options = null!;
 
     public required Text Text { get; init; }
 
@@ -17,9 +17,8 @@ public class Test : EntityBase<int>
         get => _options.AsReadOnly();
         init
         {
-            var list = value.ToList();
-            OptionCount = list.Count;
-            _options.AddRange(list);
+            _options = [..value];
+            OptionCount = _options.Count;
         }
     }
 
