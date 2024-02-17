@@ -6,7 +6,6 @@
         <Nullable>enable</Nullable>
         <AssemblyName>ITranslateTrainer.Domain</AssemblyName>
         <RootNamespace>ITranslateTrainer.Domain</RootNamespace>
-        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
 
