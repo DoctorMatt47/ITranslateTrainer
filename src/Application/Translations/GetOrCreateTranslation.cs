@@ -6,23 +6,26 @@ using MediatR;
 namespace ITranslateTrainer.Application.Translations;
 
 public record GetOrCreateTranslation(
-    string OriginText,
-    string OriginLanguage,
-    string TranslationText,
-    string TranslationLanguage) : IRequest<Translation>;
+    TextRequest OriginText,
+    TextRequest TranslationText)
+    : IRequest<Translation>;
 
-public class GetOrCreateTranslationHandler(IAppDbContext context, ISender mediator)
+public class GetOrCreateTranslationHandler(
+    IAppDbContext context,
+    ISender mediator)
     : IRequestHandler<GetOrCreateTranslation, Translation>
 {
     public async Task<Translation> Handle(GetOrCreateTranslation request, CancellationToken cancellationToken)
     {
-        var (originText, originLanguage, translationText, translationLanguage) = request;
+        var ((originText, originLanguage), (translationText, translationLanguage)) = request;
 
-        var firstTextRequest = new GetOrCreateText(originText, originLanguage);
-        var firstText = await mediator.Send(firstTextRequest, cancellationToken);
+        var firstText = await mediator.Send(
+            new GetOrCreateText(originText, originLanguage),
+            cancellationToken);
 
-        var secondTextRequest = new GetOrCreateText(translationText, translationLanguage);
-        var secondText = await mediator.Send(secondTextRequest, cancellationToken);
+        var secondText = await mediator.Send(
+            new GetOrCreateText(translationText, translationLanguage),
+            cancellationToken);
 
         var translation = await context.Set<Translation>().FindByTexts(firstText, secondText, cancellationToken);
 

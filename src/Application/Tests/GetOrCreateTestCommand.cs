@@ -7,9 +7,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Tests;
 
-public record GetOrCreateTestCommand(string FromLanguage, string ToLanguage, int OptionCount) : IRequest<TestResponse>;
+public record GetOrCreateTestCommand(
+    string FromLanguage,
+    string ToLanguage,
+    int OptionCount)
+    : IRequest<TestResponse>;
 
-public class CreateTestCommandHandler(IAppDbContext context) : IRequestHandler<GetOrCreateTestCommand, TestResponse>
+public class GetOrCreateTestCommandHandler(IAppDbContext context)
+    : IRequestHandler<GetOrCreateTestCommand, TestResponse>
 {
     private GetOrCreateTestCommand _request = null!;
 
@@ -37,6 +42,8 @@ public class CreateTestCommandHandler(IAppDbContext context) : IRequestHandler<G
     private async Task<Test> CreateRandomTest(CancellationToken cancellationToken)
     {
         var text = await context.Set<Text>()
+            .Include(t => t.Translations)
+            .ThenInclude(t => t.TranslationText)
             .Where(t => t.Language == _request.FromLanguage)
             .Shuffle()
             .FirstOrDefaultAsync(cancellationToken);

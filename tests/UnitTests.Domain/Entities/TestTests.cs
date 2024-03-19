@@ -10,7 +10,29 @@ public class TestTests
     [InlineData(1)]
     [InlineData(10)]
     [InlineData(100)]
-    public void Answer_HasOptions_OptionWithPassedIdIsChosen(int optionCount)
+    public void OptionCount_WhenInitialized_EqualToOptionsCount(int optionCount)
+    {
+        // Arrange
+        var options = new Faker<Option>()
+            .RuleFor(o => o.Id, faker => faker.Random.Int())
+            .Generate(optionCount);
+
+        // Act
+        var test = new Test
+        {
+            Options = options,
+            Text = new Faker<Text>().Generate(),
+        };
+
+        // Assert
+        test.OptionCount.Should().Be(options.Count);
+    }
+
+    [Theory]
+    [InlineData(1)]
+    [InlineData(10)]
+    [InlineData(100)]
+    public void SetAnswer_WhenHasOptions_SetSelectedOptionIsChosenToTrue(int optionCount)
     {
         // Arrange
         var options = new Faker<Option>()
@@ -34,7 +56,7 @@ public class TestTests
     [InlineData(1)]
     [InlineData(10)]
     [InlineData(100)]
-    public void Answer_ShouldSetAnswerTime(int optionCount)
+    public void SetAnswer_ShouldSetAnswerTime(int optionCount)
     {
         // Arrange
         var options = new Faker<Option>()
@@ -54,7 +76,7 @@ public class TestTests
         var afterAnswer = DateTime.UtcNow;
 
         test.AnswerTime.Should()
-            .BeAfter(beforeAnswer)
-            .And.BeBefore(afterAnswer);
+            .BeOnOrAfter(beforeAnswer)
+            .And.BeOnOrBefore(afterAnswer);
     }
 }

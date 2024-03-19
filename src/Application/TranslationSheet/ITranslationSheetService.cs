@@ -1,6 +1,4 @@
-﻿using ITranslateTrainer.Application.TranslationSheet;
-
-namespace ITranslateTrainer.Application.Common.Interfaces;
+﻿namespace ITranslateTrainer.Application.TranslationSheet;
 
 public interface ITranslationSheetService
 {

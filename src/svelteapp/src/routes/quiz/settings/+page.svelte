@@ -28,9 +28,9 @@
   <div class="w-1/2 mx-auto">
     <div class="grid grid-rows-4 grid-cols-2 gap-4 text-center items-center">
       <div>From:</div>
-      <AppTextInput bind:value={settings.from} placeholder="from" />
+      <AppTextInput bind:value={settings.fromLanguage} placeholder="from" />
       <div>To:</div>
-      <AppTextInput bind:value={settings.to} placeholder="to" />
+      <AppTextInput bind:value={settings.toLanguage} placeholder="to" />
       <div>Option count</div>
       <AppNumberInput bind:value={settings.optionCount} />
       <AppSubmitButton className="col-span-2">Start</AppSubmitButton>

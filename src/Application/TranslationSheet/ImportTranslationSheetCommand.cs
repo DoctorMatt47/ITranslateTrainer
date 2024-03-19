@@ -37,15 +37,16 @@ public class ImportTranslationSheetCommandHandler(
     }
 
     private async Task<OneOf<Translation, ErrorResponse>> TryGetOrCreateTranslation(
-        ParseTranslationResponse translationResponse,
+        ParseTranslationResponse translation,
         CancellationToken cancellationToken)
     {
-        var (firstLanguage, secondLanguage, firstText, secondText) = translationResponse;
-
         try
         {
-            var request = new GetOrCreateTranslation(firstText, firstLanguage, secondText, secondLanguage);
-            return await mediator.Send(request, cancellationToken);
+            return await mediator.Send(
+                new GetOrCreateTranslation(
+                    translation.OriginText.MapToRequest(),
+                    translation.TranslationText.MapToRequest()),
+                cancellationToken);
         }
         catch (Exception e) when (e is BadRequestException or ArgumentException)
         {

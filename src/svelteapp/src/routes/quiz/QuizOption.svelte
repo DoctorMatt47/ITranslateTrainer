@@ -11,5 +11,5 @@
 </script>
 
 <button class="btn variant-{buttonStyle(option.isChosen, option.isCorrect)}" on:click type="button">
-  {option.string}
+  {option.text}
 </button>

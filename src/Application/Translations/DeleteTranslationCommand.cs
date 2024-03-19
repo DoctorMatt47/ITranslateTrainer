@@ -14,7 +14,9 @@ public class DeleteTranslationCommandHandler(IAppDbContext context) : IRequestHa
     {
         var translationToDelete = await context.Set<Translation>()
             .Include(t => t.OriginText)
+            .ThenInclude(t => t.Translations)
             .Include(t => t.TranslationText)
+            .ThenInclude(t => t.Translations)
             .FirstByIdOrThrowAsync(request.Id, cancellationToken);
 
         context.Set<Translation>().Remove(translationToDelete);

@@ -5,7 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Texts;
 
-public record GetOrCreateText(string Text, string Language) : IRequest<Text>;
+public record GetOrCreateText(
+    string Text,
+    string Language)
+    : IRequest<Text>;
 
 public class GetOrCreateTextHandler(IAppDbContext context) : IRequestHandler<GetOrCreateText, Text>
 {

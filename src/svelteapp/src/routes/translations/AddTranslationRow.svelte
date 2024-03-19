@@ -5,13 +5,17 @@
   import { putTranslation } from "$lib/services/translation-service";
 
   let request: PutTranslationRequest = {
-    firstText: "",
-    firstLanguage: "",
-    secondLanguage: "",
-    secondText: "",
+    originText: {
+      language: "",
+      value: "",
+    },
+    translationText: {
+      language: "",
+      value: "",
+    },
   };
 
-  async function add() {
+  async function addTranslationClick() {
     const addedTranslation = await putTranslation(request);
     translationsStore.update((translations) => {
       translations.push(addedTranslation);
@@ -23,18 +27,18 @@
 <tr>
   <td></td>
   <td>
-    <AppTextInput bind:value={request.firstLanguage} placeholder="from" />
+    <AppTextInput bind:value={request.originText.language} placeholder="from" />
   </td>
   <td>
-    <AppTextInput bind:value={request.secondLanguage} placeholder="to" />
+    <AppTextInput bind:value={request.translationText.language} placeholder="to" />
   </td>
   <td>
-    <AppTextInput bind:value={request.firstText} placeholder="original" />
+    <AppTextInput bind:value={request.originText.value} placeholder="origin" />
   </td>
   <td>
-    <AppTextInput bind:value={request.secondText} placeholder="translation" />
+    <AppTextInput bind:value={request.translationText.value} placeholder="translation" />
   </td>
   <td class="text-center align-middle">
-    <button on:click={add}><i class="fa fa-plus-circle"></i></button>
+    <button on:click={addTranslationClick}><i class="fa fa-plus-circle"></i></button>
   </td>
 </tr>

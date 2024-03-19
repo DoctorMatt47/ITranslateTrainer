@@ -1,18 +1,16 @@
 import type { ErrorResponse } from "./api-service";
 import { api } from "./api-service";
-import type { TextResponse } from "./text-service";
+import type { TextRequest, TextResponse } from "./text-service";
 
 export interface PutTranslationRequest {
-  firstText: string,
-  firstLanguage: string,
-  secondText: string,
-  secondLanguage: string
+  originText: TextRequest;
+  translationText: TextRequest;
 }
 
 export interface TranslationResponse {
   id: number;
-  first: TextResponse;
-  second: TextResponse;
+  originText: TextResponse;
+  translationText: TextResponse;
 }
 
 const translations = "/translations";
@@ -25,6 +23,10 @@ export async function getTranslations(): Promise<TranslationResponse[]> {
 export async function putTranslation(request: PutTranslationRequest): Promise<TranslationResponse> {
   const response = await api.put(translations, request);
   return response.data;
+}
+
+export async function deleteTranslation(id: number): Promise<void> {
+  await api.delete(`${translations}/${id}`);
 }
 
 export async function importSheet(file: File): Promise<Array<TranslationResponse | ErrorResponse>> {

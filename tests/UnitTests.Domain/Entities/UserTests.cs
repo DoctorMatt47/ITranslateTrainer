@@ -1,17 +1,9 @@
 ﻿using ITranslateTrainer.Domain.Entities;
-using Xunit.Abstractions;
 
 namespace ITranslateTrainer.UnitTests.Domain.Entities;
 
-public class UserTests(ITestOutputHelper testOutputHelper)
+public class UserTests
 {
-    [Fact]
-    public void ThrowException()
-    {
-        testOutputHelper.WriteLine("Id");
-        testOutputHelper.WriteLine(nameof(MegaTest.Identifier));
-    }
-
     [Fact]
     public void AddTranslation_AddOneTranslation_AddsTranslation()
     {
@@ -42,10 +34,5 @@ public class UserTests(ITestOutputHelper testOutputHelper)
         user.Translations.Should()
             .Contain(translation1)
             .And.Contain(translation2);
-    }
-
-    internal class MegaTest
-    {
-        public int Identifier;
     }
 }

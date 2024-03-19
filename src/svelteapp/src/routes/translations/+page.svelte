@@ -5,12 +5,12 @@
   import { getTranslations } from "$lib/services/translation-service";
   import { translationsStore } from "$lib/stores";
   import ImportTranslationSheet from "./ImportTranslationSheet.svelte";
-  import AddTranslationRow from "./AddTranslationRow.svelte";
 
-  let translationsPromise = getTranslations().then((translations) => {
+  let translationsPromise = (async () => {
+    const translations = await getTranslations();
     translationsStore.set(translations);
     return translations;
-  });
+  })();
 </script>
 
 <AppHeading>Translations</AppHeading>
@@ -20,10 +20,8 @@
 </div>
 {#await translationsPromise}
   <div class="mx-auto">Loading...</div>
-{:then translations}
-  <TranslationTable translations={$translationsStore}>
-    <AddTranslationRow />
-  </TranslationTable>
+{:then _}
+  <TranslationTable />
 {:catch error}
   <div class="mx-auto">{error.message}</div>
 {/await}

@@ -1,5 +1,4 @@
-﻿using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.TranslationSheet;
+﻿using ITranslateTrainer.Application.TranslationSheet;
 using MiniExcelLibs;
 
 namespace ITranslateTrainer.Infrastructure.Services;
@@ -14,10 +13,8 @@ public class TranslationSheetService : ITranslationSheetService
                 && row.C is not null
                 && row.D is not null)
             .Select(row => new ParseTranslationResponse(
-                row.A.ToString()!,
-                row.B.ToString()!,
-                row.C.ToString()!,
-                row.D.ToString()!))
+                new ParseTextResponse(row.A.ToString(), row.B.ToString()),
+                new ParseTextResponse(row.C.ToString(), row.D.ToString())))
             .ToList();
     }
 }

@@ -13,10 +13,17 @@
     if (!$testStore) await goto("/quiz/settings");
   });
 
-  async function chosenOption(optionId: number) {
+  async function optionClick(optionId: number) {
     if (isAnswered) return;
-    const test = await answerOnTest($testStore!.id, { optionId });
-    testStore.set(test);
+
+    const { correctOptionId } = await answerOnTest($testStore!.id, { optionId });
+
+    testStore.update(test => {
+      test!.options.find(o => o.id === optionId)!.isChosen = true;
+      test!.options.find(o => o.id === correctOptionId)!.isCorrect = true;
+      return test;
+    });
+
     isAnswered = true;
   }
 
@@ -35,12 +42,12 @@
 </script>
 
 {#if $testStore}
-  <AppHeading>{$testStore.string}</AppHeading>
+  <AppHeading>{$testStore.text}</AppHeading>
   <div class="w-1/3 mx-auto">
     <div class="flex flex-col gap-8">
       <div class="grid grid-cols-none gap-4">
         {#each $testStore.options as option (option.id)}
-          <QuizOption {option} on:click={() => chosenOption(option.id)} />
+          <QuizOption {option} on:click={() => optionClick(option.id)} />
         {/each}
       </div>
       <div class="grid grid-cols-2 gap-6">

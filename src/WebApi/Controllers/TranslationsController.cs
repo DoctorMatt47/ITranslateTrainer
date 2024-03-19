@@ -7,26 +7,28 @@ using OneOf;
 
 namespace ITranslateTrainer.WebApi.Controllers;
 
-[ApiController]
-[Route(template: "api/[controller]")]
-public class TranslationsController(ISender mediator) : ControllerBase
+public class TranslationsController(ISender mediator) : ApiControllerBase
 {
     [HttpGet]
-    public async Task<IEnumerable<TranslationResponse>> Get(CancellationToken cancellationToken) =>
-        await mediator.Send(new GetTranslationsQuery(), cancellationToken);
+    public async Task<IEnumerable<TranslationResponse>> Get(CancellationToken cancellationToken)
+    {
+        return await mediator.Send(new GetTranslationsQuery(), cancellationToken);
+    }
 
     [HttpPut]
-    public async Task<TranslationResponse> Put(PutTranslationCommand command, CancellationToken cancellationToken) =>
-        await mediator.Send(command, cancellationToken);
+    public async Task<TranslationResponse> Put(PutTranslationCommand command, CancellationToken cancellationToken)
+    {
+        return await mediator.Send(command, cancellationToken);
+    }
 
-    [HttpDelete(template: "{id:int}")]
+    [HttpDelete("{id:int}")]
     public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
     {
         await mediator.Send(new DeleteTranslationCommand(id), cancellationToken);
         return NoContent();
     }
 
-    [HttpPut(template: "sheet")]
+    [HttpPut("sheet")]
     public async Task<IEnumerable<OneOf<TranslationResponse, ErrorResponse>>> PutSheet(
         IFormFile sheet,
         CancellationToken cancellationToken)

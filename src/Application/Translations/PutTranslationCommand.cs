@@ -1,23 +1,24 @@
 ﻿using ITranslateTrainer.Application.Common.Interfaces;
+using ITranslateTrainer.Application.Texts;
 using MediatR;
 
 namespace ITranslateTrainer.Application.Translations;
 
 public record PutTranslationCommand(
-    string FirstText,
-    string FirstLanguage,
-    string SecondText,
-    string SecondLanguage) : IRequest<TranslationResponse>;
+    TextRequest OriginText,
+    TextRequest TranslationText)
+    : IRequest<TranslationResponse>;
 
-public class PutTranslationCommandHandler(ISender mediator, IAppDbContext context)
+public class PutTranslationCommandHandler(
+    ISender mediator,
+    IAppDbContext context)
     : IRequestHandler<PutTranslationCommand, TranslationResponse>
 {
     public async Task<TranslationResponse> Handle(PutTranslationCommand request, CancellationToken cancellationToken)
     {
-        var (firstText, firstLanguage, secondText, secondLanguage) = request;
-
-        var getOrCreate = new GetOrCreateTranslation(firstText, firstLanguage, secondText, secondLanguage);
-        var translation = await mediator.Send(getOrCreate, cancellationToken);
+        var translation = await mediator.Send(
+            new GetOrCreateTranslation(request.OriginText, request.TranslationText),
+            cancellationToken);
 
         await context.SaveChangesAsync(cancellationToken);
 

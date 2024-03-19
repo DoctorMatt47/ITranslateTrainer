@@ -2,15 +2,13 @@
 using ITranslateTrainer.Application.Common.Interfaces;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ITranslateTrainer.Application.Texts;
 
-public record PatchTextCommand : IRequest
-{
-    [FromQuery] public required int Id { get; init; }
-    public required string Text { get; init; }
-}
+public record PatchTextCommand(
+    int Id,
+    string Text)
+    : IRequest;
 
 public class PatchTextCommandHandler(IAppDbContext context) : IRequestHandler<PatchTextCommand>
 {

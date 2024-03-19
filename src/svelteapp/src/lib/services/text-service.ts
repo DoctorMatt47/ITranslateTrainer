@@ -1,13 +1,14 @@
 import { api } from "./api-service";
 
+export interface TextRequest {
+  value: string;
+  language: string;
+}
+
 export interface TextResponse {
   id: number;
-  string: string;
+  value: string;
   language: string;
-  canBeOption: boolean;
-  canBeTested: boolean;
-  correctCount: number;
-  incorrectCount: number;
 }
 
 export async function getTexts(): Promise<TextResponse[]> {

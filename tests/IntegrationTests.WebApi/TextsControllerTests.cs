@@ -11,20 +11,20 @@ namespace ITranslateTrainer.IntegrationTests.Application;
 public class TextsControllerTests(TestApplicationFixture app) : IClassFixture<TestApplicationFixture>
 {
     private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder().Build();
+    private TestApplicationFactory _factory = null!;
     private AsyncServiceScope _scope;
-    private TestApplicationFactory Factory = null!;
 
-    public async Task InitializeAsync()
+    internal async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
-        Factory = new TestApplicationFactory();
-        _scope = Factory.Services.CreateAsyncScope();
+        _factory = new TestApplicationFactory();
+        _scope = _factory.Services.CreateAsyncScope();
     }
 
-    public async Task DisposeAsync()
+    internal async Task DisposeAsync()
     {
         await _dbContainer.DisposeAsync();
-        await Factory.DisposeAsync();
+        await _factory.DisposeAsync();
         await _scope.DisposeAsync();
     }
 
@@ -32,11 +32,11 @@ public class TextsControllerTests(TestApplicationFixture app) : IClassFixture<Te
     public async Task Patch_WithNoTextId_ReturnsNotFound()
     {
         // Arrange
-        var id = new Faker().Random.Int();
+        var textId = new Faker().Random.Int(min: 0);
 
         // Act
-        var request = new {Text = new Faker().Random.Utf16String()};
-        var response = await app.Client.PatchAsync($"api/texts/{id}", JsonContent.Create(request));
+        var request = new {Id = 0, Text = new Faker().Random.Utf16String()};
+        var response = await app.Client.PatchAsync($"api/texts/{textId}", JsonContent.Create(request));
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
