@@ -10,5 +10,6 @@ public class TextConfiguration : IEntityTypeConfiguration<Text>
     {
         builder.Property(t => t.Value).IsRequired();
         builder.Property(t => t.Language).IsRequired();
+        builder.HasMany(t => t.Translations);
     }
 }

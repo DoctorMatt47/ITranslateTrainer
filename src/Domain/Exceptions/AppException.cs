@@ -1,6 +1,4 @@
 ﻿namespace ITranslateTrainer.Domain.Exceptions;
 
-public abstract class AppException : Exception
-{
-    protected AppException(string? message, Exception? innerException = null) : base(message, innerException) { }
-}
+public abstract class AppException(string? message, Exception? innerException = null)
+    : Exception(message, innerException);

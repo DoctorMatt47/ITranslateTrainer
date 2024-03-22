@@ -2,10 +2,9 @@
 
 namespace ITranslateTrainer.Domain.Exceptions;
 
-public class NotFoundException : AppException
+public class NotFoundException(string? message, Exception? innerException = null)
+    : AppException(message, innerException)
 {
-    public NotFoundException(string? message, Exception? innerException = null) : base(message, innerException) { }
-
     public static NotFoundException DoesNotExist<TEntity>(
         object propertyValue,
         [CallerArgumentExpression(nameof(propertyValue))] string propertyName = null!)

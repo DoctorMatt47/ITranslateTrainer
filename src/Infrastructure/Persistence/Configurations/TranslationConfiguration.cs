@@ -10,5 +10,8 @@ public class TranslationConfiguration : IEntityTypeConfiguration<Translation>
     {
         builder.HasOne(t => t.OriginText).WithMany(t => t.Translations);
         builder.HasOne(t => t.TranslationText);
+
+        builder.Navigation(t => t.OriginText).AutoInclude();
+        builder.Navigation(t => t.TranslationText).AutoInclude();
     }
 }
