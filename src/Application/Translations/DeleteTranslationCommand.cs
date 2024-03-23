@@ -12,29 +12,48 @@ public class DeleteTranslationCommandHandler(IAppDbContext context) : IRequestHa
 {
     public async Task Handle(DeleteTranslationCommand request, CancellationToken cancellationToken)
     {
-        var translationToDelete = await context.Set<Translation>()
+        var translation = await context.Set<Translation>()
             .Include(t => t.OriginText)
             .ThenInclude(t => t.Translations)
             .Include(t => t.TranslationText)
             .ThenInclude(t => t.Translations)
             .FirstByIdOrThrowAsync(request.Id, cancellationToken);
 
-        context.Set<Translation>().Remove(translationToDelete);
+        context.Set<Translation>().Remove(translation);
 
-        var firstTextTranslations = translationToDelete.OriginText.GetTranslationTexts();
+        var originTextUsed = await AnyOtherTranslationWithTextId(
+            translation.OriginTextId,
+            request.Id,
+            cancellationToken);
 
-        if (firstTextTranslations.Count() <= 1)
+        var translationTextUsed = await AnyOtherTranslationWithTextId(
+            translation.TranslationTextId,
+            request.Id,
+            cancellationToken);
+
+        if (!originTextUsed)
         {
-            context.Set<Text>().Remove(translationToDelete.OriginText);
+            context.Set<Text>().Remove(translation.OriginText);
         }
 
-        var secondTextTranslations = translationToDelete.TranslationText.GetTranslationTexts();
-
-        if (secondTextTranslations.Count() <= 1)
+        if (!translationTextUsed)
         {
-            context.Set<Text>().Remove(translationToDelete.TranslationText);
+            context.Set<Text>().Remove(translation.TranslationText);
         }
 
         await context.SaveChangesAsync(cancellationToken);
+    }
+
+    private async Task<bool> AnyOtherTranslationWithTextId(
+        int textId,
+        int excludeTranslationId,
+        CancellationToken cancellationToken)
+    {
+        return await context.Set<Translation>()
+            .AnyAsync(
+                t => (t.OriginTextId == textId
+                        || t.TranslationTextId == textId)
+                    && t.Id != excludeTranslationId,
+                cancellationToken);
     }
 }

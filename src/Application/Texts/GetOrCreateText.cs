@@ -28,7 +28,6 @@ public class GetOrCreateTextHandler(IAppDbContext context) : IRequestHandler<Get
 
         return text;
 
-        // Tries to find in local, if not, requests database.
         // It is necessary for bulk addition to prevent duplicates.
         async Task<Text?> FindInLocalOrInDb(IAppDbContext translateDbContext)
         {
