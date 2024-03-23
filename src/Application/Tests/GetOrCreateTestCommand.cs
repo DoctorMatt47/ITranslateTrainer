@@ -8,11 +8,22 @@ using Microsoft.Extensions.Logging;
 
 namespace ITranslateTrainer.Application.Tests;
 
-public record GetOrCreateTestCommand(
-    string FromLanguage,
-    string ToLanguage,
-    int OptionCount)
-    : IRequest<TestResponse>;
+public record GetOrCreateTestCommand : IRequest<TestResponse>
+{
+    public GetOrCreateTestCommand(
+        string FromLanguage,
+        string ToLanguage,
+        int OptionCount)
+    {
+        this.FromLanguage = FromLanguage.Trim().ToLowerInvariant();
+        this.ToLanguage = ToLanguage.Trim().ToLowerInvariant();
+        this.OptionCount = OptionCount;
+    }
+
+    public string FromLanguage { get; init; }
+    public string ToLanguage { get; init; }
+    public int OptionCount { get; init; }
+}
 
 public class GetOrCreateTestCommandHandler(
     IAppDbContext context,
