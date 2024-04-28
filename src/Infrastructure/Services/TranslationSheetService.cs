@@ -13,8 +13,8 @@ public class TranslationSheetService : ITranslationSheetService
                 && row.C is not null
                 && row.D is not null)
             .Select(row => new ParseTranslationResponse(
-                new ParseTextResponse(row.A.ToString(), row.B.ToString()),
-                new ParseTextResponse(row.C.ToString(), row.D.ToString())))
+                new ParseTextResponse(row.C.ToString(), row.A.ToString()),
+                new ParseTextResponse(row.D.ToString(), row.B.ToString())))
             .ToList();
     }
 }

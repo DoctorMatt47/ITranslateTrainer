@@ -20,7 +20,10 @@ public class AnswerOnTestCommandHandler(IAppDbContext dbContext)
         var correctOptionId = test.Options.FirstOrDefault(o => o.IsCorrect)?.Id ?? -1;
         var response = new AnswerOnTestResponse(correctOptionId);
 
-        if (test.IsAnswered) return response;
+        if (test.IsAnswered)
+        {
+            return response;
+        }
 
         test.SetAnswer(request.OptionId);
         await dbContext.SaveChangesAsync(cancellationToken);

@@ -21,7 +21,7 @@ public class GetTestQueryHandler(IAppDbContext context) : IRequestHandler<GetTes
 
         if (!test.IsAnswered)
         {
-            throw new BadRequestException(message: "You don't have permission to get not answered test");
+            throw new BadRequestException("You don't have permission to get not answered test");
         }
 
         return test.ToResponse();

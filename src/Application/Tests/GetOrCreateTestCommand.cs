@@ -43,7 +43,10 @@ public class GetOrCreateTestCommandHandler(
             .Where(Is.Not(Test.IsAnsweredExpression))
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (test is not null) return test.ToResponse();
+        if (test is not null)
+        {
+            return test.ToResponse();
+        }
 
         test = await CreateRandomTest(cancellationToken);
 
@@ -61,7 +64,10 @@ public class GetOrCreateTestCommandHandler(
             .Shuffle()
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (text is null) throw new NotFoundException("There is not any text in this language");
+        if (text is null)
+        {
+            throw new NotFoundException("There is not any text in this language");
+        }
 
         logger.LogInformation("Text: {TextId}, {TextValue}", text.Id, text.Value);
 
@@ -86,7 +92,8 @@ public class GetOrCreateTestCommandHandler(
 
         if (correctOptions.Count is 0)
         {
-            throw new InternalServerErrorException("There is not any translation for this text");
+            logger.LogError("There is not any translation for text {Text}", text.Dump());
+            throw new InternalServerErrorException($"There is not any translation for text with id {text.Id}");
         }
 
         var incorrectOptionCount = _request.OptionCount - correctOptions.Count;

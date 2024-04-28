@@ -14,7 +14,11 @@ public static class QueryableThrowExtensions
     {
         var lambda = EqualsLambdaExpression<TEntity>(id, nameof(IHasId<TId>.Id));
         var entity = await set.FirstOrDefaultAsync(lambda, cancellationToken);
-        if (entity is null) throw NotFoundException.DoesNotExist<TEntity>(id);
+
+        if (entity is null)
+        {
+            throw NotFoundException.DoesNotExist<TEntity>(id);
+        }
 
         return entity;
     }
@@ -25,7 +29,12 @@ public static class QueryableThrowExtensions
         CancellationToken cancellationToken) where TEntity : class
     {
         var entity = await set.FindAsync([id], cancellationToken);
-        if (entity is null) throw NotFoundException.DoesNotExist<TEntity>(id);
+
+        if (entity is null)
+        {
+            throw NotFoundException.DoesNotExist<TEntity>(id);
+        }
+
         return entity;
     }
 

@@ -33,7 +33,11 @@ public class Test : EntityBase<int>
     public void SetAnswer(int optionId)
     {
         var option = _options.FirstOrDefault(o => o.Id == optionId);
-        if (option is null) throw NotFoundException.DoesNotExist<Option>(optionId);
+
+        if (option is null)
+        {
+            throw NotFoundException.DoesNotExist<Option>(optionId);
+        }
 
         option.IsChosen = true;
         AnswerTime = DateTimeOffset.UtcNow;

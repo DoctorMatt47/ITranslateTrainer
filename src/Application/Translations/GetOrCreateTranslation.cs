@@ -29,7 +29,10 @@ public class GetOrCreateTranslationHandler(
 
         var translation = await context.Set<Translation>().FindByTexts(firstText, secondText, cancellationToken);
 
-        if (translation is not null) return translation;
+        if (translation is not null)
+        {
+            return translation;
+        }
 
         var translationToAdd = new Translation
         {

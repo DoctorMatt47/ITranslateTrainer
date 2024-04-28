@@ -16,7 +16,10 @@ public class GetOrCreateTextHandler(IAppDbContext context) : IRequestHandler<Get
     {
         var text = await FindInLocalOrInDb(context);
 
-        if (text is not null) return text;
+        if (text is not null)
+        {
+            return text;
+        }
 
         text = new Text
         {
@@ -34,7 +37,10 @@ public class GetOrCreateTextHandler(IAppDbContext context) : IRequestHandler<Get
             var textsInLocal = translateDbContext.Set<Text>().Local.FirstOrDefault(
                 t => t.Value == request.Text && t.Language == request.Language);
 
-            if (textsInLocal is not null) return textsInLocal;
+            if (textsInLocal is not null)
+            {
+                return textsInLocal;
+            }
 
             return await translateDbContext.Set<Text>().FirstOrDefaultAsync(
                 t => t.Value == request.Text && t.Language == request.Language,
