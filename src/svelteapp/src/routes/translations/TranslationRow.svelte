@@ -1,9 +1,9 @@
 ﻿<script lang="ts">
 
-  import type { TranslationResponse } from "$lib/services/translation-service";
+  import type { TranslationApiResponse } from "$lib/services/translation-service";
   import DeleteTranslationRowButton from "./DeleteTranslationRowButton.svelte";
 
-  export let translation: TranslationResponse;
+  export let translation: TranslationApiResponse;
   export let rowIndex: number;
 
   $: rowCells = [

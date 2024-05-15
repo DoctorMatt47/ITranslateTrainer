@@ -1,9 +1,5 @@
-﻿import type { TranslationResponse } from "./services/translation-service";
-import type { Writable } from "svelte/store";
+﻿import type { Writable } from "svelte/store";
 import { writable } from "svelte/store";
-import type { PutTestRequest } from "./services/test-service";
-
-export const translationsStore: Writable<TranslationResponse[]> = writable([]);
 
 export const testSettingsStore: Writable<PutTestRequest> = writable({
   fromLanguage: "english",
@@ -11,13 +7,14 @@ export const testSettingsStore: Writable<PutTestRequest> = writable({
   optionCount: 10,
 });
 
-interface TestState {
+type TestState = {
   id: number;
   text: string;
   options: OptionState[];
 }
 
-interface OptionState {
+type OptionState
+{
   id: number;
   text: string;
   isChosen?: boolean;

@@ -1,12 +1,12 @@
 ﻿<script lang="ts">
-  import { deleteTranslation } from "$lib/services/translation-service";
-  import { translationsStore } from "$lib/stores";
+  import { TranslationService } from "$lib/translations/translation-service";
 
   export let translationId: number;
 
+  const translationService = new TranslationService();
+
   async function deleteTranslationClick() {
     await deleteTranslation(translationId);
-    translationsStore.update(translations => translations.filter(t => t.id !== translationId));
   }
 </script>
 

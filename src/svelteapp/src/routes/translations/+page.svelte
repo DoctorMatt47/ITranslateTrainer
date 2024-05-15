@@ -2,15 +2,11 @@
   import AppHeading from "$lib/components/AppHeading.svelte";
   import AppVariant from "$lib/components/AppVariant.svelte";
   import TranslationTable from "./TranslationTable.svelte";
-  import { getTranslations } from "$lib/services/translation-service";
-  import { translationsStore } from "$lib/stores";
   import ImportTranslationSheet from "./ImportTranslationSheet.svelte";
+  import { TranslationService } from "$lib/translations/translation-service";
 
-  let translationsPromise = (async () => {
-    const translations = await getTranslations();
-    translationsStore.set(translations);
-    return translations;
-  })();
+  const translationService = new TranslationService();
+  let translationsPromise = translationService.fetchTranslations();
 </script>
 
 <AppHeading>Translations</AppHeading>

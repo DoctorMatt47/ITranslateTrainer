@@ -1,7 +1,7 @@
 ﻿<script lang="ts">
-  import type { OptionResponse } from "$lib/services/test-service";
+  import type { OptionApiResponse } from "$lib/services/test-service";
 
-  export let option: OptionResponse;
+  export let option: OptionApiResponse;
 
   function buttonStyle(isChosen?: boolean, isCorrect?: boolean) {
     const border = isChosen ? "soft" : "ghost";

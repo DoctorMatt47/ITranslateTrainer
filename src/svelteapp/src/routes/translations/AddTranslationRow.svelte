@@ -1,10 +1,9 @@
 ﻿<script lang="ts">
   import AppTextInput from "$lib/components/AppTextInput.svelte";
-  import { translationsStore } from "$lib/stores";
-  import type { PutTranslationRequest } from "$lib/services/translation-service";
-  import { putTranslation } from "$lib/services/translation-service";
+  import type { PutTranslationApiRequest } from "$lib/translations/translation-api";
+  import { TranslationService } from "$lib/translations/translation-service";
 
-  let request: PutTranslationRequest = {
+  let request: PutTranslationApiRequest = {
     originText: {
       language: "",
       value: "",
@@ -15,12 +14,10 @@
     },
   };
 
+  const translationService = new TranslationService();
+
   async function addTranslationClick() {
-    const addedTranslation = await putTranslation(request);
-    translationsStore.update((translations) => {
-      translations.push(addedTranslation);
-      return translations;
-    });
+    await translationService.addTranslation(request);
   }
 </script>
 
