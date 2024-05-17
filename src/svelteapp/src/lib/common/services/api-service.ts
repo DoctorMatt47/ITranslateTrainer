@@ -1,5 +1,5 @@
 ﻿import { dev } from "$app/environment";
-import axios, { type AxiosResponse } from "axios";
+import axios, { type AxiosInstance, type AxiosResponse } from "axios";
 
 export const baseUrl = dev
   ? "http://localhost:5207"
@@ -26,7 +26,7 @@ export default function createApiInstance(url: string) {
     headers: {
       "Content-Type": "application/json",
     },
-  });
+  }) as AxiosInstance;
 
   instance.interceptors.response.use(throwErrorAxiosInterceptor);
 

@@ -1,17 +1,24 @@
-import { axiosDefaults } from "./api-service";
+import { z } from "zod";
+import createApiInstance from "$lib/common/services/api-service";
 
 export type TextApiRequest = {
   value: string;
   language: string;
 }
 
-export type TextApiResponse = {
-  id: number;
-  value: string;
-  language: string;
-}
+export const textApiResponseSchema = z.object({
+  id: z.number(),
+  value: z.string(),
+  language: z.string(),
+});
 
-export async function getTexts(): Promise<TextApiResponse[]> {
-  const response = await axiosDefaults.get("/api/texts");
-  return response.data;
+export type TextApiResponse = z.infer<typeof textApiResponseSchema>;
+
+export class TextsApi {
+  private api = createApiInstance("/texts");
+
+  async getTexts(): Promise<TextApiResponse[]> {
+    const response = await this.api.get("/api/texts");
+    return z.array(textApiResponseSchema).parse(response.data);
+  }
 }

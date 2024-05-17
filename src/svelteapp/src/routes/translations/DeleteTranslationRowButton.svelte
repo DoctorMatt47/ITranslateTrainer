@@ -1,12 +1,12 @@
 ﻿<script lang="ts">
   import { TranslationService } from "$lib/translations/translation-service";
 
-  export let translationId: number;
+  let { translationId } = $props();
 
   const translationService = new TranslationService();
 
   async function deleteTranslationClick() {
-    await deleteTranslation(translationId);
+    await translationService.deleteTranslation(translationId);
   }
 </script>
 

@@ -1,9 +1,8 @@
 ﻿<script lang="ts">
   import AppTextInput from "$lib/components/AppTextInput.svelte";
-  import type { PutTranslationApiRequest } from "$lib/translations/translation-api";
-  import { TranslationService } from "$lib/translations/translation-service";
+  import { type AddTranslationRequest, TranslationService } from "$lib/translations/translation-service";
 
-  let request: PutTranslationApiRequest = {
+  let translation = {
     originText: {
       language: "",
       value: "",
@@ -12,28 +11,28 @@
       language: "",
       value: "",
     },
-  };
+  } as AddTranslationRequest;
 
   const translationService = new TranslationService();
 
   async function addTranslationClick() {
-    await translationService.addTranslation(request);
+    await translationService.addTranslation(translation);
   }
 </script>
 
 <tr>
   <td></td>
   <td>
-    <AppTextInput bind:value={request.originText.language} placeholder="from" />
+    <AppTextInput bind:value={translation.originText.language} placeholder="from" />
   </td>
   <td>
-    <AppTextInput bind:value={request.translationText.language} placeholder="to" />
+    <AppTextInput bind:value={translation.translationText.language} placeholder="to" />
   </td>
   <td>
-    <AppTextInput bind:value={request.originText.value} placeholder="origin" />
+    <AppTextInput bind:value={translation.originText.value} placeholder="origin" />
   </td>
   <td>
-    <AppTextInput bind:value={request.translationText.value} placeholder="translation" />
+    <AppTextInput bind:value={translation.translationText.value} placeholder="translation" />
   </td>
   <td class="text-center align-middle">
     <button on:click={addTranslationClick}><i class="fa fa-plus-circle"></i></button>

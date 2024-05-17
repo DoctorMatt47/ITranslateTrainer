@@ -1,39 +1,40 @@
-﻿import type { TextApiResponse } from "$lib/common/services/text-service";
-import { TranslationsApi } from "$lib/translations/translation-api";
+﻿import { TranslationApi } from "$lib/translations/translation-api";
 
-type TranslationStateItem = {
+export type TranslationStateItem = {
   id: number;
-  originText: TextApiResponse;
-  translationText: TextApiResponse;
+  originText: TextStateItem;
+  translationText: TextStateItem;
 }
 
-type TextStateItem = {
+export type TextStateItem = {
   id: number;
   value: string;
   language: string;
 }
 
+export type AddTranslationRequest = {
+  originText: Omit<TextStateItem, "id">;
+  translationText: Omit<TextStateItem, "id">;
+}
+
 export class TranslationService {
-  private state: TranslationStateItem[] = $state([]);
-  private api: TranslationsApi = new TranslationsApi();
+  translations: readonly TranslationStateItem[] = $state.frozen([]);
 
-  get translations(): TranslationStateItem[] {
-    return this.state;
-  }
+  private api: TranslationApi = new TranslationApi();
 
-  async addTranslation(translation: TranslationStateItem): Promise<void> {
-    await this.api.putTranslation(translation);
-    this.state.push(translation);
+  async addTranslation(request: AddTranslationRequest): Promise<void> {
+    const translation = await this.api.putTranslation(request);
+    this.translations = [translation, ...this.translations];
   }
 
   async deleteTranslation(id: number): Promise<void> {
     await this.api.deleteTranslation(id);
-    this.state = this.state.filter((translation) => translation.id !== id);
+    this.translations = this.translations.filter((translation) => translation.id !== id);
   }
 
   async fetchTranslations(): Promise<TranslationStateItem[]> {
     const translations = await this.api.getTranslations();
-    this.state = translations;
+    this.translations = translations;
     return translations;
   }
 
@@ -44,6 +45,6 @@ export class TranslationService {
       .filter(translationOrError => !("errorMessage" in translationOrError))
       .map(translationOrError => translationOrError as TranslationStateItem);
 
-    this.state = [...this.state, ...addedTranslations];
+    this.translations = [...this.translations, ...addedTranslations];
   }
 }

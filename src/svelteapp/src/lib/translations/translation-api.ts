@@ -1,27 +1,31 @@
-import type { TextApiRequest, TextApiResponse } from "$lib/common/services/text-service";
+import { type TextApiRequest, textApiResponseSchema } from "$lib/common/services/text-service";
 import createApiInstance, { type ErrorResponse } from "$lib/common/services/api-service";
+import { z } from "zod";
 
 export type PutTranslationApiRequest = {
   originText: TextApiRequest;
   translationText: TextApiRequest;
 }
 
-export type TranslationApiResponse = {
-  id: number;
-  originText: TextApiResponse;
-  translationText: TextApiResponse;
-}
+const translationApiResponseSchema = z.object({
+  id: z.number(),
+  originText: textApiResponseSchema,
+  translationText: textApiResponseSchema,
+});
 
+export type TranslationApiResponse = z.infer<typeof translationApiResponseSchema>;
 
-export class TranslationsApi {
+export class TranslationApi {
   private api = createApiInstance("/translations");
 
   async getTranslations(): Promise<TranslationApiResponse[]> {
-    return await this.api.get("");
+    const response = await this.api.get("");
+    return z.array(translationApiResponseSchema).parse(response.data);
   }
 
   async putTranslation(request: PutTranslationApiRequest): Promise<TranslationApiResponse> {
-    return await this.api.put("", request);
+    const response = await this.api.put("", request);
+    return translationApiResponseSchema.parse(response.data);
   }
 
   async deleteTranslation(id: number): Promise<void> {
