@@ -1,15 +1,18 @@
-﻿<script lang="ts">
-  import { TranslationService } from "$lib/translations/translation-service";
+<script lang="ts">
+  import { getContext } from "svelte";
+  import type { TranslationService } from "$lib/translations/translation-service.svelte";
 
-  let { translationId } = $props();
+  let { translationId }: {
+    translationId: number;
+  } = $props();
 
-  const translationService = new TranslationService();
+  const translationService = getContext<TranslationService>("translationService");
 
-  async function deleteTranslationClick() {
+  async function onclick() {
     await translationService.deleteTranslation(translationId);
   }
 </script>
 
-<button on:click={deleteTranslationClick}>
+<button {onclick}>
   <i class="fa fa-trash"></i>
 </button>

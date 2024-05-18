@@ -1,7 +1,13 @@
-﻿<script lang="ts">
-  export let className = "";
+<script lang="ts">
+  import type { Snippet } from "svelte";
+
+  const { className = "", children, ...restProps }: {
+    className?: string;
+    children: Snippet;
+    [key: string]: unknown;
+  } = $props();
 </script>
 
-<button class="btn variant-ghost-surface {className}" on:click type="button">
-  <slot />
+<button {...restProps} class="btn variant-ghost-surface {className}" type="button">
+  {@render children()}
 </button>

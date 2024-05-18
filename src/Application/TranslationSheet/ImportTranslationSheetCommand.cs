@@ -27,7 +27,10 @@ public class ImportTranslationSheetCommandHandler(
             .Select(async t => await TryGetOrCreateTranslation(t, cancellationToken))
             .ToList();
 
-        foreach (var task in tasks) await task;
+        foreach (var task in tasks)
+        {
+            await task;
+        }
 
         await context.SaveChangesAsync(cancellationToken);
 

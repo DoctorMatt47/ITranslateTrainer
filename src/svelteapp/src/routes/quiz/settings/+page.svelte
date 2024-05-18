@@ -1,13 +1,11 @@
 ﻿<script lang="ts">
-  import AppHeading from "$lib/components/AppHeading.svelte";
-  import AppNumberInput from "$lib/components/AppNumberInput.svelte";
-  import AppTextInput from "$lib/components/AppTextInput.svelte";
-  import type { PutTestRequest } from "$lib/services/test-service";
-  import { putTest } from "$lib/services/test-service";
   import { testSettingsStore, testStore } from "$lib/stores";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import AppSubmitButton from "$lib/components/AppSubmitButton.svelte";
+  import AppHeading from "$lib/common/components/AppHeading.svelte";
+  import AppTextInput from "$lib/common/components/AppTextInput.svelte";
+  import AppNumberInput from "$lib/common/components/AppNumberInput.svelte";
+  import AppSubmitButton from "$lib/common/components/AppSubmitButton.svelte";
 
   const settings: PutTestRequest = $testSettingsStore;
 

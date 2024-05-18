@@ -6,7 +6,7 @@
   // Most of your app wide CSS should be put in this file
   import "../app.postcss";
   import { AppBar, AppShell } from "@skeletonlabs/skeleton";
-  import AppCard from "../lib/components/AppCard.svelte";
+  import AppCard from "$lib/common/components/AppCard.svelte";
 </script>
 
 <AppShell>

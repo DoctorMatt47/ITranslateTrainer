@@ -1,5 +1,13 @@
-﻿<div class="flex">
+<script lang="ts">
+  import type { Snippet } from "svelte";
+
+  const { children }: {
+    children: Snippet;
+  } = $props();
+</script>
+
+<div class="flex">
   <div class="text-4xl mx-auto">
-    <slot />
+    {@render children()}
   </div>
 </div>

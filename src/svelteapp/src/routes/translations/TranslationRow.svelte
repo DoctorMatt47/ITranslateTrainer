@@ -1,18 +1,19 @@
-﻿<script lang="ts">
-
-  import type { TranslationApiResponse } from "$lib/services/translation-service";
+<script lang="ts">
+  import type { TranslationApiResponse } from "$lib/translations/translation-api";
   import DeleteTranslationRowButton from "./DeleteTranslationRowButton.svelte";
 
-  export let translation: TranslationApiResponse;
-  export let rowIndex: number;
+  const { translation, rowIndex }: {
+    translation: TranslationApiResponse;
+    rowIndex: number;
+  } = $props();
 
-  $: rowCells = [
+  const rowCells = $derived([
     rowIndex + 1,
     translation.originText.language,
     translation.translationText.language,
     translation.originText.value,
     translation.translationText.value,
-  ];
+  ]);
 </script>
 
 <tr>

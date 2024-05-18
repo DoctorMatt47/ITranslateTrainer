@@ -1,8 +1,9 @@
-﻿<script lang="ts">
-  import AppTextInput from "$lib/components/AppTextInput.svelte";
-  import { type AddTranslationRequest, TranslationService } from "$lib/translations/translation-service";
+<script lang="ts">
+  import AppTextInput from "$lib/common/components/AppTextInput.svelte";
+  import { getContext } from "svelte";
+  import type { TranslationService } from "$lib/translations/translation-service.svelte";
 
-  let translation = {
+  const translation = $state({
     originText: {
       language: "",
       value: "",
@@ -11,9 +12,9 @@
       language: "",
       value: "",
     },
-  } as AddTranslationRequest;
+  });
 
-  const translationService = new TranslationService();
+  const translationService = getContext<TranslationService>("translationService");
 
   async function addTranslationClick() {
     await translationService.addTranslation(translation);
@@ -35,6 +36,6 @@
     <AppTextInput bind:value={translation.translationText.value} placeholder="translation" />
   </td>
   <td class="text-center align-middle">
-    <button on:click={addTranslationClick}><i class="fa fa-plus-circle"></i></button>
+    <button onclick={addTranslationClick}><i class="fa fa-plus-circle"></i></button>
   </td>
 </tr>

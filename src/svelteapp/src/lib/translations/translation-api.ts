@@ -1,11 +1,11 @@
-import { type TextApiRequest, textApiResponseSchema } from "$lib/common/services/text-service";
 import createApiInstance, { type ErrorResponse } from "$lib/common/services/api-service";
 import { z } from "zod";
+import { type TextApiRequest, textApiResponseSchema } from "$lib/texts/text-api";
 
 export type PutTranslationApiRequest = {
   originText: TextApiRequest;
   translationText: TextApiRequest;
-}
+};
 
 const translationApiResponseSchema = z.object({
   id: z.number(),
@@ -16,7 +16,7 @@ const translationApiResponseSchema = z.object({
 export type TranslationApiResponse = z.infer<typeof translationApiResponseSchema>;
 
 export class TranslationApi {
-  private api = createApiInstance("/translations");
+  private api = createApiInstance("translations");
 
   async getTranslations(): Promise<TranslationApiResponse[]> {
     const response = await this.api.get("");
@@ -36,7 +36,7 @@ export class TranslationApi {
     const formData = new FormData();
     formData.append("sheet", file);
 
-    let config = { headers: { "Content-Type": "multipart/form-data" } };
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
     return await this.api.put("sheet", formData, config);
   }
 }

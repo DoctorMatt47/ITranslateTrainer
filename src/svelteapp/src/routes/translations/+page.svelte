@@ -1,12 +1,13 @@
-﻿<script lang="ts">
-  import AppHeading from "$lib/components/AppHeading.svelte";
-  import AppVariant from "$lib/components/AppVariant.svelte";
+<script lang="ts">
   import TranslationTable from "./TranslationTable.svelte";
+  import AppHeading from "$lib/common/components/AppHeading.svelte";
+  import { setContext } from "svelte";
+  import { TranslationService } from "$lib/translations/translation-service.svelte";
+  import AppVariant from "$lib/common/components/AppVariant.svelte";
   import ImportTranslationSheet from "./ImportTranslationSheet.svelte";
-  import { TranslationService } from "$lib/translations/translation-service";
 
   const translationService = new TranslationService();
-  let translationsPromise = translationService.fetchTranslations();
+  setContext("translationService", translationService);
 </script>
 
 <AppHeading>Translations</AppHeading>
@@ -14,7 +15,7 @@
   <ImportTranslationSheet />
   <AppVariant>Export</AppVariant>
 </div>
-{#await translationsPromise}
+{#await translationService.fetchTranslations()}
   <div class="mx-auto">Loading...</div>
 {:then _}
   <TranslationTable />
