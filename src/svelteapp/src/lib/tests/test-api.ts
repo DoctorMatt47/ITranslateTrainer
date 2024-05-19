@@ -19,7 +19,7 @@ export const optionApiResponseSchema = z.object({
 export const testApiResponseSchema = z.object({
   id: z.number(),
   text: z.string(),
-  answerTime: z.string(),
+  answerTime: z.string().nullable(),
   options: z.array(optionApiResponseSchema),
 });
 

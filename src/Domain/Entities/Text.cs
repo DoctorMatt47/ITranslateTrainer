@@ -7,7 +7,8 @@ namespace ITranslateTrainer.Domain.Entities;
 public class Text : EntityBase<int>
 {
     private readonly string _language = null!;
-    private List<Translation> _translations = null!;
+    private List<Translation> _originTextTranslations = null!;
+    private List<Translation> _translationTextTranslations = null!;
     private string _value = null!;
 
     public required string Value
@@ -22,16 +23,21 @@ public class Text : EntityBase<int>
         init => _language = value.Trim().ToLowerInvariant();
     }
 
-    public IEnumerable<Translation> Translations
+    public IEnumerable<Translation> OriginTextTranslations
     {
-        get => _translations.AsReadOnly();
-        private set => _translations = value.ToList();
+        get => _originTextTranslations.AsReadOnly();
+        private set => _originTextTranslations = value.ToList();
+    }
+
+    public IEnumerable<Translation> TranslationTextTranslations
+    {
+        get => _translationTextTranslations.AsReadOnly();
+        private set => _translationTextTranslations = value.ToList();
     }
 
     public IEnumerable<Text> GetTranslationTexts()
     {
-        return _translations
-            .SelectMany(t => new[] {t.OriginText, t.TranslationText})
-            .Where(t => t.Id != Id);
+        return OriginTextTranslations.Select(t => t.TranslationText)
+            .Concat(TranslationTextTranslations.Select(t => t.OriginText));
     }
 }

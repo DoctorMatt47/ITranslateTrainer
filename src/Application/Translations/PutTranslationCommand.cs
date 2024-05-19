@@ -18,7 +18,8 @@ public class PutTranslationCommandHandler(
     {
         var translation = await mediator.Send(
             new GetOrCreateTranslation(request.OriginText, request.TranslationText),
-            cancellationToken);
+            cancellationToken
+        );
 
         await context.SaveChangesAsync(cancellationToken);
 

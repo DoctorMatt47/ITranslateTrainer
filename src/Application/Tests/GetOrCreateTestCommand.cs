@@ -59,7 +59,8 @@ public class GetOrCreateTestCommandHandler(
     private async Task<Test> CreateRandomTest(CancellationToken cancellationToken)
     {
         var text = await context.Set<Text>()
-            .Include(t => t.Translations)
+            .Include(t => t.TranslationTextTranslations)
+            .Include(t => t.OriginTextTranslations)
             .Where(t => t.Language == _request.FromLanguage)
             .Shuffle()
             .FirstOrDefaultAsync(cancellationToken);
@@ -83,18 +84,14 @@ public class GetOrCreateTestCommandHandler(
     private async Task<List<Option>> CreateRandomOptions(Text text, CancellationToken cancellationToken)
     {
         var correctOptions = text.GetTranslationTexts()
-            .Select(t => new Option
-            {
-                Text = t,
-                IsCorrect = true,
-            })
+            .Select(
+                t => new Option
+                {
+                    Text = t,
+                    IsCorrect = true,
+                }
+            )
             .ToList();
-
-        if (correctOptions.Count is 0)
-        {
-            logger.LogError("There is not any translation for text {Text}", text.Dump());
-            throw new InternalServerErrorException($"There is not any translation for text with id {text.Id}");
-        }
 
         var incorrectOptionCount = _request.OptionCount - correctOptions.Count;
 
@@ -102,11 +99,13 @@ public class GetOrCreateTestCommandHandler(
             .Where(t => t.Language == _request.ToLanguage)
             .Shuffle()
             .Take(incorrectOptionCount)
-            .Select(t => new Option
-            {
-                Text = t,
-                IsCorrect = false,
-            })
+            .Select(
+                t => new Option
+                {
+                    Text = t,
+                    IsCorrect = false,
+                }
+            )
             .ToListAsync(cancellationToken);
 
         return correctOptions

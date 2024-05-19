@@ -1,13 +1,12 @@
 <script lang="ts">
   import TranslationTable from "./TranslationTable.svelte";
   import AppHeading from "$lib/common/components/AppHeading.svelte";
-  import { setContext } from "svelte";
-  import { TranslationService } from "$lib/translations/translation-service.svelte";
   import AppVariant from "$lib/common/components/AppVariant.svelte";
   import ImportTranslationSheet from "./ImportTranslationSheet.svelte";
+  import type { TranslationService } from "$lib/translations/translation-service.svelte";
+  import { getContext } from "svelte";
 
-  const translationService = new TranslationService();
-  setContext("translationService", translationService);
+  const translationService = getContext<TranslationService>("translationService");
 </script>
 
 <AppHeading>Translations</AppHeading>

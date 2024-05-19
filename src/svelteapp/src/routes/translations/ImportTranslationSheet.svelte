@@ -6,8 +6,7 @@
   const translationService = getContext<TranslationService>("translationService");
 
   async function importSheetClick(event: Event) {
-    const input = event.currentTarget as HTMLInputElement;
-    const file = input?.files?.item(0);
+    const file = (event.currentTarget as HTMLInputElement)?.files?.item(0);
 
     if (file) {
       await translationService.importTranslationsSheet(file);

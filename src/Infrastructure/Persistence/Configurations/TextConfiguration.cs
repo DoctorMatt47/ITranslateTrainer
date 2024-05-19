@@ -10,6 +10,15 @@ public class TextConfiguration : IEntityTypeConfiguration<Text>
     {
         builder.Property(t => t.Value).IsRequired();
         builder.Property(t => t.Language).IsRequired();
-        builder.HasMany(t => t.Translations);
+
+        builder.HasMany(t => t.OriginTextTranslations)
+            .WithOne(t => t.OriginText)
+            .HasForeignKey(t => t.OriginTextId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasMany(t => t.TranslationTextTranslations)
+            .WithOne(t => t.TranslationText)
+            .HasForeignKey(t => t.TranslationTextId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

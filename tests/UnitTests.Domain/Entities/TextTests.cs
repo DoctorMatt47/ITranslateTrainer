@@ -12,7 +12,7 @@ public class TextTests
         // Arrange
         var text = new Faker<Text>()
             .RuleFor(t => t.Id, faker => faker.Random.Int())
-            .RuleFor(t => t.Translations, _ => new List<Translation>())
+            .RuleFor(t => t.TranslationTextTranslations, _ => new List<Translation>())
             .Generate();
 
         // Act
@@ -34,7 +34,7 @@ public class TextTests
 
         var text = new Faker<Text>()
             .RuleFor(t => t.Id, _ => textId)
-            .RuleFor(t => t.Translations, _ => translations)
+            .RuleFor(t => t.TranslationTextTranslations, _ => translations)
             .Generate();
 
         // Act
@@ -56,7 +56,7 @@ public class TextTests
 
         var text = new Faker<Text>()
             .RuleFor(t => t.Id, _ => textId)
-            .RuleFor(t => t.Translations, _ => translations)
+            .RuleFor(t => t.TranslationTextTranslations, _ => translations)
             .Generate();
 
         // Act

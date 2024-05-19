@@ -7,6 +7,13 @@
   import "../app.postcss";
   import { AppBar, AppShell } from "@skeletonlabs/skeleton";
   import AppCard from "$lib/common/components/AppCard.svelte";
+
+  const { children } = $props();
+
+  function handleError(event: ErrorEvent) {
+    console.error(event.error);
+  }
+
 </script>
 
 <AppShell>
@@ -21,8 +28,10 @@
   <div class="container mx-auto mt-8">
     <AppCard>
       <div class="flex flex-col gap-y-6">
-        <slot />
+        {@render children()}
       </div>
     </AppCard>
   </div>
 </AppShell>
+
+<svelte:window on:error={handleError} />

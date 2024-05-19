@@ -1,13 +1,14 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
+  import type { MouseEventHandler } from "svelte/elements";
 
-  const { className = "", children, ...restProps }: {
+  const { className = "", children, onclick }: {
     className?: string;
     children: Snippet;
-    [key: string]: unknown;
+    onclick: MouseEventHandler<HTMLButtonElement>;
   } = $props();
 </script>
 
-<button {...restProps} class="btn variant-ghost-surface {className}" type="button">
+<button class="btn variant-ghost-surface {className}" {onclick} type="button">
   {@render children()}
 </button>

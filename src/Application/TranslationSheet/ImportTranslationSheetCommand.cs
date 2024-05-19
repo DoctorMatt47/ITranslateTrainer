@@ -48,8 +48,10 @@ public class ImportTranslationSheetCommandHandler(
             return await mediator.Send(
                 new GetOrCreateTranslation(
                     translation.OriginText.MapToRequest(),
-                    translation.TranslationText.MapToRequest()),
-                cancellationToken);
+                    translation.TranslationText.MapToRequest()
+                ),
+                cancellationToken
+            );
         }
         catch (Exception e) when (e is BadRequestException or ArgumentException)
         {

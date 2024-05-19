@@ -21,11 +21,13 @@ public class GetOrCreateTranslationHandler(
 
         var firstText = await mediator.Send(
             new GetOrCreateText(originText, originLanguage),
-            cancellationToken);
+            cancellationToken
+        );
 
         var secondText = await mediator.Send(
             new GetOrCreateText(translationText, translationLanguage),
-            cancellationToken);
+            cancellationToken
+        );
 
         var translation = await context.Set<Translation>().FindByTexts(firstText, secondText, cancellationToken);
 

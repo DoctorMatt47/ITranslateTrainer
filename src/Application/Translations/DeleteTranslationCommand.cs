@@ -14,9 +14,9 @@ public class DeleteTranslationCommandHandler(IAppDbContext context) : IRequestHa
     {
         var translation = await context.Set<Translation>()
             .Include(t => t.OriginText)
-            .ThenInclude(t => t.Translations)
+            .ThenInclude(t => t.TranslationTextTranslations)
             .Include(t => t.TranslationText)
-            .ThenInclude(t => t.Translations)
+            .ThenInclude(t => t.TranslationTextTranslations)
             .FirstByIdOrThrowAsync(request.Id, cancellationToken);
 
         context.Set<Translation>().Remove(translation);
@@ -24,12 +24,14 @@ public class DeleteTranslationCommandHandler(IAppDbContext context) : IRequestHa
         var originTextUsed = await AnyOtherTranslationWithTextId(
             translation.OriginTextId,
             request.Id,
-            cancellationToken);
+            cancellationToken
+        );
 
         var translationTextUsed = await AnyOtherTranslationWithTextId(
             translation.TranslationTextId,
             request.Id,
-            cancellationToken);
+            cancellationToken
+        );
 
         if (!originTextUsed)
         {
@@ -51,9 +53,8 @@ public class DeleteTranslationCommandHandler(IAppDbContext context) : IRequestHa
     {
         return await context.Set<Translation>()
             .AnyAsync(
-                t => (t.OriginTextId == textId
-                        || t.TranslationTextId == textId)
-                    && t.Id != excludeTranslationId,
-                cancellationToken);
+                t => (t.OriginTextId == textId || t.TranslationTextId == textId) && t.Id != excludeTranslationId,
+                cancellationToken
+            );
     }
 }

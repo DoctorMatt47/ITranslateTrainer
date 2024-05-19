@@ -34,17 +34,19 @@ public class GetOrCreateTextHandler(IAppDbContext context) : IRequestHandler<Get
         // It is necessary for bulk addition to prevent duplicates.
         async Task<Text?> FindInLocalOrInDb(IAppDbContext translateDbContext)
         {
-            var textsInLocal = translateDbContext.Set<Text>().Local.FirstOrDefault(
-                t => t.Value == request.Text && t.Language == request.Language);
+            var textsInLocal = translateDbContext.Set<Text>()
+                .Local.FirstOrDefault(t => t.Value == request.Text && t.Language == request.Language);
 
             if (textsInLocal is not null)
             {
                 return textsInLocal;
             }
 
-            return await translateDbContext.Set<Text>().FirstOrDefaultAsync(
-                t => t.Value == request.Text && t.Language == request.Language,
-                cancellationToken);
+            return await translateDbContext.Set<Text>()
+                .FirstOrDefaultAsync(
+                    t => t.Value == request.Text && t.Language == request.Language,
+                    cancellationToken
+                );
         }
     }
 }

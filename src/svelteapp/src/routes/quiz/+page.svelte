@@ -1,58 +1,45 @@
-﻿<script lang="ts">
-  import AppHeading from "$lib/components/AppHeading.svelte";
-  import { testSettingsStore, testStore } from "$lib/stores";
-  import { onMount } from "svelte";
+<script lang="ts">
+  import { getContext } from "svelte";
   import { goto } from "$app/navigation";
-  import { answerOnTest, putTest } from "$lib/services/test-service";
   import QuizOption from "./QuizOption.svelte";
-  import AppButton from "$lib/components/AppButton.svelte";
+  import AppHeading from "$lib/common/components/AppHeading.svelte";
+  import type { TestService } from "$lib/tests/test-service.svelte";
+  import AppButton from "$lib/common/components/AppButton.svelte";
 
-  let isAnswered = false;
+  const testService = getContext<TestService>("testService");
 
-  onMount(async () => {
-    if (!$testStore) await goto("/quiz/settings");
+  $effect.pre(() => {
+    console.log("effect pre");
+    if (!testService.test) goto("/quiz/settings");
   });
 
   async function optionClick(optionId: number) {
-    if (isAnswered) return;
-
-    const { correctOptionId } = await answerOnTest($testStore!.id, { optionId });
-
-    testStore.update(test => {
-      test!.options.find(o => o.id === optionId)!.isChosen = true;
-      test!.options.find(o => o.id === correctOptionId)!.isCorrect = true;
-      return test;
-    });
-
-    isAnswered = true;
+    await testService.answerOnTest(optionId);
   }
 
   async function restart() {
-    testStore.set(null);
+    testService.resetTest();
     await goto("/quiz/settings");
   }
 
   async function next() {
-    if (!isAnswered) return;
-    isAnswered = false;
-    const test = await putTest($testSettingsStore);
-    testStore.set(test);
+    await testService.fetchTest();
   }
 
 </script>
 
-{#if $testStore}
-  <AppHeading>{$testStore.text}</AppHeading>
+{#if testService.test}
+  <AppHeading>{testService.test.text}</AppHeading>
   <div class="w-1/3 mx-auto">
     <div class="flex flex-col gap-8">
       <div class="grid grid-cols-none gap-4">
-        {#each $testStore.options as option (option.id)}
-          <QuizOption {option} on:click={() => optionClick(option.id)} />
+        {#each testService.test.options as option (option.id)}
+          <QuizOption {option} onclick={() => optionClick(option.id)} />
         {/each}
       </div>
       <div class="grid grid-cols-2 gap-6">
-        <AppButton on:click={restart}>Restart</AppButton>
-        <AppButton on:click={next}>Next</AppButton>
+        <AppButton onclick={restart}>Restart</AppButton>
+        <AppButton onclick={next}>Next</AppButton>
       </div>
     </div>
   </div>

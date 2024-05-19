@@ -1,15 +1,19 @@
-﻿<script lang="ts">
-  import type { OptionApiResponse } from "$lib/services/test-service";
+<script lang="ts">
+  import type { OptionStateItem } from "$lib/tests/test-service.svelte";
+  import type { MouseEventHandler } from "svelte/elements";
 
-  export let option: OptionApiResponse;
+  const { option, onclick }: {
+    option: OptionStateItem
+    onclick: MouseEventHandler<HTMLButtonElement>
+  } = $props();
 
-  function buttonStyle(isChosen?: boolean, isCorrect?: boolean) {
-    const border = isChosen ? "soft" : "ghost";
-    const color = isCorrect ? "success" : isChosen ? "error" : "surface";
+  function buttonStyle(isSelected?: boolean, isCorrect?: boolean) {
+    const border = isSelected ? "soft" : "ghost";
+    const color = isCorrect ? "success" : isSelected ? "error" : "surface";
     return `${border}-${color}`;
   }
 </script>
 
-<button class="btn variant-{buttonStyle(option.isChosen, option.isCorrect)}" on:click type="button">
+<button class="btn variant-{buttonStyle(option.isSelected, option.isCorrect)}" {onclick} type="button">
   {option.text}
 </button>
