@@ -3,6 +3,8 @@
   import { getContext } from "svelte";
   import type { TranslationService } from "$lib/translations/translation-service.svelte";
 
+  const translationService = getContext<TranslationService>("translationService");
+
   const translation = $state({
     originText: {
       language: "",
@@ -13,8 +15,6 @@
       value: "",
     },
   });
-
-  const translationService = getContext<TranslationService>("translationService");
 
   async function addTranslationClick() {
     await translationService.addTranslation(translation);

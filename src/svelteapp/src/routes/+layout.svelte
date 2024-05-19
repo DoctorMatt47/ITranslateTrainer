@@ -9,11 +9,6 @@
   import AppCard from "$lib/common/components/AppCard.svelte";
 
   const { children } = $props();
-
-  function handleError(event: ErrorEvent) {
-    console.error(event.error);
-  }
-
 </script>
 
 <AppShell>
@@ -33,5 +28,3 @@
     </AppCard>
   </div>
 </AppShell>
-
-<svelte:window on:error={handleError} />
