@@ -1,9 +1,4 @@
-<script lang="ts">
-  // The ordering of these imports is critical to your app working properly
-  import "@skeletonlabs/skeleton/themes/theme-gold-nouveau.css";
-  // If you have source.organizeImports set to true in VSCode, then it will auto change this ordering
-  import "@skeletonlabs/skeleton/styles/skeleton.css";
-  // Most of your app wide CSS should be put in this file
+<script>
   import "../app.postcss";
   import { AppBar, AppShell } from "@skeletonlabs/skeleton";
   import AppCard from "$lib/common/components/AppCard.svelte";
@@ -28,3 +23,5 @@
     </AppCard>
   </div>
 </AppShell>
+
+<style></style>
