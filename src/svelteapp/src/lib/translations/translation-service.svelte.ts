@@ -1,15 +1,10 @@
 ﻿import { type PutTranslationApiRequest, TranslationApi } from "$lib/translations/translation-api";
+import type { TextStateItem } from "$lib/texts/text-service";
 
 export type TranslationStateItem = {
   id: number;
   originText: TextStateItem;
   translationText: TextStateItem;
-};
-
-export type TextStateItem = {
-  id: number;
-  value: string;
-  language: string;
 };
 
 export class TranslationService {
