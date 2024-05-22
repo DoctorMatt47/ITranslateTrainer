@@ -6,19 +6,20 @@ export type TextApiRequest = {
   language: string;
 };
 
+export type PutTextApiRequest = {
+  text: string;
+};
+
 export const textApiResponseSchema = z.object({
   id: z.number(),
   value: z.string(),
   language: z.string(),
 });
 
-export type TextApiResponse = z.infer<typeof textApiResponseSchema>;
-
-export class TextsApi {
+export class TextApi {
   private api = createApiInstance("texts");
 
-  async getTexts(): Promise<TextApiResponse[]> {
-    const response = await this.api.get("/api/texts");
-    return z.array(textApiResponseSchema).parse(response.data);
+  async putText(id: number, request: PutTextApiRequest): Promise<void> {
+    await this.api.put(id.toString(), request);
   }
 }
