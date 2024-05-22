@@ -1,6 +1,6 @@
 ﻿<script>
-  import AppVariant from "$lib/components/AppVariant.svelte";
-  import AppHeading from "$lib/components/AppHeading.svelte";
+  import AppHeading from "$lib/common/components/AppHeading.svelte";
+  import AppVariant from "$lib/common/components/AppVariant.svelte";
 </script>
 
 <AppHeading>Menu</AppHeading>

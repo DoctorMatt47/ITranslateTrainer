@@ -1,34 +1,16 @@
-﻿using ITranslateTrainer.Domain.Interfaces;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Local
+
+using ITranslateTrainer.Domain.Abstractions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Option : IHasId<int>
+public class Option : EntityBase<int>
 {
-    protected Option()
-    {
-    }
+    public required Text Text { get; init; }
+    public required bool IsCorrect { get; init; }
 
-    public Option(TranslationText translationText, Test test, bool isCorrect)
-    {
-        TranslationText = translationText;
-        Test = test;
-        IsCorrect = isCorrect;
-    }
-
-    public int TextId { get; protected set; }
-    public TranslationText TranslationText { get; protected set; } = null!;
-
-    public int TestId { get; protected set; }
-    public Test Test { get; protected set; } = null!;
-
-    public bool IsCorrect { get; protected set; }
-
-    public bool IsChosen { get; protected set; }
-
-    public int Id { get; protected set; }
-
-    public void Choose()
-    {
-        IsChosen = true;
-    }
+    public bool IsChosen { get; internal set; }
+    public int TextId { get; private set; }
+    public int TestId { get; private set; }
+    public Test Test { get; private set; } = null!;
 }

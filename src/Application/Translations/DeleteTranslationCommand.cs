@@ -1,6 +1,5 @@
-﻿using ITranslateTrainer.Application.Common.Exceptions;
+﻿using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.TranslationTexts;
 using ITranslateTrainer.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,53 +8,53 @@ namespace ITranslateTrainer.Application.Translations;
 
 public record DeleteTranslationCommand(int Id) : IRequest;
 
-internal class DeleteTranslationCommandHandler : IRequestHandler<DeleteTranslationCommand>
+public class DeleteTranslationCommandHandler(IAppDbContext context) : IRequestHandler<DeleteTranslationCommand>
 {
-    private readonly ITranslateDbContext _context;
-    private readonly IMediator _mediator;
-
-    public DeleteTranslationCommandHandler(ITranslateDbContext context, IMediator mediator)
+    public async Task Handle(DeleteTranslationCommand request, CancellationToken cancellationToken)
     {
-        _context = context;
-        _mediator = mediator;
+        var translation = await context.Set<Translation>()
+            .Include(t => t.OriginText)
+            .ThenInclude(t => t.TranslationTextTranslations)
+            .Include(t => t.TranslationText)
+            .ThenInclude(t => t.TranslationTextTranslations)
+            .FirstByIdOrThrowAsync(request.Id, cancellationToken);
+
+        context.Set<Translation>().Remove(translation);
+
+        var originTextUsed = await AnyOtherTranslationWithTextId(
+            translation.OriginTextId,
+            request.Id,
+            cancellationToken
+        );
+
+        var translationTextUsed = await AnyOtherTranslationWithTextId(
+            translation.TranslationTextId,
+            request.Id,
+            cancellationToken
+        );
+
+        if (!originTextUsed)
+        {
+            context.Set<Text>().Remove(translation.OriginText);
+        }
+
+        if (!translationTextUsed)
+        {
+            context.Set<Text>().Remove(translation.TranslationText);
+        }
+
+        await context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<Unit> Handle(DeleteTranslationCommand request, CancellationToken cancellationToken)
+    private async Task<bool> AnyOtherTranslationWithTextId(
+        int textId,
+        int excludeTranslationId,
+        CancellationToken cancellationToken)
     {
-        var translationToDelete = await _context.Set<Translation>()
-            .Include(t => t.First).Include(t => t.Second)
-            .FirstAsync(t => t.Id == request.Id, cancellationToken);
-
-        _context.Set<Translation>().Remove(translationToDelete);
-
-        var firstRequest = new GetTranslationTextsByTextId(translationToDelete.FirstId);
-        var firstTextTranslations = await _mediator.Send(firstRequest, cancellationToken);
-        if (firstTextTranslations.Count() <= 1) _context.Set<TranslationText>().Remove(translationToDelete.First);
-
-        var secondRequest = new GetTranslationTextsByTextId(translationToDelete.SecondId);
-        var secondTextTranslations = await _mediator.Send(secondRequest, cancellationToken);
-        if (secondTextTranslations.Count() <= 1) _context.Set<TranslationText>().Remove(translationToDelete.Second);
-
-        await _context.SaveChangesAsync();
-
-        return Unit.Value;
-    }
-}
-
-public class DeleteTranslationCommandValidateBehaviour : IPipelineBehavior<DeleteTranslationCommand>
-{
-    private readonly ITranslateDbContext _context;
-
-    public DeleteTranslationCommandValidateBehaviour(ITranslateDbContext context) => _context = context;
-
-    public async Task<Unit> Handle(
-        DeleteTranslationCommand request,
-        CancellationToken cancellationToken,
-        RequestHandlerDelegate<Unit> next)
-    {
-        var isExist = await _context.Set<Translation>().AnyAsync(t => t.Id == request.Id, cancellationToken);
-        if (!isExist) throw new BadRequestException($"There is no translation with id = {request.Id}");
-
-        return await next.Invoke();
+        return await context.Set<Translation>()
+            .AnyAsync(
+                t => (t.OriginTextId == textId || t.TranslationTextId == textId) && t.Id != excludeTranslationId,
+                cancellationToken
+            );
     }
 }

@@ -8,7 +8,7 @@ public class TranslationConfiguration : IEntityTypeConfiguration<Translation>
 {
     public void Configure(EntityTypeBuilder<Translation> builder)
     {
-        builder.HasOne(t => t.First);
-        builder.HasOne(t => t.Second);
+        builder.Navigation(t => t.OriginText).AutoInclude();
+        builder.Navigation(t => t.TranslationText).AutoInclude();
     }
 }

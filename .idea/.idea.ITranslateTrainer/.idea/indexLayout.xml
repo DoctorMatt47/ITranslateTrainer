@@ -9,6 +9,8 @@
     <explicitIncludes>
       <Path>src/WebUI/wwwroot/css/styles.css</Path>
     </explicitIncludes>
-    <explicitExcludes />
+    <explicitExcludes>
+      <Path>src/svelteapp/.svelte-kit</Path>
+    </explicitExcludes>
   </component>
 </project>

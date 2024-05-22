@@ -1,8 +1,11 @@
-﻿<script lang="ts">
+<script lang="ts">
   import TranslationRow from "./TranslationRow.svelte";
-  import type { TranslationResponse } from "$lib/services/translation-service";
+  import AddTranslationRow from "./AddTranslationRow.svelte";
+  import { getContext } from "svelte";
+  import type { TranslationService } from "$lib/translations/translation-service.svelte";
 
-  export let translations: TranslationResponse[];
+  const translationService = getContext<TranslationService>("translationService");
+
   const heads = ["#", "From", "To", "Original", "Translation", "Action"];
 </script>
 
@@ -16,16 +19,10 @@
     </tr>
     </thead>
     <tbody class="table-body">
-    <slot />
-    {#each translations as translation, rowIndex (translation.id)}
+    <AddTranslationRow />
+    {#each translationService.translations as translation, rowIndex (translation.id)}
       <TranslationRow {translation} {rowIndex} />
     {/each}
     </tbody>
   </table>
 </div>
-
-<style>
-    .dark .table thead {
-        background: inherit;
-    }
-</style>

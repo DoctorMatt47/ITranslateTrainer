@@ -1,40 +1,41 @@
-﻿<script lang="ts">
-  import AppTextInput from "$lib/components/AppTextInput.svelte";
-  import { translationsStore } from "$lib/stores";
-  import type { PutTranslationRequest } from "$lib/services/translation-service";
-  import { putTranslation } from "$lib/services/translation-service";
+<script lang="ts">
+  import AppTextInput from "$lib/common/components/AppTextInput.svelte";
+  import { getContext } from "svelte";
+  import type { TranslationService } from "$lib/translations/translation-service.svelte";
 
-  let request: PutTranslationRequest = {
-    firstText: "",
-    firstLanguage: "",
-    secondLanguage: "",
-    secondText: "",
-  };
+  const translationService = getContext<TranslationService>("translationService");
 
-  async function add() {
-    const addedTranslation = await putTranslation(request);
-    translationsStore.update((translations) => {
-      translations.push(addedTranslation);
-      return translations;
-    });
+  const translation = $state({
+    originText: {
+      language: "",
+      value: "",
+    },
+    translationText: {
+      language: "",
+      value: "",
+    },
+  });
+
+  async function addTranslationClick() {
+    await translationService.addTranslation(translation);
   }
 </script>
 
 <tr>
   <td></td>
   <td>
-    <AppTextInput bind:value={request.firstLanguage} placeholder="from" />
+    <AppTextInput bind:value={translation.originText.language} placeholder="from" />
   </td>
   <td>
-    <AppTextInput bind:value={request.secondLanguage} placeholder="to" />
+    <AppTextInput bind:value={translation.translationText.language} placeholder="to" />
   </td>
   <td>
-    <AppTextInput bind:value={request.firstText} placeholder="original" />
+    <AppTextInput bind:value={translation.originText.value} placeholder="origin" />
   </td>
   <td>
-    <AppTextInput bind:value={request.secondText} placeholder="translation" />
+    <AppTextInput bind:value={translation.translationText.value} placeholder="translation" />
   </td>
   <td class="text-center align-middle">
-    <button on:click={add}><i class="fa fa-plus-circle"></i></button>
+    <button onclick={addTranslationClick}><i class="fa fa-plus-circle"></i></button>
   </td>
 </tr>

@@ -3,16 +3,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ITranslateTrainer.Application.Translations;
 
-internal static class TranslationExtensions
+public static class TranslationExtensions
 {
     public static Task<Translation?> FindByTexts(
         this IQueryable<Translation> translations,
-        TranslationText first,
-        TranslationText second,
+        Text originalText,
+        Text text,
         CancellationToken cancellationToken)
     {
         return translations.FirstOrDefaultAsync(
-            t => (t.First == first && t.Second == second) || (t.First == second && t.Second == first),
-            cancellationToken);
+            t => (t.OriginText == originalText && t.TranslationText == text)
+                || (t.OriginText == text && t.TranslationText == originalText),
+            cancellationToken
+        );
     }
 }

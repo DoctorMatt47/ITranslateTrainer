@@ -1,16 +1,12 @@
-﻿<script lang="ts">
-  import AppHeading from "$lib/components/AppHeading.svelte";
-  import AppVariant from "$lib/components/AppVariant.svelte";
+<script lang="ts">
   import TranslationTable from "./TranslationTable.svelte";
-  import { getTranslations } from "$lib/services/translation-service";
-  import { translationsStore } from "$lib/stores";
+  import AppHeading from "$lib/common/components/AppHeading.svelte";
+  import AppVariant from "$lib/common/components/AppVariant.svelte";
   import ImportTranslationSheet from "./ImportTranslationSheet.svelte";
-  import AddTranslationRow from "./AddTranslationRow.svelte";
+  import type { TranslationService } from "$lib/translations/translation-service.svelte";
+  import { getContext } from "svelte";
 
-  let translationsPromise = getTranslations().then((translations) => {
-    translationsStore.set(translations);
-    return translations;
-  });
+  const translationService = getContext<TranslationService>("translationService");
 </script>
 
 <AppHeading>Translations</AppHeading>
@@ -18,12 +14,10 @@
   <ImportTranslationSheet />
   <AppVariant>Export</AppVariant>
 </div>
-{#await translationsPromise}
+{#await translationService.fetchTranslations()}
   <div class="mx-auto">Loading...</div>
-{:then translations}
-  <TranslationTable translations={$translationsStore}>
-    <AddTranslationRow />
-  </TranslationTable>
+{:then _}
+  <TranslationTable />
 {:catch error}
   <div class="mx-auto">{error.message}</div>
 {/await}

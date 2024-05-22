@@ -1,26 +1,17 @@
-﻿using ITranslateTrainer.Domain.Interfaces;
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Local
+
+using System.ComponentModel.DataAnnotations.Schema;
+using ITranslateTrainer.Domain.Abstractions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Translation : IHasId<int>
+public class Translation : EntityBase<int>
 {
-    public Translation(TranslationText first, TranslationText second)
-    {
-        First = first;
-        Second = second;
-    }
+    [ForeignKey(nameof(OriginTextId))] public required Text OriginText { get; init; }
+    [ForeignKey(nameof(TranslationTextId))] public required Text TranslationText { get; init; }
 
-    public Translation(int firstId, int secondId)
-    {
-        FirstId = firstId;
-        SecondId = secondId;
-    }
+    public bool CanBeOption { get; set; } = true;
 
-    public int FirstId { get; protected set; }
-    public int SecondId { get; protected set; }
-
-    public TranslationText First { get; protected set; } = null!;
-    public TranslationText Second { get; protected set; } = null!;
-
-    public int Id { get; protected set; }
+    public int OriginTextId { get; private init; }
+    public int TranslationTextId { get; private init; }
 }

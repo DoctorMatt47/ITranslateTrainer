@@ -1,0 +1,14 @@
+﻿using System.Runtime.CompilerServices;
+
+namespace ITranslateTrainer.Domain.Exceptions;
+
+public class NotFoundException(string? message, Exception? innerException = null)
+    : AppException(message, innerException)
+{
+    public static NotFoundException DoesNotExist<TEntity>(
+        object propertyValue,
+        [CallerArgumentExpression(nameof(propertyValue))] string propertyName = null!)
+    {
+        return new NotFoundException($"There is no {nameof(TEntity)} with {propertyName} '{propertyValue}'");
+    }
+}

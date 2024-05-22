@@ -1,31 +1,45 @@
-﻿using System.Linq.Expressions;
-using ITranslateTrainer.Domain.Interfaces;
+﻿// ReSharper disable  UnusedAutoPropertyAccessor.Local
+
+using System.Linq.Expressions;
+using ITranslateTrainer.Domain.Abstractions;
+using ITranslateTrainer.Domain.Exceptions;
 
 namespace ITranslateTrainer.Domain.Entities;
 
-public class Test : IHasId<int>
+public class Test : EntityBase<int>
 {
-    public Test(int translationTextId, int optionCount)
+    private readonly List<Option> _options = null!;
+
+    public required Text Text { get; init; }
+
+    public required IEnumerable<Option> Options
     {
-        TranslationTextId = translationTextId;
-        OptionCount = optionCount;
+        get => _options.AsReadOnly();
+        init
+        {
+            _options = [..value];
+            OptionCount = _options.Count;
+        }
     }
 
-    public static Expression<Func<Test, bool>> IsAnswered => test => test.AnswerTime != null;
-    public static Expression<Func<Test, bool>> IsNotAnswered => test => test.AnswerTime == null;
+    public DateTimeOffset? AnswerTime { get; private set; }
+    public int TextId { get; private init; }
+    public int OptionCount { get; private init; }
+    public bool IsAnswered => IsAnsweredFunc(this);
 
-    public int TranslationTextId { get; protected set; }
-    public TranslationText TranslationText { get; protected set; } = null!;
+    public static Expression<Func<Test, bool>> IsAnsweredExpression => test => test.AnswerTime != null;
+    public static Func<Test, bool> IsAnsweredFunc { get; } = IsAnsweredExpression.Compile();
 
-    public int OptionCount { get; protected set; }
-    public List<Option> Options { get; protected set; } = new();
-
-    public DateTime? AnswerTime { get; protected set; }
-
-    public int Id { get; protected set; }
-
-    public void Answer()
+    public void SetAnswer(int optionId)
     {
-        AnswerTime = DateTime.UtcNow;
+        var option = _options.FirstOrDefault(o => o.Id == optionId);
+
+        if (option is null)
+        {
+            throw NotFoundException.DoesNotExist<Option>(optionId);
+        }
+
+        option.IsChosen = true;
+        AnswerTime = DateTimeOffset.UtcNow;
     }
 }

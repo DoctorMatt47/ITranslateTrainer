@@ -1,19 +1,17 @@
-﻿<script lang="ts">
-  import AppHeading from "$lib/components/AppHeading.svelte";
-  import AppNumberInput from "$lib/components/AppNumberInput.svelte";
-  import AppTextInput from "$lib/components/AppTextInput.svelte";
-  import type { PutTestRequest } from "$lib/services/test-service";
-  import { putTest } from "$lib/services/test-service";
-  import { testSettingsStore, testStore } from "$lib/stores";
+<script lang="ts">
+  import { getContext } from "svelte";
   import { goto } from "$app/navigation";
-  import AppSubmitButton from "$lib/components/AppSubmitButton.svelte";
+  import AppHeading from "$lib/common/components/AppHeading.svelte";
+  import AppTextInput from "$lib/common/components/AppTextInput.svelte";
+  import AppNumberInput from "$lib/common/components/AppNumberInput.svelte";
+  import AppSubmitButton from "$lib/common/components/AppSubmitButton.svelte";
+  import type { TestService } from "$lib/tests/test-service.svelte";
 
-  const settings: PutTestRequest = $testSettingsStore;
+  const testService = getContext<TestService>("testService");
 
   async function start() {
-    testSettingsStore.set(settings);
-    const test = await putTest(settings);
-    testStore.set(test);
+    console.log(testService.settings);
+    await testService.fetchTest();
     await goto("/quiz");
   }
 </script>
@@ -23,11 +21,11 @@
   <div class="w-1/2 mx-auto">
     <div class="grid grid-rows-4 grid-cols-2 gap-4 text-center items-center">
       <div>From:</div>
-      <AppTextInput bind:value={settings.from} placeholder="from" />
+      <AppTextInput bind:value={testService.settings.fromLanguage} placeholder="from" />
       <div>To:</div>
-      <AppTextInput bind:value={settings.to} placeholder="to" />
+      <AppTextInput bind:value={testService.settings.toLanguage} placeholder="to" />
       <div>Option count</div>
-      <AppNumberInput bind:value={settings.optionCount} />
+      <AppNumberInput bind:value={testService.settings.optionCount} />
       <AppSubmitButton className="col-span-2">Start</AppSubmitButton>
     </div>
   </div>

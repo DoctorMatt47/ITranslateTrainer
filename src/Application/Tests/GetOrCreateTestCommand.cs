@@ -1,68 +1,116 @@
-﻿using AutoMapper;
-using ITranslateTrainer.Application.Common.Extensions;
+﻿using ITranslateTrainer.Application.Common.Extensions;
 using ITranslateTrainer.Application.Common.Interfaces;
-using ITranslateTrainer.Application.TranslationTexts;
 using ITranslateTrainer.Domain.Entities;
+using ITranslateTrainer.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ITranslateTrainer.Application.Tests;
 
-public record GetOrCreateTestCommand(
-        string From,
-        string To,
-        int OptionCount)
-    : IRequest<GetOrCreateTestResponse>;
-
-internal class CreateTestCommandHandler : IRequestHandler<GetOrCreateTestCommand, GetOrCreateTestResponse>
+public record GetOrCreateTestCommand : IRequest<TestResponse>
 {
-    private readonly ITranslateDbContext _context;
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-
-    public CreateTestCommandHandler(ITranslateDbContext context, IMediator mediator, IMapper mapper)
+    public GetOrCreateTestCommand(
+        string FromLanguage,
+        string ToLanguage,
+        int OptionCount)
     {
-        _context = context;
-        _mediator = mediator;
-        _mapper = mapper;
+        this.FromLanguage = FromLanguage.Trim().ToLowerInvariant();
+        this.ToLanguage = ToLanguage.Trim().ToLowerInvariant();
+        this.OptionCount = OptionCount;
     }
 
-    public async Task<GetOrCreateTestResponse> Handle(
+    public string FromLanguage { get; init; }
+    public string ToLanguage { get; init; }
+    public int OptionCount { get; init; }
+}
+
+public class GetOrCreateTestCommandHandler(
+    IAppDbContext context,
+    ILogger<GetOrCreateTestCommandHandler> logger)
+    : IRequestHandler<GetOrCreateTestCommand, TestResponse>
+{
+    private GetOrCreateTestCommand _request = null!;
+
+    public async Task<TestResponse> Handle(
         GetOrCreateTestCommand request,
         CancellationToken cancellationToken)
     {
-        var (from, to, optionCount) = request;
-        var test = await _context.Set<Test>()
-            .Where(Test.IsNotAnswered)
-            .FirstOrDefaultAsync(t => t.OptionCount == optionCount, cancellationToken);
+        _request = request;
 
-        if (test is not null) return _mapper.Map<GetOrCreateTestResponse>(test);
+        var test = await context.Set<Test>()
+            .Where(t => t.OptionCount == _request.OptionCount)
+            .Where(Is.Not(Test.IsAnsweredExpression))
+            .FirstOrDefaultAsync(cancellationToken);
 
-        var testedText = await _context.Set<TranslationText>()
-            .Where(t => t.CanBeTested && t.Language == from)
-            .OrderBy(_ => EF.Functions.Random())
-            .FirstAsync(cancellationToken);
+        if (test is not null)
+        {
+            return test.ToResponse();
+        }
 
-        test = new Test(testedText.Id, optionCount);
-        await _context.Set<Test>().AddAsync(test, cancellationToken);
+        test = await CreateRandomTest(cancellationToken);
 
-        var correct = (await _mediator.Send(new GetTranslationTextsByTextId(testedText.Id), cancellationToken))
-            .Select(text => new Option(text, test, true))
+        await context.Set<Test>().AddAsync(test, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
+
+        return test.ToResponse();
+    }
+
+    private async Task<Test> CreateRandomTest(CancellationToken cancellationToken)
+    {
+        var text = await context.Set<Text>()
+            .Include(t => t.TranslationTextTranslations)
+            .Include(t => t.OriginTextTranslations)
+            .Where(t => t.Language == _request.FromLanguage)
+            .Shuffle()
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (text is null)
+        {
+            throw new NotFoundException("There is not any text in this language");
+        }
+
+        logger.LogInformation("Text: {TextId}, {TextValue}", text.Id, text.Value);
+
+        var options = await CreateRandomOptions(text, cancellationToken);
+
+        return new Test
+        {
+            Text = text,
+            Options = options,
+        };
+    }
+
+    private async Task<List<Option>> CreateRandomOptions(Text text, CancellationToken cancellationToken)
+    {
+        var correctOptions = text.GetTranslationTexts()
+            .Select(
+                t => new Option
+                {
+                    Text = t,
+                    IsCorrect = true,
+                }
+            )
             .ToList();
 
-        var incorrect = await _context.Set<TranslationText>()
-            .GetRandomCanBeOption(to, optionCount - correct.Count)
-            .Select(text => new Option(text, test, false))
+        var incorrectOptionCount = _request.OptionCount - correctOptions.Count;
+
+        var incorrectOptions = await context.Set<Text>()
+            .Where(t => t.Language == _request.ToLanguage)
+            .Shuffle()
+            .Take(incorrectOptionCount)
+            .Select(
+                t => new Option
+                {
+                    Text = t,
+                    IsCorrect = false,
+                }
+            )
             .ToListAsync(cancellationToken);
 
-        var options = correct
-            .Concat(incorrect)
+        return correctOptions
+            .Concat(incorrectOptions)
             .Shuffle()
             .ToList();
-
-        await _context.Set<Option>().AddRangeAsync(options, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
-
-        return _mapper.Map<GetOrCreateTestResponse>(test);
     }
 }
