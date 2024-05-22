@@ -25,7 +25,6 @@
   async function next() {
     await testService.fetchTest();
   }
-
 </script>
 
 {#if testService.test}
