@@ -5,14 +5,14 @@ using MediatR;
 
 namespace ITranslateTrainer.Application.Texts;
 
-public record PatchTextCommand(
+public record UpdateTextCommand(
     int Id,
     string Text)
     : IRequest;
 
-public class PatchTextCommandHandler(IAppDbContext context) : IRequestHandler<PatchTextCommand>
+public class UpdateTextCommandHandler(IAppDbContext context) : IRequestHandler<UpdateTextCommand>
 {
-    public async Task Handle(PatchTextCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateTextCommand request, CancellationToken cancellationToken)
     {
         var text = await context.Set<Text>().FindOrThrowAsync(request.Id, cancellationToken);
         text.Value = request.Text;

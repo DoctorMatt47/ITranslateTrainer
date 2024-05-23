@@ -10,8 +10,8 @@
 <AppShell>
   <AppBar slot="header">
     <svelte:fragment slot="lead">
-      <i class="fa-solid fa-language"></i></svelte:fragment
-    >
+      <i class="fa-solid fa-language"></i>
+    </svelte:fragment>
     ITranslateTrainer
     <svelte:fragment slot="trail">
       <a href="/menu"><i class="fa-solid fa-home"></i></a>

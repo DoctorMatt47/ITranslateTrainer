@@ -1,4 +1,4 @@
-﻿import { TextApi } from "$lib/texts/text-api";
+import { TextApi } from "$lib/texts/text-api";
 
 export type TextStateItem = {
   id: number;
@@ -11,5 +11,6 @@ export class TextService {
 
   async updateText(oldTextItem: TextStateItem, newText: string): Promise<void> {
     await this.api.putText(oldTextItem.id, { text: newText });
+    oldTextItem.value = newText;
   }
 }

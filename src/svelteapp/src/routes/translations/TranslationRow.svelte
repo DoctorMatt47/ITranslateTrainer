@@ -1,7 +1,8 @@
-﻿<script lang="ts">
+<script lang="ts">
   import type { TranslationApiResponse } from "$lib/translations/translation-api";
   import DeleteTranslationRowButton from "./DeleteTranslationRowButton.svelte";
-  import TextCell from "./TextCell.svelte";
+  import TranslationTextCell from "./TranslationTextCell.svelte";
+  import AppTableTd from "$lib/common/components/AppTableTd.svelte";
 
   const { translation, rowIndex }: {
     translation: TranslationApiResponse;
@@ -10,22 +11,22 @@
 </script>
 
 <tr>
-  <td class="text-center">
+  <AppTableTd>
     {rowIndex + 1}
-  </td>
-  <td class="text-center">
+  </AppTableTd>
+  <AppTableTd>
     {translation.originText.language}
-  </td>
-  <td class="text-center">
+  </AppTableTd>
+  <AppTableTd>
     {translation.translationText.language}
-  </td>
-  <td class="text-center">
-    <TextCell text={translation.originText} />
-  </td>
-  <td class="text-center">
-    <TextCell text={translation.translationText} />
-  </td>
-  <td class="text-center">
+  </AppTableTd>
+  <AppTableTd>
+    <TranslationTextCell text={translation.originText} />
+  </AppTableTd>
+  <AppTableTd>
+    <TranslationTextCell text={translation.translationText} />
+  </AppTableTd>
+  <AppTableTd>
     <DeleteTranslationRowButton translationId={translation.id} />
-  </td>
+  </AppTableTd>
 </tr>
