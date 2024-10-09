@@ -9,7 +9,6 @@
   const testService = getContext<TestService>("testService");
 
   $effect.pre(() => {
-    console.log("effect pre");
     if (!testService.test) goto("/quiz/settings");
   });
 
